@@ -1,0 +1,73 @@
+{
+  "name": "wallet-connect",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "blitz dev",
+    "build": "blitz build",
+    "start": "blitz start",
+    "studio": "blitz prisma studio",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "prepare": "husky install"
+  },
+  "prisma": {
+    "schema": "db/schema.prisma"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "dependencies": {
+    "@chakra-ui/react": "1.x",
+    "@emotion/react": "11.x",
+    "@emotion/styled": "11.x",
+    "@ethersproject/providers": "5.4.5",
+    "@hookform/resolvers": "2.8.2",
+    "@openzeppelin/contracts": "4.3.2",
+    "@prisma/client": "3.3.0",
+    "@rainbow-me/rainbowkit": "0.2.3",
+    "@web3-react/core": "6.1.9",
+    "@web3-react/injected-connector": "6.0.7",
+    "@web3-react/walletconnect-connector": "6.0.2",
+    "blitz": "0.41.1",
+    "ethers": "5.5.1",
+    "framer-motion": "5.x",
+    "hardhat-ethernal": "0.3.10",
+    "react": "alpha",
+    "react-dom": "alpha",
+    "react-hook-form": "7.17.4",
+    "react-hot-toast": "2.1.1",
+    "wagmi": "0.4.7",
+    "web3": "1.6.0",
+    "zod": "3.10.2"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "2.0.2",
+    "@nomiclabs/hardhat-waffle": "2.0.1",
+    "@types/chai": "4.2.22",
+    "@types/mocha": "9.0.0",
+    "@types/node": "16.11.2",
+    "@types/preview-email": "2.0.1",
+    "@types/react": "17.0.30",
+    "chai": "4.3.4",
+    "eslint": "7.32.0",
+    "ethereum-waffle": "3.4.0",
+    "hardhat": "2.6.7",
+    "husky": "6.0.0",
+    "lint-staged": "10.5.4",
+    "prettier": "2.4.1",
+    "prettier-plugin-prisma": "0.15.0",
+    "pretty-quick": "3.1.1",
+    "preview-email": "3.0.5",
+    "prisma": "3.3.0",
+    "ts-node": "10.3.1",
+    "typescript": "~4.3"
+  },
+  "private": true
+}
