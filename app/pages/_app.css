@@ -1,0 +1,7 @@
+@import "@rainbow-me/rainbowkit/styles.css";
+
+@font-face {
+  font-family: "Cosplay";
+  src: local("Cosplay"), url(/fonts/CosplayRegular-Web.woff) format("woff"), local("Cosplay"),
+    url(/fonts/CosplayRegular-Web.woff2) format("woff2");
+}

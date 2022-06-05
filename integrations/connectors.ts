@@ -2,7 +2,11 @@ import { InjectedConnector } from "@web3-react/injected-connector"
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector"
 
 // TODO: Update supported chains
-export const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42, 1337] })
+
+export const injected = new InjectedConnector({
+  supportedChainIds: [1],
+})
+
 export const wcConnector = new WalletConnectConnector({
   rpc: {
     1: process.env.NEXT_PUBLIC_RPC_URL_MAINNET as string,

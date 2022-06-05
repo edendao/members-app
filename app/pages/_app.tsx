@@ -1,4 +1,7 @@
+import "./_app.css"
+
 import { ChakraProvider } from "@chakra-ui/react"
+import { RainbowKitProvider, getDefaultWallets, lightTheme } from "@rainbow-me/rainbowkit"
 import {
   AppProps,
   AuthenticationError,
@@ -8,36 +11,57 @@ import {
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
 } from "blitz"
+import React from "react"
 import { Toaster } from "react-hot-toast"
+import { WagmiConfig, chain, configureChains, createClient } from "wagmi"
+import { alchemyProvider } from "wagmi/providers/alchemy"
+import { publicProvider } from "wagmi/providers/public"
+
+const { chains, provider } = configureChains(
+  [chain.mainnet, chain.rinkeby],
+  [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
+)
+
+const { connectors } = getDefaultWallets({ appName: "PROOF OF WORK", chains })
+
+const wagmiClient = createClient({ autoConnect: true, connectors, provider })
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
   return (
-    <ChakraProvider>
-      <ErrorBoundary
-        FallbackComponent={RootErrorFallback}
-        onReset={useQueryErrorResetBoundary().reset}
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider
+        chains={chains}
+        showRecentTransactions
+        theme={lightTheme({
+          accentColor: "#CBFD50",
+          accentColorForeground: "#40723E",
+          overlayBlur: "small",
+          borderRadius: "medium",
+        })}
       >
-        {getLayout(
-          <>
-            <Component {...pageProps} />
-            <Toaster
-              position="bottom-right"
-              toastOptions={{
-                duration: 5000,
-              }}
-            />
-          </>
-        )}
-      </ErrorBoundary>
-    </ChakraProvider>
+        <ChakraProvider>
+          <ErrorBoundary
+            FallbackComponent={RootErrorFallback}
+            onReset={useQueryErrorResetBoundary().reset}
+          >
+            {getLayout(
+              <>
+                <Component {...pageProps} />
+                <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
+              </>
+            )}
+          </ErrorBoundary>
+        </ChakraProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   )
 }
 
-function RootErrorFallback({ error }: ErrorFallbackProps) {
+const RootErrorFallback: React.FC<ErrorFallbackProps> = ({ error }) => {
   if (error instanceof AuthenticationError) {
-    return <ErrorComponent statusCode={error.statusCode} title="You are not logged in" />
+    return <ErrorComponent statusCode={error.statusCode} title="Please connect your wallet" />
   } else if (error instanceof AuthorizationError) {
     return (
       <ErrorComponent

@@ -5,6 +5,4 @@ interface Session {
   connector: string
 }
 
-export default resolver.pipe(async (session: Session, ctx) => {
-  return await ctx.session.$setPrivateData(session)
-})
+export default resolver.pipe((session: Session, ctx) => ctx.session.$setPrivateData(session))

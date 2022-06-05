@@ -1,0 +1,14 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: edendao
+      POSTGRES_DB: proof_of_work
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:

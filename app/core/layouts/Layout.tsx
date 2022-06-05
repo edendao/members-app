@@ -1,26 +1,30 @@
-import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers"
-import { Web3ReactProvider } from "@web3-react/core"
-import { Head } from "blitz"
+import { Box, Container, Flex } from "@chakra-ui/react"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+import { Head, Image } from "blitz"
+import Logo from "public/logo.png"
 import React from "react"
 
-type LayoutProps = {
+interface LayoutProps {
   title?: string
   session: Record<any, any>
-}
-
-const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
-  const library = new Web3Provider(provider)
-  return library
 }
 
 const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
     <>
       <Head>
-        <title>{title || "wallet-connect"}</title>
+        <title>{title || "PROOF OF WORK"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Web3ReactProvider getLibrary={getLibrary}>{children}</Web3ReactProvider>
+      <Box as="nav" bg="#40723e">
+        <Container py={6} px={3} maxW="6xl">
+          <Flex justify="space-between">
+            <Image src={Logo} alt="Eden Dao" height={38} width={42} />
+            <ConnectButton />
+          </Flex>
+        </Container>
+      </Box>
+      {children}
     </>
   )
 }
