@@ -1,5 +1,3 @@
-import { Ctx } from "blitz"
+import { resolver } from "blitz"
 
-export default async function getSession(_ = null, { session }: Ctx) {
-  return session.$getPrivateData()
-}
+export default resolver.pipe((_ = null, ctx) => ctx.session.$getPrivateData())

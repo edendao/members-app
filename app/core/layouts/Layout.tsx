@@ -1,5 +1,4 @@
 import { Box, Container, Flex } from "@chakra-ui/react"
-import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Head, Image } from "blitz"
 import Logo from "public/logo.png"
 import React from "react"
@@ -17,10 +16,9 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box as="nav" bg="#40723e">
-        <Container py={6} px={3} maxW="6xl">
+        <Container py={6} px={8} maxW="6xl">
           <Flex justify="space-between">
             <Image src={Logo} alt="Eden Dao" height={38} width={42} />
-            <ConnectButton />
           </Flex>
         </Container>
       </Box>

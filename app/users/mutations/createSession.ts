@@ -1,8 +1,11 @@
 import { resolver } from "blitz"
+import * as z from "zod"
 
-interface Session {
-  walletAddress: string
-  connector: string
-}
+const CreateSession = z.object({
+  walletAddress: z.string(),
+  connector: z.string(),
+})
 
-export default resolver.pipe((session: Session, ctx) => ctx.session.$setPrivateData(session))
+export default resolver.pipe(resolver.zod(CreateSession), (session, ctx) => {
+  ctx.session.$setPrivateData(session)
+})
