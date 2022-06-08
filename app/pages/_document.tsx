@@ -1,6 +1,6 @@
 import { BlitzScript, Document, DocumentHead, Html, Main } from "blitz"
 
-class MyDocument extends Document {
+export default class HTMLDocument extends Document {
   // Only uncomment if you need to customize this behaviour
   // static async getInitialProps(ctx: DocumentContext) {
   //   const initialProps = await Document.getInitialProps(ctx)
@@ -19,5 +19,3 @@ class MyDocument extends Document {
     )
   }
 }
-
-export default MyDocument

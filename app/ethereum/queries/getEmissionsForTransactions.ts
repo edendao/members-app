@@ -4,34 +4,34 @@ import db, { Transaction } from "db"
 import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible"
 import * as z from "zod"
 
-const GetTransactionEmissions = z.object({
-  blockHash: z.string(),
-})
+const CreateEmissionEstimate = z.array(z.string())
 
 export default resolver.pipe(
-  resolver.zod(GetTransactionEmissions),
+  resolver.zod(CreateEmissionEstimate),
   resolver.authorize(),
-  async ({ blockHash }: z.infer<typeof GetTransactionEmissions>) => {
-    const tx = await db.transaction.findFirst({
-      where: { blockHash },
-      select: { blockHash: true, blockNumber: true, gasUsed: true, timeStamp: true, gCO2: true },
-    })
-    if (tx == null) {
-      return null
-    }
-
-    if (tx?.gCO2 != null) {
-      return tx.gCO2
-    }
-
-    const gCO2 = await estimateEmissions(tx)
-    return await db.transaction.update({
-      where: { blockHash },
-      data: { gCO2 },
-      select: { blockHash: true, blockNumber: true, gasUsed: true, timeStamp: true, gCO2: true },
-    })
-  }
+  async (hashes) => Promise.all(hashes.map(findOrCreateEstimate))
 )
+
+const findOrCreateEstimate = async (hash: string) => {
+  const tx = await db.transaction.findFirst({
+    where: { hash },
+    select: { hash: true, blockNumber: true, gasUsed: true, timeStamp: true, gCO2: true },
+  })
+  if (tx == null) {
+    return null
+  }
+
+  if (tx?.gCO2 != null) {
+    return tx.gCO2
+  }
+
+  const gCO2 = await estimateEmissions(tx)
+  return await db.transaction.update({
+    where: { hash },
+    data: { gCO2 },
+    select: { hash: true, blockNumber: true, gasUsed: true, timeStamp: true, gCO2: true },
+  })
+}
 
 const patch = new Patch(process.env.PATCH_KEY!)
 const queue = new RateLimiterQueue(

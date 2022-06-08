@@ -13,6 +13,7 @@
     "**/Thumbs.db": true,
     "node_modules/": true,
     ".blitz/": true,
-    ".blitz.config.compiled.js": true
+    ".blitz.config.compiled.js": true,
+    ".blitz-console-history": true
   }
 }

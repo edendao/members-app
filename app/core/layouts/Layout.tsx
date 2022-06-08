@@ -1,6 +1,5 @@
-import { Box, Container, Flex } from "@chakra-ui/react"
-import { Head, Image } from "blitz"
-import Logo from "public/logo.png"
+import { Box, Container } from "@chakra-ui/react"
+import { Head } from "blitz"
 import React from "react"
 
 interface LayoutProps {
@@ -15,12 +14,8 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
         <title>{title || "PROOF OF WORK"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box as="nav" bg="#40723e">
-        <Container py={6} px={8} maxW="6xl">
-          <Flex justify="space-between">
-            <Image src={Logo} alt="Eden Dao" height={38} width={42} />
-          </Flex>
-        </Container>
+      <Box as="nav" bg="purple.700">
+        <Container py={6} px={8} maxW="6xl"></Container>
       </Box>
       {children}
     </>

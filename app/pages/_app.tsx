@@ -1,7 +1,8 @@
 import "./_app.css"
 
 import { ChakraProvider } from "@chakra-ui/react"
-import { RainbowKitProvider, getDefaultWallets, lightTheme } from "@rainbow-me/rainbowkit"
+import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit"
+import { edenChakraTheme, edenRainbowKitTheme } from "app/ds/themes"
 import {
   AppProps,
   AuthenticationError,
@@ -31,17 +32,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider
-        chains={chains}
-        showRecentTransactions
-        theme={lightTheme({
-          accentColor: "#CBFD50",
-          accentColorForeground: "#40723E",
-          overlayBlur: "small",
-          borderRadius: "medium",
-        })}
-      >
-        <ChakraProvider>
+      <RainbowKitProvider chains={chains} showRecentTransactions theme={edenRainbowKitTheme}>
+        <ChakraProvider theme={edenChakraTheme}>
           <ErrorBoundary
             FallbackComponent={RootErrorFallback}
             onReset={useQueryErrorResetBoundary().reset}
