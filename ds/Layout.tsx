@@ -1,8 +1,9 @@
-import { Box, Container } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 import { Head } from "blitz"
 import React from "react"
 
 interface LayoutProps {
+  children?: React.ReactNode
   title?: string
   session: Record<any, any>
 }
@@ -14,9 +15,22 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
         <title>{title || "PROOF OF WORK"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box as="nav" bg="purple.700">
-        <Container py={6} px={8} maxW="6xl"></Container>
-      </Box>
+
+      <Box
+        height={24}
+        width="100%"
+        background="
+          radial-gradient(
+            at 0% 100%,
+            #e0c38e 0%,
+            #464cc9 40%,
+            #7A5CCE 60%,
+            #54b0a2 100%
+          )
+          fixed
+        "
+      />
+
       {children}
     </>
   )

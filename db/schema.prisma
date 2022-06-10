@@ -65,20 +65,23 @@ model Transaction {
   from              String
   to                String
   contractAddress   String
-  value             Int
-  nonce             Int
+  value             String
+  nonce             String
   timeStamp         Int
-  confirmations     Int
+  confirmations     String
   isError           Boolean
   // Gas
-  cumulativeGasUsed Int
-  gas               Int
-  gasUsed           Int
-  gasPrice          Int
+  cumulativeGasUsed String
+  gas               String
+  gasUsed           String
+  gasPrice          String
   // Block
   blockHash         String
-  blockNumber       Int
-  transactionIndex  Int
+  blockNumber       String
+  transactionIndex  String
   // Emissions
   gCO2              Int?
+
+  @@index([blockNumber])
+  @@index([from, to])
 }

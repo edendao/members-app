@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  Center,
+  Container,
   Heading,
   Input,
   Progress,
@@ -10,15 +12,19 @@ import {
   SliderThumb,
   SliderTrack,
   Stack,
+  StackProps,
   Text,
   VStack,
 } from "@chakra-ui/react"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { PrivateSession } from "types"
 
-export const MintEDENBox: React.FC<{ session: PrivateSession }> = ({ ...props }) => {
+export const MintEDENBox: React.FC<StackProps & { session: PrivateSession }> = ({
+  session,
+  ...props
+}) => {
   return (
-    <VStack id="take-action" spacing={8} {...props}>
+    <VStack {...props} id="take-action" p={16} bg="gray.100" borderRadius="xl" boxShadow="2xl">
       <Stack direction={["column", null, null, "row"]}>
         <VStack maxW="md" spacing={4} align="start">
           <Text>
@@ -42,7 +48,6 @@ export const MintEDENBox: React.FC<{ session: PrivateSession }> = ({ ...props })
       <Box bg="gray.100">
         <Heading>You have emitted X tons of CO2</Heading>
         <Text>We use the latest science to estimate emissions</Text>
-        <Progress max={100} value={72} isAnimated hasStripe colorScheme="green" />
       </Box>
       <Box bg="gray.100">
         <Heading>Go climate positive</Heading>
@@ -66,4 +71,8 @@ export const MintEDENBox: React.FC<{ session: PrivateSession }> = ({ ...props })
       </Box>
     </VStack>
   )
+}
+
+MintEDENBox.defaultProps = {
+  spacing: 8,
 }

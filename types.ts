@@ -21,7 +21,7 @@ declare module "blitz" {
 }
 
 export interface PrivateSession {
-  walletAddress: string
+  address: string
   connector: Connectors
   lastAction: Actions
 }

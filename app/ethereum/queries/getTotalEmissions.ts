@@ -1,7 +1,10 @@
-import { resolver } from "blitz"
-import { sum } from "lodash"
-import sumBy from "lodash/sumBy"
+import { hasConnectedWallet } from "app/core/middleware/hasConnectedWallet"
+import { Middleware, resolver } from "blitz"
 import Papa from "papaparse"
+
+export const middleware: Middleware[] = [hasConnectedWallet]
+
+export default resolver.pipe(async (_) => await getTotalEmissions())
 
 export const getTotalEmissions = async () => {
   interface Estimate {
@@ -11,11 +14,11 @@ export const getTotalEmissions = async () => {
   }
 
   const dailyTotalTCO2: Estimate[] = await new Promise((resolve, reject) =>
-    Papa.parse("https://kylemcdonald.github.io/ethereum-emissions/output/daily-ktco2.csv", {
+    Papa.parse("https://kylemcdonald.github.io/ethereum-emissions/output/daily-ktco2.csv" as any, {
       download: true,
       header: true,
       error: reject,
-      complete: resolve,
+      complete: (result) => resolve(result as unknown as Estimate[]),
     })
   )
 
@@ -27,5 +30,3 @@ export const getTotalEmissions = async () => {
   }
   return sums
 }
-
-export default resolver.pipe(async (_) => await getTotalEmissions())

@@ -1,8 +1,10 @@
+import "@fontsource/inter/variable.css"
+import "@rainbow-me/rainbowkit/styles.css"
+
 import "./_app.css"
 
 import { ChakraProvider } from "@chakra-ui/react"
 import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit"
-import { edenChakraTheme, edenRainbowKitTheme } from "app/ds/themes"
 import {
   AppProps,
   AuthenticationError,
@@ -10,46 +12,55 @@ import {
   ErrorBoundary,
   ErrorComponent,
   ErrorFallbackProps,
+  dynamic,
   useQueryErrorResetBoundary,
 } from "blitz"
+import { edenRainbowKitTheme } from "ds/themes"
+import { edenChakraTheme } from "ds/themes"
 import React from "react"
 import { Toaster } from "react-hot-toast"
 import { WagmiConfig, chain, configureChains, createClient } from "wagmi"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 
-const { chains, provider } = configureChains(
-  [chain.mainnet, chain.rinkeby],
-  [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
-)
-
-const { connectors } = getDefaultWallets({ appName: "PROOF OF WORK", chains })
-
-const wagmiClient = createClient({ autoConnect: true, connectors, provider })
+const SessionManager = dynamic(() => import("app/core/SessionManager"))
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { chains, client } = useEther()
   const getLayout = Component.getLayout ?? ((page) => page)
+  const { reset: resetError } = useQueryErrorResetBoundary()
 
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} showRecentTransactions theme={edenRainbowKitTheme}>
-        <ChakraProvider theme={edenChakraTheme}>
-          <ErrorBoundary
-            FallbackComponent={RootErrorFallback}
-            onReset={useQueryErrorResetBoundary().reset}
-          >
-            {getLayout(
-              <>
-                <Component {...pageProps} />
-                <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
-              </>
-            )}
-          </ErrorBoundary>
-        </ChakraProvider>
+    <WagmiConfig client={client}>
+      <RainbowKitProvider showRecentTransactions chains={chains} theme={edenRainbowKitTheme}>
+        <SessionManager>
+          <ChakraProvider theme={edenChakraTheme}>
+            <ErrorBoundary FallbackComponent={RootErrorFallback} onReset={resetError}>
+              {getLayout(
+                <>
+                  <Component {...pageProps} />
+                  <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
+                </>
+              )}
+            </ErrorBoundary>
+          </ChakraProvider>
+        </SessionManager>
       </RainbowKitProvider>
     </WagmiConfig>
   )
 }
+
+const useEther = (() => {
+  const { chains, provider } = configureChains(
+    [chain.mainnet, chain.rinkeby],
+    [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
+  )
+
+  const { connectors } = getDefaultWallets({ appName: "PROOF OF WORK", chains })
+  const client = createClient({ autoConnect: true, connectors, provider })
+
+  return () => ({ chains, provider, connectors, client })
+})()
 
 const RootErrorFallback: React.FC<ErrorFallbackProps> = ({ error }) => {
   if (error instanceof AuthenticationError) {

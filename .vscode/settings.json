@@ -14,7 +14,8 @@
     "node_modules/": true,
     ".blitz/": true,
     ".blitz.config.compiled.js": true,
-    ".blitz-console-history": true
+    ".blitz-console-history": true,
+    ".next/": true
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
