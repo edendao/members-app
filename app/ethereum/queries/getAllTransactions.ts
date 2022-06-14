@@ -8,28 +8,27 @@ export const middleware: Middleware[] = [hasConnectedWallet]
 
 export default resolver.pipe(resolver.zod(z.string()), async (endblock, { session }) => {
   const { address } = await session.$getPrivateData()
-  const lasttx = await db.transaction.findFirst({
+  const cachedTransactions = await db.transaction.findMany({
     where: { from: address },
     orderBy: { blockNumber: "desc" },
-    select: { blockNumber: true },
+    select: { blockNumber: true, hash: true, gasUsed: true, timeStamp: true, gCO2: true },
   })
-  const startblock = lasttx?.blockNumber ?? "0"
-  const txs = await getEtherscanTransactions({ address, startblock, endblock, sort: "asc" })
+  const startblock = cachedTransactions[cachedTransactions.length - 1]?.blockNumber ?? "0"
 
-  if (txs.length !== 0) {
-    const cachedTransactions = await db.transaction.findMany({
-      where: { from: address },
-      select: { hash: true },
-    })
-    const cachedHashes = new Set(cachedTransactions.map((tx) => tx.hash))
-    const newTransactions = txs.filter((tx) => !cachedHashes.has(tx.hash))
+  const latestTransactions = await getEtherscanTransactions({
+    address,
+    startblock,
+    endblock,
+    sort: "asc",
+  }).catch(() => [])
 
-    await db.transaction.createMany({ data: newTransactions })
+  if (latestTransactions.length === 0) {
+    return cachedTransactions
   }
 
-  return await db.transaction.findMany({
-    select: { hash: true, blockNumber: true, gasUsed: true, timeStamp: true, gCO2: true },
-    where: { from: address },
-    orderBy: { blockNumber: "desc" },
-  })
+  const cachedHashes = new Set(cachedTransactions.map(({ hash }) => hash))
+  const newTransactions = latestTransactions.filter(({ hash }) => !cachedHashes.has(hash))
+
+  await db.transaction.createMany({ data: newTransactions })
+  return [...newTransactions, ...cachedTransactions]
 })

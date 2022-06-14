@@ -2,7 +2,7 @@ import { Box, BoxProps, Flex, SlideFade } from "@chakra-ui/react"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useInView } from "react-hook-inview"
 import { toast } from "react-hot-toast"
-import { chain, useProvider } from "wagmi"
+import { chain, useNetwork } from "wagmi"
 
 import { Connect } from "./0Connect"
 import { Estimator } from "./1Estimator"
@@ -13,13 +13,13 @@ import { Frontier } from "./Frontier"
 type State = "0connect" | "1estimating" | "2commit" | "9complete"
 
 export const Impact: React.FC<BoxProps> = (props) => {
-  const { network } = useProvider()
+  const { activeChain } = useNetwork()
 
   useEffect(() => {
-    if (![chain.mainnet.id, chain.rinkeby.id].includes(network.chainId)) {
+    if (activeChain?.id && ![chain.mainnet.id, chain.rinkeby.id].includes(activeChain.id)) {
       toast.error("Please switch to Ethereum Mainnet.", { position: "top-center" })
     }
-  }, [network.chainId])
+  }, [activeChain?.id])
 
   const [state, setState] = useState<State>("0connect")
   // For memoizing the `next` callback in component renders

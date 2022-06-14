@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react"
 import { Head } from "blitz"
 import React from "react"
 
@@ -13,7 +12,6 @@ export const Layout: React.FC<LayoutProps> = ({ title, children }) => (
       <title>{title || "PROOF OF WORK"}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-
     {children}
   </>
 )

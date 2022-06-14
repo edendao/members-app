@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
               {getLayout(
                 <>
                   <Component {...pageProps} />
-                  <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
+                  <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
                 </>
               )}
             </ErrorBoundary>
