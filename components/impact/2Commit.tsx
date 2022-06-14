@@ -10,6 +10,10 @@ import {
   NumberInput,
   NumberInputField,
   OrderedList,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
   Text,
   VStack,
 } from "@chakra-ui/react"
@@ -24,7 +28,7 @@ type State = "approve" | "commit"
 
 export const Commit: React.FC<{ next: () => void }> = ({ next }) => {
   const [state, setState] = useState<State>("approve")
-  const [txs] = useQuery(getCachedTransactions, null)
+  const [txs = []] = useQuery(getCachedTransactions, null, { suspense: false })
 
   const tonYearsOfAtmosphericImpact = useMemo(
     () => (txs.reduce((sum, tx) => sum + (tx.gCO2 ?? 0), 0) * 310.16) / 1_000_000,
@@ -82,8 +86,8 @@ export const Commit: React.FC<{ next: () => void }> = ({ next }) => {
           </VStack>
           <NumberInput
             step={1}
-            defaultValue={0.1}
             min={0.01}
+            precision={18}
             size="lg"
             maxW={150}
             focusBorderColor="white"

@@ -88,7 +88,7 @@ export const Frontier: React.FC<FlexProps> = (props) => {
             colorScheme="purple"
             fontSize="xl"
             as={Link}
-            href="#impact"
+            href="#commit"
             _hover={{ textDecoration: "none" }}
           >
             rock the frontier
@@ -98,5 +98,3 @@ export const Frontier: React.FC<FlexProps> = (props) => {
     </Flex>
   )
 }
-
-export default Frontier

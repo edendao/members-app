@@ -113,7 +113,7 @@ const gCO2toTonYears = (gCO2: number) => (gCO2 * 310.16) / 1_000_000
 
 const useTransactionsLoader = (endblock: string | number | undefined, onComplete?: () => void) => {
   const [session] = useQuery(getSession, null, { suspense: false })
-  const [txs, txsQuery] = useQuery(getAllTransactions, `${endblock}`, {
+  const [txs = [], txsQuery] = useQuery(getAllTransactions, `${endblock}`, {
     enabled: Boolean(session?.address) && Boolean(endblock),
     retry: 2,
     suspense: false,

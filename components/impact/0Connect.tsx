@@ -13,8 +13,8 @@ export const Connect: React.FC<{ next: () => void }> = ({ next }) => {
   }, [account?.address, next])
 
   return (
-    <VStack spacing={8}>
-      <Box textAlign="center">
+    <VStack spacing={5}>
+      <VStack textAlign="center" spacing={1}>
         <Heading fontWeight="normal" fontFamily="cursive" as="h3" size="lg">
           what&rsquo;s your mark on the world?
         </Heading>
@@ -32,7 +32,7 @@ export const Connect: React.FC<{ next: () => void }> = ({ next }) => {
           </Link>
           .
         </Text>
-      </Box>
+      </VStack>
       <Box transform="scale(1.1)">
         <ConnectButton showBalance={false} chainStatus="none" accountStatus="address" />
       </Box>
