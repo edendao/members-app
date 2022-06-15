@@ -1,7 +1,9 @@
 import { Box, VStack } from "@chakra-ui/react"
-import { Impact } from "components/impact"
+import { dynamic } from "blitz"
 import { Hero } from "components/index/Hero"
 import { Layout } from "ds/Layout"
+
+const Impact = dynamic(() => import("components/impact"))
 
 const LandingPage: React.FC = () => {
   return (

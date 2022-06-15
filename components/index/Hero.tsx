@@ -1,11 +1,23 @@
 import { Button, ButtonGroup, Link, Stack, StackProps, Text, VStack } from "@chakra-ui/react"
-import { Image } from "blitz"
+import getNetworkEmissions from "app/ethereum/queries/getNetworkEmissions"
+import { Image, useQuery } from "blitz"
 import { Shimmer } from "ds/atoms/Shimmer"
 import EthereumCouncil from "public/ethereum-council.png"
 import EthereumLegos from "public/ethereum-legos.png"
 import { HiExternalLink } from "react-icons/hi"
 
+const numberToWords = (n: number) =>
+  n >= 1e9
+    ? (n / 1e9).toFixed(2) + "B"
+    : n >= 1e6
+    ? (n / 1e6).toFixed(2) + "M"
+    : n >= 1e3
+    ? (n / 1e3).toFixed(2) + "K"
+    : n.toFixed(2)
+
 export const Hero: React.FC<StackProps> = (props) => {
+  const [estimate] = useQuery(getNetworkEmissions, null, { suspense: false, retry: 2 })
+
   return (
     <>
       <Stack
@@ -37,7 +49,7 @@ export const Hero: React.FC<StackProps> = (props) => {
             </Button>
             <Button
               as={Link}
-              href="#impact"
+              href="#commit"
               _hover={{ textDecoration: "none" }}
               color="white"
               fontWeight="bold"
@@ -108,16 +120,26 @@ export const Hero: React.FC<StackProps> = (props) => {
             A climate positive Web3
           </Shimmer>
           <Text fontSize="lg">
-            Ethereum&rsquo;s Proof of Work CO<sub>2</sub> emissions will remain in the atmosphere
-            for hundreds of years. As Ethereum transitions to a Proof of Stake blockchain,
-            it&rsquo;s important to consider what it means to be{" "}
-            <strong>truly climate positive</strong>.
+            Ethereum&rsquo;s Proof of Work has{" "}
+            <Link
+              href="https://kylemcdonald.github.io/ethereum-emissions/"
+              isExternal
+              target="_blank"
+              textDecoration="underline"
+            >
+              emitted {numberToWords(estimate?.best ?? 0)} tons of CO
+            </Link>
+            <sub>2</sub> that will remain in the atmosphere for hundreds of years. As Ethereum
+            transitions to a Proof of Stake blockchain, it&rsquo;s important to consider what it
+            means to be <strong>truly climate positive</strong>.
           </Text>
           <Text fontSize="lg">
-            Let&rsquo;s settle our carbon impact permanently, so that there is no question today nor
-            in 1,000 years that Ethereum is climate positive.
+            To be climate positive is to reverse the impact we have made on the planet. It means
+            storing carbon away for hundreds of years. Let&rsquo;s settle our carbon impact
+            permanently, so that there is no question today nor in 1,000 years that Ethereum is
+            climate positive.
           </Text>
-          <Button as={Link} _hover={{ textDecoration: "none" }} href="#impact" size="lg">
+          <Button as={Link} _hover={{ textDecoration: "none" }} href="#commit" size="lg">
             Let&rsquo;s fucking go climate positive
           </Button>
         </VStack>

@@ -1,56 +1,31 @@
-import Patch from "@patch-technology/patch"
 import { hasConnectedWallet } from "app/core/middleware/hasConnectedWallet"
+import { estimateEthereumTransactionEmissionsGCO2 } from "app/core/patch"
 import { Middleware, NotFoundError, resolver } from "blitz"
-import db, { Transaction } from "db"
-import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible"
+import db from "db"
 import * as z from "zod"
 
 export const middleware: Middleware[] = [hasConnectedWallet]
 
-export default resolver.pipe(resolver.zod(z.string()), async (hash, { session }) => {
+export default resolver.pipe(resolver.zod(z.string()), async (hash: string, { session }) => {
   const { address } = await session.$getPrivateData()
-  const tx = await findOrCreateEstimateFor(address, hash)
-  return tx.gCO2 as number
-})
 
-const findOrCreateEstimateFor = async (
-  from: string,
-  hash: string,
-  select = { hash: true, blockNumber: true, gasUsed: true, timeStamp: true, gCO2: true }
-) => {
-  let tx = await db.transaction.findFirst({ select, where: { from, hash } })
+  const tx = await db.transaction.findFirst({
+    where: { from: address, hash },
+    select: { gCO2: true, timeStamp: true, gasUsed: true },
+  })
 
   if (tx == null) {
-    throw new NotFoundError(`${from} ${hash}`)
+    throw new NotFoundError(`address: ${address}, txhash: ${hash}`)
   }
 
-  if (tx?.gCO2 != null) {
-    return tx
+  if (tx.gCO2 != null) {
+    return tx.gCO2
   }
 
-  tx = await db.transaction.update({
-    select,
-    where: { hash },
-    data: { gCO2: await estimateEmissions(tx) },
-  })
+  console.time("patch")
+  const gCO2 = await estimateEthereumTransactionEmissionsGCO2(tx)
+  console.timeEnd("patch")
+  await db.transaction.update({ where: { hash }, data: { gCO2 } })
 
-  return tx
-}
-
-const patch = new Patch(process.env.PATCH_KEY!)
-const queue = new RateLimiterQueue(
-  new RateLimiterMemory({
-    points: parseInt(process.env.PATCH_RPS!),
-    duration: 1,
-  })
-)
-
-export const estimateEmissions = async (t: Pick<Transaction, "timeStamp" | "gasUsed">) => {
-  const { data } = await queue.removeTokens(1).then(() =>
-    patch.estimates.createEthereumEstimate({
-      timestamp: new Date(t.timeStamp * 1000).toISOString(),
-      gas_used: t.gasUsed,
-    })
-  )
-  return data.mass_g
-}
+  return gCO2
+})

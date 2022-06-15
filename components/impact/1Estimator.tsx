@@ -43,7 +43,7 @@ export const Estimator: React.FC<{ next: () => void }> = ({ next }) => {
           <Button
             size="lg"
             onClick={next}
-            id="#impact"
+            id="#commit"
             animation="pulser 3s ease-in-out infinite alternate"
             colorScheme="purple"
             fontFamily="cursive"
@@ -93,14 +93,14 @@ export const Estimator: React.FC<{ next: () => void }> = ({ next }) => {
         </Link>
         <Text color="gray.400" mt={4} fontSize="lg">
           To undo the impact of 1 ton of CO<sub>2</sub> emissions, 1 ton of carbon must be
-          <strong> locked</strong> for 310.16 years. Learn more with the{" "}
+          <strong> locked</strong> for 310.16 years.{" "}
           <Link
             href="https://carbonplan.org/research/ton-year-explainer#:~:text=Using%20the%20same,%C2%A0YEARS)"
             target="_blank"
             isExternal
             textDecoration="underline"
           >
-            (carbon)plan ton-year explainer
+            Learn more from (carbon)plan
           </Link>
           .
         </Text>

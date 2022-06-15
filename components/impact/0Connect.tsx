@@ -24,11 +24,11 @@ export const Connect: React.FC<{ next: () => void }> = ({ next }) => {
         <Text fontSize="sm" color="gray.500">
           We use{" "}
           <Link isExternal textDecoration="underline">
-            Etherscan to list transactions
+            Etherscan to list your transactions
           </Link>{" "}
           and{" "}
           <Link isExternal textDecoration="underline">
-            Patch to estimate emissions
+            Patch to estimate their emissions
           </Link>
           .
         </Text>

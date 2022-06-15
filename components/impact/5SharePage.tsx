@@ -10,8 +10,9 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react"
-import { FacebookIcon, TwitterIcon } from "components/impact/SocialIcons"
-import * as React from "react"
+import React from "react"
+
+import { FacebookIcon, TwitterIcon } from "./SocialIcons"
 
 export const SharePage: React.FC = () => {
   return (
