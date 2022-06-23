@@ -7,13 +7,13 @@ const CreateSession = z.object({
   connector: z.string(),
 })
 
-export default resolver.pipe(resolver.zod(CreateSession), ({ address, connector }, ctx) => {
+export default resolver.pipe(resolver.zod(CreateSession), async ({ address, connector }, ctx) => {
   const session = {
     address: getAddress(address),
     connector,
   }
 
-  ctx.session.$setPrivateData(session)
+  await ctx.session.$setPrivateData(session)
 
   return session
 })

@@ -1,10 +1,13 @@
 import { Button, ButtonGroup, Link, Stack, StackProps, Text, VStack } from "@chakra-ui/react"
 import getNetworkEmissions from "app/ethereum/queries/getNetworkEmissions"
 import { Image, useQuery } from "blitz"
+import { radiantBackground } from "ds/atoms/RadiantBackground"
 import { Shimmer } from "ds/atoms/Shimmer"
 import EthereumCouncil from "public/ethereum-council.png"
 import EthereumLegos from "public/ethereum-legos.png"
 import { HiExternalLink } from "react-icons/hi"
+
+import { RadiantBackground } from "../../../ds/atoms/RadiantBackground"
 
 const numberToWords = (n: number) =>
   n >= 1e9
@@ -28,34 +31,31 @@ export const Hero: React.FC<StackProps> = (props) => {
         align="center"
         {...props}
       >
-        <VStack align="start" spacing={8} animation="pulser 15s ease-in-out infinite alternate">
+        <VStack align="start" spacing={8} animation="pulser-ccw 15s ease-in-out infinite alternate">
           <Shimmer as="h1" size="2xl" lineHeight={0.9} pt={5}>
-            wield the ether to summon carbon
-            <wbr /> out of thin air
+            summon carbon rocks <wbr /> out of the ether
           </Shimmer>
           <Text as="h2" fontSize="2xl">
-            Join the most ambitious, rock solid attempt yet to learn the magic of bending carbon to
-            lock it away permanently.
+            Join the most ambitious, rock solid attempt yet to learn the carbon magic of locking it
+            away permanently.
           </Text>
           <ButtonGroup size="lg">
             <Button
               as={Link}
               href="#ethereum"
-              _hover={{ textDecoration: "none" }}
-              variant="solid"
-              colorScheme="purple"
+              _hover={{ textDecoration: "none", color: "white", background: radiantBackground }}
             >
               learn more
             </Button>
             <Button
               as={Link}
-              href="#commit"
+              href="#pledge"
               _hover={{ textDecoration: "none" }}
               color="white"
               fontWeight="bold"
-              className="radiant-bg"
+              background={radiantBackground}
             >
-              level up
+              become rock solid climate positive
             </Button>
           </ButtonGroup>
         </VStack>
@@ -91,7 +91,7 @@ export const Hero: React.FC<StackProps> = (props) => {
         justify="space-between"
         {...props}
       >
-        <VStack alignItems="center" animation="pulser 15s ease-in-out infinite alternate">
+        <VStack alignItems="center" animation="pulser-ccw 15s ease-in-out infinite alternate">
           <Image src={EthereumCouncil} alt="Together we prosper." />
           <Link
             opacity={0.5}
@@ -114,7 +114,7 @@ export const Hero: React.FC<StackProps> = (props) => {
           justify="flex-start"
           minW={[320, null, 420, 540]}
           spacing={8}
-          animation="pulser 15s ease-in-out infinite alternate"
+          animation="pulser-ccw 15s ease-in-out infinite alternate"
         >
           <Shimmer px={1} lineHeight={1}>
             A climate positive Web3
@@ -130,17 +130,23 @@ export const Hero: React.FC<StackProps> = (props) => {
               emitted {numberToWords(estimate?.best ?? 0)} tons of CO
             </Link>
             <sub>2</sub> that will remain in the atmosphere for hundreds of years. As Ethereum
-            transitions to a Proof of Stake blockchain, it&rsquo;s important to consider what it
-            means to be <strong>truly climate positive</strong>.
+            transitions to a Proof of Stake blockchain, let&rsquo;s work towards making the{" "}
+            <strong>strongest, most rock solid case that Ethereum is climate positive.</strong>
           </Text>
-          <Text fontSize="lg">
-            To be climate positive is to reverse the impact we have made on the planet. It means
-            storing carbon away for hundreds of years. Let&rsquo;s settle our carbon impact
-            permanently, so that there is no question today nor in 1,000 years that Ethereum is
-            climate positive.
+
+          <Text fontSize="md">
+            <strong>Let&rsquo;s take concrete steps to settle the score permanently</strong>, so
+            that there is never any question that Ethereum is climate positive.
           </Text>
-          <Button as={Link} _hover={{ textDecoration: "none" }} href="#commit" size="lg">
-            Let&rsquo;s fucking go climate positive
+          <Button
+            as={Link}
+            _hover={{ textDecoration: "none" }}
+            href="#frontier"
+            size="lg"
+            color="white"
+            background={radiantBackground}
+          >
+            How do I take rock-solid steps towards climate positivity?
           </Button>
         </VStack>
       </Stack>

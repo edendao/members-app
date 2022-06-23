@@ -64,7 +64,7 @@ model Transaction {
   hash              String  @id
   from              String
   to                String
-  contractAddress   String
+  vaultAddress      String
   value             String
   nonce             String
   timeStamp         Int

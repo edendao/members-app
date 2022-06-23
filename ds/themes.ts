@@ -1,7 +1,7 @@
 import { theme } from "@chakra-ui/pro-theme"
 import { extendTheme } from "@chakra-ui/react"
 import { StyleFunctionProps } from "@chakra-ui/theme-tools"
-import { darkTheme } from "@rainbow-me/rainbowkit"
+import { lightTheme } from "@rainbow-me/rainbowkit"
 
 export const edenChakraTheme = extendTheme(
   {
@@ -23,8 +23,8 @@ export const edenChakraTheme = extendTheme(
   theme
 )
 
-export const edenRainbowKitTheme = darkTheme({
-  accentColor: "#e6ca61",
-  accentColorForeground: "#222",
+export const edenRainbowKitTheme = lightTheme({
+  // accentColor: "#e6ca61",
+  // accentColorForeground: "#222",
   fontStack: "rounded",
 })

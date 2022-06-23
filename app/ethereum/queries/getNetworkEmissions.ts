@@ -18,10 +18,12 @@ export let cachedEstimate: Estimate = { lower: 0, upper: 0, best: 0 }
 export let updatedAt: Date = new Date(0)
 
 export const updateEstimate = async (): Promise<Estimate> => {
+  console.time("ethereum emissions")
   const response = await axios.get(
     "https://kylemcdonald.github.io/ethereum-emissions/output/daily-ktco2.csv",
     { responseType: "stream" }
   )
+  console.timeEnd("ethereum emissions")
 
   return (cachedEstimate = await new Promise((resolve, reject) => {
     const total: Estimate = { best: 0, lower: 0, upper: 0 }

@@ -29,7 +29,7 @@ export const SessionManager = ({ children }) => {
 
       invoke(createSession, session).then(
         () => {
-          setState(session as any)
+          setState(session as Session)
         },
         () => {
           disconnect()

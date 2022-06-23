@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react"
 import React from "react"
 
-import { FacebookIcon, TwitterIcon } from "./SocialIcons"
+import { FacebookIcon, TwitterIcon } from "./components/SocialIcons"
 
 export const SharePage: React.FC = () => {
   return (
