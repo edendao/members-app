@@ -1,18 +1,17 @@
 import { Box, BoxProps, Flex, SlideFade } from "@chakra-ui/react"
 import { Token } from "@uniswap/sdk-core"
 import { INPUT_TOKEN, OUTPUT_TOKEN } from "app/core/tokens"
-import { Image } from "blitz"
+import { Image, dynamic } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import RasterBee from "public/raster-bee.png"
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useInView } from "react-hook-inview"
 import { toast } from "react-hot-toast"
 import { useNetwork } from "wagmi"
 
 import { Connector } from "./1Connector"
-// import { Estimator } from "./1Estimator"
-import { Pledger } from "./2Pledger"
-import { Estimator } from "./3Estimator"
+
+const Pledger = dynamic(() => import("./2Pledger"))
 
 export const RockSolidPledge: React.FC<BoxProps> = (props) => {
   const { activeChain } = useNetwork()
@@ -103,12 +102,6 @@ export const RockSolidPledge: React.FC<BoxProps> = (props) => {
                 next={setStateTo("3estimate")}
                 inputToken={inputToken!}
                 outputToken={outputToken!}
-              />
-            ) : state === "3estimate" ? (
-              <Estimator
-                inputToken={inputToken!}
-                outputToken={outputToken!}
-                next={setStateTo("4next")}
               />
             ) : null}
           </Box>

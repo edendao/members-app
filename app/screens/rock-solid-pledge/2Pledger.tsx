@@ -1,24 +1,7 @@
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Button,
-  Heading,
-  Link,
-  List,
-  ListIcon,
-  ListItem,
-  Text,
-  VStack,
-} from "@chakra-ui/react"
+import { Alert, Box, Heading, Link, List, ListIcon, ListItem, Text, VStack } from "@chakra-ui/react"
 import { Fraction, Token } from "@uniswap/sdk-core"
-import { gCO2toTonYears } from "app/core/carbon-math"
 import { useERC20BalanceOf } from "app/core/hooks/web3/useERC20"
 import { toTokenAmount } from "app/core/tokens"
-import getCachedTransactions from "app/ethereum/queries/getCachedTransactions"
-import { useQuery } from "blitz"
-import sumBy from "lodash/sumBy"
-import React, { useMemo } from "react"
 import { GiFireAce, GiHeartWings, GiSpiralBottle, GiStripedSun } from "react-icons/gi"
 import { useAccount } from "wagmi"
 
@@ -92,3 +75,5 @@ export const Pledger: React.FC<DepositorProps> = ({ inputToken, outputToken, nex
     </VStack>
   )
 }
+
+export default Pledger
