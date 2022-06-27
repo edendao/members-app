@@ -12,7 +12,7 @@ export const useWagmi = (() => {
     ]
   )
 
-  const { connectors } = getDefaultWallets({ appName: "PROOF OF WORK", chains })
+  const { connectors } = getDefaultWallets({ appName: "ROCK SOLID ETH", chains })
   const client = createClient({ autoConnect: true, connectors, provider })
 
   return () => ({ chains, provider, connectors, client })

@@ -9,7 +9,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ title, children }) => (
   <>
     <Head>
-      <title>{title || "PROOF OF WORK"}</title>
+      <title>{title || "ROCK SOLID ETH"}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
     {children}

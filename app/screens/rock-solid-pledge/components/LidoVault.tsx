@@ -187,7 +187,7 @@ export const LidoVault: React.FC<LidoVaultProps> = ({ inputToken, outputToken })
 
         <VStack>
           <Text fontWeight="bold">{outputToken.symbol}</Text>
-          <NumberInput id="output" size="lg" maxW={180} value={inputAmount?.toSignificant(3)}>
+          <NumberInput id="output" size="lg" maxW={180} value={inputAmount?.toFixed(6)}>
             <NumberInputField
               borderColor="purple.300"
               fontWeight="bold"
