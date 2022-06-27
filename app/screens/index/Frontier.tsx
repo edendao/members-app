@@ -50,7 +50,7 @@ export const Frontier: React.FC<FlexProps> = (props) => {
           animation="pulser-cw 5s ease-in-out infinite alternate"
         >
           <Shimmer size="md" lineHeight={1} as="h3" pt={2} pr={2}>
-            the vegan wagyu of carbon assets
+            the rock solid gold standard of carbon assets
           </Shimmer>
           <Heading size="lg" lineHeight={1.2} as="h2" mt={0} mb={4} fontWeight="bold">
             permanent CO<sub>2</sub> removal
@@ -63,10 +63,10 @@ export const Frontier: React.FC<FlexProps> = (props) => {
           permanently, so if you want to learn more, watch the video.
         </Text>
         <Text fontSize="lg">
-          We can get the best ones through Frontier Climate, which is the world&rsquo;s best, like,
-          Proactive Public Goods DAO for this stuff. They are the pioneering this with a legendary
-          team of gigabrains from Alphabet, Stripe, Shopify, McKinsey, and almost 30 PhDs! They are
-          literally making history by stepping in where government is too slow.
+          Frontier Climate is the world&rsquo;s best, like, Proactive Public Goods DAO for this
+          stuff. They are the pioneering this with a legendary team of gigabrains from Alphabet,
+          Stripe, Shopify, McKinsey, and almost 30 PhDs! They are literally making history by
+          stepping in where government is too slow.
         </Text>
         <Text fontSize="lg">
           <strong>
@@ -75,9 +75,13 @@ export const Frontier: React.FC<FlexProps> = (props) => {
               Read more about them, their theory of impact, their methodology, and their team
             </Link>
           </strong>
-          . Our mandate for carbon assets will be just like Frontier&rsquo;s. We can run a program
-          ourselves, but ideally, we stack on top of Frontier&rsquo;s program. We need a
-          multi-million dollar commitment to join Frontier.
+          .
+        </Text>
+        <Text fontSize="lg">
+          Our mandate for carbon assets will be just like Frontier&rsquo;s. We can run a program
+          ourselves, but ideally, we stack on top of Frontier&rsquo;s program as if they were an
+          Impact DAO. The only way we can join Frontier is if we create a movement, because we need
+          a multi-million dollar commitment.
         </Text>
         <ButtonGroup
           size="lg"
@@ -99,7 +103,7 @@ export const Frontier: React.FC<FlexProps> = (props) => {
             colorScheme="purple"
             _hover={{ textDecoration: "none", color: "white", background: radiantBackground }}
           >
-            pledge your stETH yield to rock solid carbon removal
+            get rock-solid, ultra-sound money
           </Button>
         </ButtonGroup>
       </VStack>

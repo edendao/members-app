@@ -22,8 +22,8 @@ import React, { useMemo } from "react"
 import { GiFireAce, GiHeartWings, GiSpiralBottle, GiStripedSun } from "react-icons/gi"
 import { useAccount } from "wagmi"
 
-import { DepositPane } from "./components/DepositPane"
 import { HowItWorks } from "./components/HowItWorks"
+import { LidoVault } from "./components/LidoVault"
 
 interface DepositorProps {
   next: () => void
@@ -32,9 +32,6 @@ interface DepositorProps {
 }
 
 export const Pledger: React.FC<DepositorProps> = ({ inputToken, outputToken, next }) => {
-  const [txs = []] = useQuery(getCachedTransactions, null, { suspense: false })
-  const tonYears = useMemo(() => gCO2toTonYears(sumBy(txs, "gCO2")), [txs])
-
   const { data: account } = useAccount()
   const { data: balanceOf } = useERC20BalanceOf(outputToken.address, account?.address)
   const edenETHBalance = toTokenAmount(outputToken, balanceOf)
@@ -46,8 +43,8 @@ export const Pledger: React.FC<DepositorProps> = ({ inputToken, outputToken, nex
         <Box pb={4}>
           <Alert status="success" borderRadius="lg" color="green.800" fontSize="lg">
             <Text mr={2} fontWeight="bold">
-              🌱&nbsp;&nbsp;
-              {edenETHBalance.toSignificant(4)} {outputToken.symbol}
+              🌱&nbsp;&nbsp;hello again, pledge! you have {edenETHBalance.toSignificant(4)}{" "}
+              {outputToken.symbol}.
             </Text>
           </Alert>
         </Box>
@@ -89,7 +86,7 @@ export const Pledger: React.FC<DepositorProps> = ({ inputToken, outputToken, nex
         </ListItem>
       </List>
 
-      <DepositPane inputToken={inputToken} outputToken={outputToken} />
+      <LidoVault inputToken={inputToken} outputToken={outputToken} />
 
       <HowItWorks inputToken={inputToken} outputToken={outputToken} />
     </VStack>

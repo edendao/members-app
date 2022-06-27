@@ -19,18 +19,18 @@ import {
 import { useVaultDeposit } from "app/core/hooks/web3/useVault"
 import { toTokenAmount } from "app/core/tokens"
 import { RadiantBackground } from "ds/atoms/RadiantBackground"
-import { useEffect, useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 import toast from "react-hot-toast"
 import { GiAllSeeingEye, GiMagicGate } from "react-icons/gi"
 import { HiExternalLink } from "react-icons/hi"
 import { useAccount, useWaitForTransaction } from "wagmi"
 
-interface DepositPaneProps {
+interface LidoVaultProps {
   inputToken: Token
   outputToken: Token
 }
 
-export const DepositPane: React.FC<DepositPaneProps> = ({ inputToken, outputToken }) => {
+export const LidoVault: React.FC<LidoVaultProps> = ({ inputToken, outputToken }) => {
   const [formattedAmount, setFormattedAmount] = useState<string>("0.01")
   const inputAmount = useMemo(
     () => toTokenAmount(inputToken, Number(formattedAmount) * 1e18),
@@ -116,10 +116,8 @@ export const DepositPane: React.FC<DepositPaneProps> = ({ inputToken, outputToke
             <Text>You need ≥0.01 {inputToken.symbol}.</Text>
           </>
         )}
-        <Text ml="auto" mr={4}>
-          Lucky 5% discount!
-        </Text>
         <Button
+          ml="auto"
           size="sm"
           as={Link}
           isExternal
@@ -129,7 +127,7 @@ export const DepositPane: React.FC<DepositPaneProps> = ({ inputToken, outputToke
           _hover={{ textDecoration: "none" }}
           rightIcon={<HiExternalLink />}
         >
-          Uniswap
+          Lucky 5% discount on Uniswap!
         </Button>
       </Alert>
 

@@ -16,13 +16,13 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ inputToken, outputToken,
         <ListItem>
           Wrap 1 stETH for 1 {outputToken.symbol}
           <Text fontSize="md" color="purple.400" fontFamily="cursive">
-            Secure ETH &amp; pledge your yield to permanent carbon removal.
+            Forge rock-solid climate positive ultra-sound money!
           </Text>
         </ListItem>
         <ListItem>
-          We try to join Frontier or run it ourselves
+          With your yield, we try to join Frontier or run it ourselves
           <Text fontSize="md" color="purple.400" fontFamily="cursive">
-            Front run oil companies for vegan wagyu carbon.
+            Receive ednEARTH carbon impact certificates
           </Text>
           {/* <IconButton
             ml={4}
@@ -36,15 +36,9 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ inputToken, outputToken,
           /> */}
         </ListItem>
         <ListItem>
-          Receive Proof of Impact certificates (w/ Toucan Protocol)
+          Unwrap your edenETH for stETH anytime!
           <Text fontSize="md" color="purple.400" fontFamily="cursive">
-            Now we have a carbon-bearing asset!
-          </Text>
-        </ListItem>
-        <ListItem>
-          Redeem certificates to go climate positive
-          <Text fontSize="md" color="purple.400" fontFamily="cursive">
-            Corporations are buying carbon assets at record levels!
+            Get back exactly what you put in.
           </Text>
         </ListItem>
       </OrderedList>

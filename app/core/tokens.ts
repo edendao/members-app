@@ -26,10 +26,10 @@ export const INPUT_TOKEN = {
 export const OUTPUT_TOKEN = {
   [chain.mainnet.id]: new Token(
     chain.mainnet.id,
-    "0x0000000000000000000000000000000000000000",
+    "0x4bf99dab15ca5da9ff6a0489509a8f196f9dff9f",
     18,
-    "edenETH",
-    "eden dao ETH"
+    "edn-stETH",
+    "EDEN DAO LIDO STAKED ETH VAULT"
   ),
   [chain.rinkeby.id]: new Token(
     chain.rinkeby.id,
