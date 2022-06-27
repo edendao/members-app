@@ -33,7 +33,7 @@
     "@hookform/resolvers": "2.8.2",
     "@openzeppelin/contracts": "4.3.2",
     "@patch-technology/patch": "1.23.0",
-    "@prisma/client": "3.15.1",
+    "@prisma/client": "3.15.2",
     "@rainbow-me/rainbowkit": "0.2.3",
     "@uniswap/sdk-core": "3.0.1",
     "@uniswap/widgets": "1.1.1",
@@ -78,7 +78,7 @@
     "prettier-plugin-prisma": "0.15.0",
     "pretty-quick": "3.1.1",
     "preview-email": "3.0.5",
-    "prisma": "3.3.0",
+    "prisma": "3.15.2",
     "ts-node": "10.3.1",
     "typescript": "4.7.3"
   },
