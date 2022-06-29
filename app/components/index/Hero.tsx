@@ -9,8 +9,8 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react"
+import { Estimate } from "app/core/networkEmissions"
 import { numberToWords } from "app/core/numbers"
-import { Estimate } from "app/ethereum/queries/getNetworkEmissions"
 import { Image } from "blitz"
 import { radiantBackground } from "ds/atoms/RadiantBackground"
 import { Shimmer } from "ds/atoms/Shimmer"

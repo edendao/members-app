@@ -1,13 +1,12 @@
 import axios from "axios"
-import { resolver } from "blitz"
 import CSV from "papaparse"
 
-export const getNetworkEmissions = () =>
+export const isCacheFresh = () =>
   Date.now() <= Number(updatedAt) + 6 * 60 * 1000 && cachedEstimates[0].best !== 0
-    ? cachedEstimates // cached for 6 hours
-    : updateEstimates()
 
-export default resolver.pipe(getNetworkEmissions)
+export const getNetworkEmissions = async () =>
+  isCacheFresh() ? cachedEstimates : await updateEstimates()
+
 export interface Estimate {
   lower: number
   upper: number

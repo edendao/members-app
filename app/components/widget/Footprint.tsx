@@ -14,6 +14,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react"
+import { Transaction } from "@prisma/client"
 import { Fraction, Token } from "@uniswap/sdk-core"
 import { useERC20BalanceOf } from "app/core/hooks/web3/useERC20"
 import { toTokenAmount } from "app/core/tokens"
@@ -217,24 +218,25 @@ const useEstimator = (
       setImpact(0)
     })
     ;(async () => {
-      for (let i = 0; i < txlimit; ++i) {
+      let i = 0
+      for (const unknowntx of txs) {
         if (exit) return
-        const tx = txs[i]
-        if (!tx) continue
 
-        const gCO2 = (tx.gCO2 ||= await invoke(getEstimateForTransaction, tx.hash))
+        // Typescript is being quite... Typescript-y
+        const tx = unknowntx as unknown as Transaction
+        tx.gCO2 ??= await invoke(getEstimateForTransaction, tx.hash)
 
         startTransition(() => {
-          setGCO2forHash((d) => ({ ...d, [tx.hash]: gCO2 }))
-          setImpact((i) => i + gCO2toTonYears(gCO2))
+          setGCO2forHash((d) => ({ ...d, [tx.hash]: tx.gCO2! }))
+          setImpact((i) => i + gCO2toTonYears(tx.gCO2!))
           setEstimationsCount((c) => c + 1)
         })
+
+        if (++i < txlimit) break
       }
     })()
 
     return () => {
-      setEstimationsCount(0)
-      setImpact(0)
       exit = true
     }
   }, [txs, onComplete, txlimit])
