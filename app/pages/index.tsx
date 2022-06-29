@@ -1,9 +1,9 @@
 import { Box, VStack } from "@chakra-ui/react"
 import { Hero } from "app/components/index/Hero"
 import Widget from "app/components/widget"
-import { Estimate, getNetworkEmissions } from "app/core/networkEmissions"
+import { Estimate, cacheTime, getNetworkEmissions } from "app/core/networkEmissions"
 import { INPUT_TOKEN, OUTPUT_TOKEN } from "app/core/tokens"
-import { dynamic } from "blitz"
+import { GetStaticProps, dynamic } from "blitz"
 import { Layout } from "ds/Layout"
 import React from "react"
 import toast from "react-hot-toast"
@@ -11,8 +11,9 @@ import { useNetwork } from "wagmi"
 
 const Frontier = dynamic(() => import("app/components/index/Frontier"))
 
-export const getServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
+    revalidate: cacheTime / 1000, // in seconds
     props: {
       emissions: await getNetworkEmissions(),
     },

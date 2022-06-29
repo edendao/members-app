@@ -1,8 +1,10 @@
 import axios from "axios"
 import CSV from "papaparse"
 
+export const cacheTime = 6 * 60 * 1000
+
 export const isCacheFresh = () =>
-  Date.now() <= Number(updatedAt) + 6 * 60 * 1000 && cachedEstimates[0].best !== 0
+  Date.now() <= Number(updatedAt) + cacheTime && cachedEstimates[0].best !== 0
 
 export const getNetworkEmissions = async () =>
   isCacheFresh() ? cachedEstimates : await updateEstimates()
