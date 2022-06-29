@@ -1,27 +1,13 @@
 import axios from "axios"
 import CSV from "papaparse"
 
-export const cacheTime = 6 * 60 * 1000
-
-export const isCacheFresh = () =>
-  Date.now() <= Number(updatedAt) + cacheTime && cachedEstimates[0].best !== 0
-
-export const getNetworkEmissions = async () =>
-  isCacheFresh() ? cachedEstimates : await updateEstimates()
-
 export interface Estimate {
   lower: number
   upper: number
   best: number
 }
 
-export let cachedEstimates: [Estimate, Estimate] = [
-  { lower: 0, upper: 0, best: 0 },
-  { lower: 0, upper: 0, best: 0 },
-]
-export let updatedAt: Date = new Date(0)
-
-export const updateEstimates = async (): Promise<[Estimate, Estimate]> => {
+export const getNetworkEmissions = async (): Promise<[Estimate, Estimate]> => {
   console.time("ethereum emissions")
   const response = await axios.get(
     "https://kylemcdonald.github.io/ethereum-emissions/output/daily-ktco2.csv",
@@ -29,7 +15,7 @@ export const updateEstimates = async (): Promise<[Estimate, Estimate]> => {
   )
   console.timeEnd("ethereum emissions")
 
-  return (cachedEstimates = await new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     const total: Estimate = { best: 0, lower: 0, upper: 0 }
 
     const parser = CSV.parse(CSV.NODE_STREAM_INPUT, { header: true, dynamicTyping: true })
@@ -51,5 +37,5 @@ export const updateEstimates = async (): Promise<[Estimate, Estimate]> => {
     })
 
     response.data.pipe(parser)
-  }))
+  })
 }
