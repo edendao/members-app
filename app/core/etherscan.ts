@@ -34,17 +34,20 @@ export interface TransactionsQuery {
 export interface TransactionsResponse {
   status: "0" | "1"
   message: string
-  result: Array<Record<string, string>>
+  result: {
+    [key in keyof Transaction]: string
+  }[]
 }
 
-export const getEtherscanTransactions = async (query: TransactionsQuery) => {
+export const getEtherscanTransactions = async ({ address, ...query }: TransactionsQuery) => {
   const { data } = await etherscan.get<TransactionsResponse>("api", {
     params: {
+      ...query,
       module: "account",
       action: "txlist",
-      page: "1",
-      offset: "10000",
-      ...query,
+      page: 1,
+      offset: 10000,
+      address: getAddress(address),
     },
   })
 
@@ -54,11 +57,22 @@ export const getEtherscanTransactions = async (query: TransactionsQuery) => {
   }
 
   return map(result, (tx) => ({
-    ...tx,
-    from: getAddress(tx.from!),
-    to: getAddress(tx.to!),
-    timeStamp: parseInt(tx.timeStamp!, 10),
+    hash: tx.hash,
+    from: tx.from && getAddress(tx.from),
+    to: tx.to && getAddress(tx.to),
+    value: tx.value,
+    nonce: tx.nonce,
+    contractAddress: tx.contractAddress,
+    confirmations: tx.confirmations,
+    cumulativeGasUsed: tx.cumulativeGasUsed,
+    gas: tx.gas,
+    gasUsed: tx.gasUsed,
+    gasPrice: tx.gasPrice,
+    blockHash: tx.blockHash,
+    blockNumber: tx.blockNumber,
+    transactionIndex: tx.transactionIndex,
+    timeStamp: parseInt(tx.timeStamp, 10),
     isError: tx.isError != "0",
     gCO2: null,
-  })) as Transaction[]
+  }))
 }

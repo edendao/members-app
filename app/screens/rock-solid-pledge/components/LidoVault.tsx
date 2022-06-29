@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertIcon,
+  AlertTitle,
   Button,
   ButtonGroup,
   HStack,
@@ -92,46 +93,9 @@ export const LidoVault: React.FC<LidoVaultProps> = ({ inputToken, outputToken })
     return "commit"
   }, [allowance, inputAmount, inputToken])
 
-  const isInvalidAmount = useMemo(() => inputAmount?.lessThan(1e16), [inputAmount])
-
   return (
-    <VStack
-      as={RadiantBackground}
-      w="100%"
-      p={[2, 3, 5, 8]}
-      spacing={5}
-      color="white"
-      borderRadius="2xl"
-    >
-      <Alert
-        status="warning"
-        color="orange.600"
-        fontWeight="bold"
-        borderRadius="lg"
-        animation={isInvalidAmount ? "pulser-cw 5s ease-in-out infinite alternate" : ""}
-      >
-        {isInvalidAmount && (
-          <>
-            <AlertIcon />
-            <Text>You need ≥0.01 {inputToken.symbol}.</Text>
-          </>
-        )}
-        <Button
-          ml="auto"
-          size="sm"
-          as={Link}
-          isExternal
-          variant="solid"
-          colorScheme="orange"
-          href={`https://app.uniswap.org/#/swap?outputCurrency=${inputToken.address}`}
-          _hover={{ textDecoration: "none" }}
-          rightIcon={<HiExternalLink />}
-        >
-          Lucky 5% discount on Uniswap!
-        </Button>
-      </Alert>
-
-      <HStack align="center" spacing={4} justify="space-between" w="100%">
+    <VStack as={RadiantBackground} w="100%" p={[2, 3, 5, 8]} spacing={5} borderRadius="2xl">
+      <HStack align="center" spacing={4} justify="space-between" w="100%" color="white">
         <VStack>
           <HStack w="100%" spacing={1} justify="space-between">
             <Text as="label" htmlFor="input" fontWeight="bold">

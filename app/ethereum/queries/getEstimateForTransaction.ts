@@ -7,15 +7,13 @@ import * as z from "zod"
 export const middleware: Middleware[] = [hasConnectedWallet]
 
 export default resolver.pipe(resolver.zod(z.string()), async (hash: string, { session }) => {
-  const { address } = await session.$getPrivateData()
-
   const tx = await db.transaction.findFirst({
-    where: { from: address, hash },
+    where: { hash },
     select: { gCO2: true, timeStamp: true, gasUsed: true },
   })
 
   if (tx == null) {
-    throw new NotFoundError(`address: ${address}, txhash: ${hash}`)
+    throw new NotFoundError(hash)
   }
 
   if (tx.gCO2 != null) {

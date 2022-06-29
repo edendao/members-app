@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Blitz Server",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "blitz dev",
+      "env": {
+        "NODE_OPTIONS": "--openssl-legacy-provider"
+      }
+    }
+  ]
+}

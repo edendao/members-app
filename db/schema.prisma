@@ -62,9 +62,9 @@ enum TokenType {
 model Transaction {
   // Basics
   hash              String  @id
+  contractAddress   String
   from              String
   to                String
-  vaultAddress      String
   value             String
   nonce             String
   timeStamp         Int
@@ -84,4 +84,5 @@ model Transaction {
 
   @@index([blockNumber])
   @@index([from, to])
+  @@index([contractAddress])
 }

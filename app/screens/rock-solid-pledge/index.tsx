@@ -1,39 +1,23 @@
-import { Box, BoxProps, Flex, SlideFade } from "@chakra-ui/react"
+import { Box, Flex, SlideFade } from "@chakra-ui/react"
 import { Token } from "@uniswap/sdk-core"
-import { INPUT_TOKEN, OUTPUT_TOKEN } from "app/core/tokens"
 import { Image, dynamic } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import RasterBee from "public/raster-bee.png"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { useInView } from "react-hook-inview"
-import { toast } from "react-hot-toast"
-import { useNetwork } from "wagmi"
 
-import { Connector } from "./1Connector"
+import { Connector } from "./Connector"
 
-const Pledger = dynamic(() => import("./2Pledger"))
+const Pledger = dynamic(() => import("./Pledger"))
+const Footprint = dynamic(() => import("./Footprint"))
 
-export const RockSolidPledge: React.FC<BoxProps> = (props) => {
-  const { activeChain } = useNetwork()
+interface RockSolidPledgeProps {
+  inputToken: Token
+  outputToken: Token
+}
 
-  const [inputToken, setInputToken] = useState<Token>()
-  const [outputToken, setOutputToken] = useState<Token>()
-
-  useEffect(() => {
-    if (!activeChain?.id) return
-
-    const chainid = activeChain.id
-    if (chainid in INPUT_TOKEN) {
-      setInputToken(INPUT_TOKEN[chainid])
-      setOutputToken(OUTPUT_TOKEN[chainid])
-    } else {
-      setInputToken(undefined)
-      setOutputToken(undefined)
-      toast.error("Please switch to Ethereum mainnet.")
-    }
-  }, [activeChain?.id])
-
-  type State = "1connect" | "2pledge" | "3estimate" | "4next"
+export const RockSolidPledge: React.FC<RockSolidPledgeProps> = ({ inputToken, outputToken }) => {
+  type State = "1connect" | "2footprint" | "3pledge"
   const [state, setState] = useState<State>("1connect")
   // For memoizing the `next` callback in component renders
   const setStateTo = useCallback((s: State) => () => setState(s), [setState])
@@ -83,11 +67,10 @@ export const RockSolidPledge: React.FC<BoxProps> = (props) => {
         {VisibilityTarget}
         <SlideFade offsetY={20} in={isVisible}>
           <Box
-            {...props}
             p={[2, 4, 6, 12]}
             borderRadius="3xl"
-            color="purple.700"
-            bg="white"
+            color={state === "2footprint" ? "gray.400" : "purple.700"}
+            bg={state === "2footprint" ? "#1d1e24" : "white"}
             w="100%"
             minW={320}
             maxW="3xl"
@@ -96,12 +79,18 @@ export const RockSolidPledge: React.FC<BoxProps> = (props) => {
             _hover={{ boxShadow: "2xl" }}
           >
             {state === "1connect" ? (
-              <Connector next={setStateTo("2pledge")} />
-            ) : state === "2pledge" ? (
+              <Connector next={setStateTo("2footprint")} />
+            ) : state === "2footprint" ? (
+              <Footprint
+                next={setStateTo("3pledge")}
+                inputToken={inputToken}
+                outputToken={outputToken}
+              />
+            ) : state === "3pledge" ? (
               <Pledger
-                next={setStateTo("3estimate")}
-                inputToken={inputToken!}
-                outputToken={outputToken!}
+                back={setStateTo("2footprint")}
+                inputToken={inputToken}
+                outputToken={outputToken}
               />
             ) : null}
           </Box>

@@ -1,7 +1,8 @@
-import { Box, Flex, Heading, VStack } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Shimmer } from "ds/atoms/Shimmer"
 import { useEffect } from "react"
+import { GiFootprint } from "react-icons/gi"
 import { useAccount } from "wagmi"
 
 export const Connector: React.FC<{ next: () => void }> = ({ next }) => {
@@ -14,15 +15,14 @@ export const Connector: React.FC<{ next: () => void }> = ({ next }) => {
   }, [account?.address, next])
 
   return (
-    <Flex direction="column" align="start">
-      <Box>
-        <Shimmer size="md">pledge your support to the frontier</Shimmer>
-        <Heading size="md">of humanity&rsquo;s historic quest </Heading>
-        <Shimmer size="lg" mt={2}>
-          to master the carbon arts
-        </Shimmer>
-      </Box>
-      <Box transform="scale(1.5)" mt={6} py={4} pl={8}>
+    <Flex direction="column" align="center">
+      <Shimmer size="md" display="flex">
+        discover your carbon footprint&nbsp;&nbsp;
+        <Box mt={-1}>
+          <GiFootprint />
+        </Box>
+      </Shimmer>
+      <Box transform="scale(1.25)" mt={4} py={4}>
         <ConnectButton showBalance={false} chainStatus="none" accountStatus="address" />
       </Box>
     </Flex>
