@@ -60,19 +60,21 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
           <sub>2</sub> into the atmosphere. Over its lifetime, that number is closer to{" "}
           <strong>{total}</strong> tCO2!
         </Text>
-        <Text fontSize="2xl" fontWeight="medium">
-          eden dao presents a tool to calculate your ethereum carbon footprint.
-        </Text>
-        <ButtonGroup size="lg">
-          <Button
-            as={Link}
-            href="#widget"
-            _hover={{ textDecoration: "none", color: "white", background: radiantBackground }}
-            rightIcon={<GiFootprint />}
-          >
-            discover your footprint
-          </Button>
-          {/* <Button
+        <Box>
+          <Shimmer size="sm" mb={2}>
+            eden dao presents
+          </Shimmer>
+
+          <ButtonGroup size="lg">
+            <Button
+              as={Link}
+              href="#widget"
+              _hover={{ textDecoration: "none", color: "white", background: radiantBackground }}
+              rightIcon={<GiFootprint />}
+            >
+              discover your ethereum carbon footprint
+            </Button>
+            {/* <Button
             as={Link}
             href="#pledge"
             _hover={{ textDecoration: "none" }}
@@ -82,7 +84,8 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
           >
             get climate positive money
           </Button> */}
-        </ButtonGroup>
+          </ButtonGroup>
+        </Box>
       </VStack>
       <VStack
         maxW={560}

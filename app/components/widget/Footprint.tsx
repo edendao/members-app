@@ -54,8 +54,7 @@ export const Footprint: React.FC<FootprintProps> = ({
     tonYearsOfAtmosphericImpact = 0,
     txs = [],
   } = useEstimator(txlimit, blocknumber)
-  const isCalculating = estimationsCount < txlimit
-  const isLimited = txs.length > txlimit
+  const isLimited = txlimit < txs.length
 
   return (
     <VStack align="start" spacing={8} px={[0, 2, 4, 8]} {...props}>
@@ -107,8 +106,6 @@ export const Footprint: React.FC<FootprintProps> = ({
             pb={10}
             fontSize="3xl"
             lineHeight={0.9}
-            isLoading={isCalculating}
-            disabled={isCalculating}
           >
             go rock solid
           </Button>
