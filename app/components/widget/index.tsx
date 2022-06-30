@@ -1,20 +1,26 @@
 import { Box, Flex, FlexProps } from "@chakra-ui/react"
-import { Token } from "@uniswap/sdk-core"
+import { INPUT_TOKEN, OUTPUT_TOKEN } from "app/core/tokens"
 import { dynamic } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import React, { useCallback, useState } from "react"
+import toast from "react-hot-toast"
+import { useNetwork } from "wagmi"
 
 import { Connector } from "./Connector"
 
 const Pledger = dynamic(() => import("./Pledger"))
 const Footprint = dynamic(() => import("./Footprint"))
 
-interface WidgetProps extends FlexProps {
-  inputToken: Token
-  outputToken: Token
-}
+export const Widget: React.FC<FlexProps> = (flexProps) => {
+  const { activeChain } = useNetwork()
 
-export const Widget: React.FC<WidgetProps> = ({ inputToken, outputToken, ...flexProps }) => {
+  const inputToken = INPUT_TOKEN[activeChain?.id ?? ""]
+  const outputToken = OUTPUT_TOKEN[activeChain?.id ?? ""]
+
+  if (activeChain?.id && (!inputToken || !outputToken)) {
+    toast.error("Please switch to ETH mainnet.")
+  }
+
   type State = "1connect" | "2footprint" | "3pledge"
   const [state, setState] = useState<State>("1connect")
   // For memoizing the `next` callback in component renders

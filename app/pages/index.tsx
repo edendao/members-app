@@ -1,19 +1,14 @@
 import { Box, Heading, VStack } from "@chakra-ui/react"
 import { Hero } from "app/components/index/Hero"
-import Widget from "app/components/widget"
 import { Estimate, getNetworkEmissions } from "app/core/networkEmissions"
-import { INPUT_TOKEN, OUTPUT_TOKEN } from "app/core/tokens"
 import { GetStaticProps, Image, dynamic } from "blitz"
 import { AbsoluteRadiantBackground, RadiantBackground } from "ds/atoms/RadiantBackground"
-import { Shimmer } from "ds/atoms/Shimmer"
 import { Layout } from "ds/Layout"
 import RasterBee from "public/raster-bee.png"
 import React from "react"
-import toast from "react-hot-toast"
-import { useNetwork } from "wagmi"
 
 const Frontier = dynamic(() => import("app/components/index/Frontier"))
-const EdenDao = dynamic(() => import("app/components/index/EdenDao"))
+const Widget = dynamic(() => import("app/components/widget"))
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -29,15 +24,6 @@ interface LandingPageProps {
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ emissions }) => {
-  const { activeChain } = useNetwork()
-
-  const inputToken = INPUT_TOKEN[activeChain?.id ?? ""]
-  const outputToken = OUTPUT_TOKEN[activeChain?.id ?? ""]
-
-  if (activeChain?.id && (!inputToken || !outputToken)) {
-    toast.error("Please switch to ETH mainnet.")
-  }
-
   return (
     <Layout>
       <RadiantBackground height={24} width="100%" boxShadow="lg" />
@@ -59,7 +45,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ emissions }) => {
           </Box>
         </Box>
 
-        <Widget id="widget" inputToken={inputToken} outputToken={outputToken} />
+        <Widget id="widget" />
 
         <Frontier id="frontier" />
       </VStack>
