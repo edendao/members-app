@@ -48,20 +48,20 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
           </Shimmer>
         </Box>
         <Text fontSize="lg">
-          Over its lifetime, Ethereum has{" "}
+          Yesterday, Ethereum{" "}
           <Link
             href="https://kylemcdonald.github.io/ethereum-emissions/"
             isExternal
             target="_blank"
             textDecoration="underline"
           >
-            emitted {total} tons of CO
+            emitted ~{yesterday} tons of CO
           </Link>
-          <sub>2</sub>, and {yesterday} tCO<sub>2</sub> yesterday! This carbon remains in the
-          atmosphere for hundreds of years.
+          <sub>2</sub> into the atmosphere. Over its lifetime, that number is closer to{" "}
+          <strong>{total}</strong> tCO2!
         </Text>
         <Text fontSize="2xl" fontWeight="medium">
-          We built a tool to help you calculate the carbon impact from your Ethereum transactions.
+          eden dao presents a tool to calculate your ethereum carbon footprint.
         </Text>
         <ButtonGroup size="lg">
           <Button
