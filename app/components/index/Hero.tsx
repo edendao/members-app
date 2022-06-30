@@ -66,7 +66,7 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
         <ButtonGroup size="lg">
           <Button
             as={Link}
-            href="#ethereum"
+            href="#widget"
             _hover={{ textDecoration: "none", color: "white", background: radiantBackground }}
             rightIcon={<GiFootprint />}
           >
