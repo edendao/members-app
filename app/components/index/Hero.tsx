@@ -37,13 +37,13 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
     >
       <VStack align="start" spacing={8} animation="pulser-ccw 15s ease-in-out infinite alternate">
         <Box>
-          <Shimmer as="h1" size="xl" lineHeight={0.9}>
+          <Shimmer as="h1" size={["md", "lg", "xl"]} lineHeight={0.9}>
             ultra-sound money
           </Shimmer>
-          <Heading as="h3" size="lg" lineHeight={1}>
+          <Heading as="h3" size={["md", "lg"]} lineHeight={1}>
             has left a carbon
           </Heading>
-          <Shimmer as="h1" size="xl" lineHeight={0.9} mt={3}>
+          <Shimmer as="h1" size={["lg", "xl"]} lineHeight={0.9} mt={1}>
             footprint
           </Shimmer>
         </Box>
@@ -65,16 +65,17 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
             eden dao presents
           </Shimmer>
 
-          <ButtonGroup size="lg">
-            <Button
-              as={Link}
-              href="#widget"
-              _hover={{ textDecoration: "none", color: "white", background: radiantBackground }}
-              rightIcon={<GiFootprint />}
-            >
-              discover your ethereum carbon footprint
-            </Button>
-            {/* <Button
+          <Button
+            as={Link}
+            href="#widget"
+            bg={radiantBackground}
+            color="white"
+            _hover={{ color: "white", textDecoration: "none" }}
+            rightIcon={<GiFootprint />}
+          >
+            discover your ethereum carbon footprint
+          </Button>
+          {/* <Button
             as={Link}
             href="#pledge"
             _hover={{ textDecoration: "none" }}
@@ -84,7 +85,6 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
           >
             get climate positive money
           </Button> */}
-          </ButtonGroup>
         </Box>
       </VStack>
       <VStack

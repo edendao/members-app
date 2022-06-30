@@ -8,6 +8,7 @@ import {
   Link,
   ListItem,
   OrderedList,
+  Stack,
   Text,
   VStack,
   useBreakpointValue,
@@ -18,7 +19,7 @@ import { HiExternalLink } from "react-icons/hi"
 
 export const Frontier: React.FC<FlexProps> = (props) => {
   const [videoWidth, videoHeight] = useBreakpointValue([
-    [360, 360],
+    [320, 320],
     [420, 420],
     [480, 480],
     [480, 480],
@@ -46,15 +47,17 @@ export const Frontier: React.FC<FlexProps> = (props) => {
           allowFullScreen
         />
       </Box>
-      <VStack align="start" spacing={6}>
-        <Box
-          textAlign={["center", null, null, "left"]}
+      <VStack align="start" spacing={6} maxW="100vw">
+        <Shimmer
+          size="md"
+          lineHeight={1}
+          as="h3"
+          pt={2}
+          pr={2}
           animation="pulser-cw 5s ease-in-out infinite alternate"
         >
-          <Shimmer size="md" lineHeight={1} as="h3" pt={2} pr={2}>
-            the gold standard of carbon impact
-          </Shimmer>
-        </Box>
+          the gold standard of carbon impact
+        </Shimmer>
         <Text fontSize="xl">
           To clean the mess in our atmosphere, we need to &ldquo;empty the tub&rdquo; of CO
           <sub>2</sub>. We can take rock-solid, generational steps by developing the magic of
@@ -77,12 +80,14 @@ export const Frontier: React.FC<FlexProps> = (props) => {
             They are literally making history by stepping in where government is too slow!
           </ListItem>
         </OrderedList>
-        <ButtonGroup
-          size="lg"
+        <Stack
           fontSize="xl"
           animation="pulser-ccw 10s ease-in-out infinite alternate"
+          spacing={4}
+          direction={["column", null, "row"]}
         >
           <Button
+            size="lg"
             as="a"
             href="https://frontierclimate.com/"
             target="_blank"
@@ -92,6 +97,7 @@ export const Frontier: React.FC<FlexProps> = (props) => {
             read more about frontier
           </Button>
           <Button
+            size="lg"
             as="a"
             href="#pledge"
             colorScheme="purple"
@@ -99,7 +105,7 @@ export const Frontier: React.FC<FlexProps> = (props) => {
           >
             get rock-solid, ultra-sound money
           </Button>
-        </ButtonGroup>
+        </Stack>
       </VStack>
     </Flex>
   )
