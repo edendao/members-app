@@ -1,4 +1,4 @@
-import { Box, Heading, VStack } from "@chakra-ui/react"
+import { Box, VStack } from "@chakra-ui/react"
 import { Hero } from "app/components/index/Hero"
 import { Estimate, getNetworkEmissions } from "app/core/networkEmissions"
 import { GetStaticProps, Image, dynamic } from "blitz"
@@ -26,7 +26,7 @@ interface LandingPageProps {
 export const LandingPage: React.FC<LandingPageProps> = ({ emissions }) => {
   return (
     <Layout>
-      <RadiantBackground height={24} width="100%" boxShadow="lg" />
+      <RadiantBackground height={24} width="100%" />
 
       <VStack mt={32} mx="auto" px={16} align="center" maxW={1440} spacing={0}>
         <Hero emissions={emissions} />
@@ -49,6 +49,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ emissions }) => {
 
         <Frontier id="frontier" />
       </VStack>
+
+      <RadiantBackground height={48} width="100%" />
     </Layout>
   )
 }

@@ -36,7 +36,7 @@ export const Widget: React.FC<FlexProps> = (flexProps) => {
       justify="center"
       w="100vw"
       minH="100vh"
-      p={[2, null, 32]}
+      p={[2, 3, 8, 32]}
       color="white"
     >
       <AbsoluteRadiantBackground />
