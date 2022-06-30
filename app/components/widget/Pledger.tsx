@@ -29,7 +29,7 @@ interface PledgerProps {
 export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back }) => {
   return (
     <VStack spacing={6} p={[4, null, 8]} align="start">
-      <List fontSize="xl" display="flex" flexDirection="column" alignItems="start" spacing={4}>
+      {/* <List fontSize="xl" display="flex" flexDirection="column" alignItems="start" spacing={4}>
         <ListItem display="flex" alignItems="center">
           <ListIcon as={GiHeartWings} boxSize={12} mr={4} />
           Level up humanity for the public good
@@ -53,7 +53,7 @@ export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back 
           <ListIcon as={GiFireAce} boxSize={12} mr={4} />
           Acquire the ultimate, rock-solid comeback
         </ListItem>
-      </List>
+      </List> */}
 
       <Box>
         <Shimmer as="h1" size="lg" lineHeight={0.9} mt={4}>

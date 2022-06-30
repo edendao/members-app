@@ -17,10 +17,10 @@ import {
 import { Transaction } from "@prisma/client"
 import { Fraction, Token } from "@uniswap/sdk-core"
 import { useERC20BalanceOf } from "app/core/hooks/web3/useERC20"
+import { useSession } from "app/core/SessionManager"
 import { toTokenAmount } from "app/core/tokens"
 import getAllTransactions from "app/ethereum/queries/getAllTransactions"
 import getEstimateForTransaction from "app/ethereum/queries/getEstimateForTransaction"
-import getSession from "app/users/queries/getSession"
 import { Image, invoke, useQuery } from "blitz"
 import CostOfTCO2 from "public/carbonplan-cost-of-tCO2.png"
 import React, { startTransition, useEffect, useState } from "react"
@@ -190,14 +190,9 @@ const useEstimator = (
   endblock: string | number | undefined,
   onComplete?: () => void
 ) => {
-  const [session] = useQuery(getSession, null, {
-    retry: 2,
-    suspense: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  })
+  const { address } = useSession()
   const [txs = [], txsQuery] = useQuery(getAllTransactions, `${endblock}`, {
-    enabled: Boolean(session?.address) && Boolean(endblock),
+    enabled: Boolean(address) && Boolean(endblock),
     retry: 2,
     suspense: false,
     refetchOnWindowFocus: false,
@@ -232,7 +227,7 @@ const useEstimator = (
           setEstimationsCount((c) => c + 1)
         })
 
-        if (++i < txlimit) break
+        if (++i == txlimit) break
       }
     })()
 
