@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react"
+import { Box, HStack, VStack } from "@chakra-ui/react"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Shimmer } from "ds/atoms/Shimmer"
 import { useEffect } from "react"
@@ -15,16 +15,21 @@ export const Connector: React.FC<{ next: () => void }> = ({ next }) => {
   }, [account?.address, next])
 
   return (
-    <Flex direction="column" align="center">
-      <Shimmer size="md" display="flex">
-        discover your carbon footprint&nbsp;&nbsp;
-        <Box mt={-1}>
-          <GiFootprint />
-        </Box>
-      </Shimmer>
-      <Box transform="scale(1.25)" mt={4} py={4}>
-        <ConnectButton showBalance={false} chainStatus="none" accountStatus="address" />
+    <HStack spacing={0} justify="center" py={32}>
+      <Box color="purple.700" transform="rotate(-50deg)" mt={-6}>
+        <GiFootprint size={128} />
       </Box>
-    </Flex>
+      <VStack mt={6} textAlign="center">
+        <Shimmer size="md" display="flex" maxW={280}>
+          discover your carbon footprint&nbsp;&nbsp;
+        </Shimmer>
+        <Box transform="scale(1.25)" mt={4} py={4}>
+          <ConnectButton showBalance={false} chainStatus="none" accountStatus="address" />
+        </Box>
+      </VStack>
+      <Box color="purple.700" transform="scale(-1, 1) rotate(-70deg)" mt={-8}>
+        <GiFootprint size={128} />
+      </Box>
+    </HStack>
   )
 }

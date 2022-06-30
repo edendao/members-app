@@ -26,11 +26,9 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
       {...stackProps}
     >
       <VStack align="start" spacing={8} animation="pulser-ccw 15s ease-in-out infinite alternate">
-        <Box>
-          <Shimmer as="h1" size={["md", "lg"]} lineHeight={0.9}>
-            ultra-sound money has a carbon footprint
-          </Shimmer>
-        </Box>
+        <Shimmer as="h1" size={["md", "lg"]} lineHeight={0.9}>
+          your ultra-sound money has a carbon footprint!
+        </Shimmer>
         <Text fontSize="lg">
           Yesterday, Ethereum{" "}
           <Link
@@ -45,18 +43,15 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
           closer to {total} tons!
         </Text>
         <Box animation="pulser-ccw 15s ease-in-out infinite alternate">
-          <Shimmer size={["sm", "md"]} mb={4} pr={2}>
-            eden dao is the path towards regeneration
-          </Shimmer>
           <Button
             as={Link}
+            size="lg"
             href="#widget"
             bg={radiantBackground}
             color="white"
             _hover={{ color: "white", textDecoration: "none" }}
-            rightIcon={<GiFootprint />}
           >
-            discover your ethereum carbon footprint
+            discover your ethereum carbon footprint!
           </Button>
         </Box>
       </VStack>

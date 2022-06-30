@@ -57,14 +57,14 @@ export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back 
       </List> */}
 
       <Box>
-        <Shimmer as="h1" size="lg" lineHeight={0.9} mt={4}>
-          ultra-sound money
+        <Shimmer as="h1" size="lg" lineHeight={0.9} pt={4}>
+          your ultra-sound money
         </Shimmer>
-        <Heading as="h3" size="sm" lineHeight={1}>
-          that summons carbon rocks
+        <Heading as="h3" size="md" lineHeight={1}>
+          can summon carbon rocks
         </Heading>
-        <Shimmer as="h1" size="lg" lineHeight={0.9} mt={2}>
-          out of the ether
+        <Shimmer as="h1" size="xl" lineHeight={0.9} pt={2} mt={1}>
+          from the ether
         </Shimmer>
       </Box>
 
@@ -82,7 +82,7 @@ export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back 
           <ListItem>
             Together we support permanent carbon locking magic
             <Text fontSize="md" color="purple.400" fontFamily="cursive">
-              Get ednEARTH carbon impact certificate airdrops!
+              Get ednEARTH carbon impact certificates to go climate positive!
             </Text>
           </ListItem>
           <ListItem>

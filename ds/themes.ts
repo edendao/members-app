@@ -3,6 +3,8 @@ import { extendTheme } from "@chakra-ui/react"
 import { StyleFunctionProps } from "@chakra-ui/theme-tools"
 import { darkTheme } from "@rainbow-me/rainbowkit"
 
+import { radiantBackground } from "./atoms/RadiantBackground"
+
 export const edenChakraTheme = extendTheme(
   {
     styles: {
@@ -24,7 +26,7 @@ export const edenChakraTheme = extendTheme(
 )
 
 export const edenRainbowKitTheme = darkTheme({
-  // accentColor: "#e6ca61",
-  // accentColorForeground: "#222",
-  fontStack: "rounded",
+  accentColor: radiantBackground,
+  accentColorForeground: "white",
+  fontStack: "system",
 })

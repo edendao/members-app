@@ -1,8 +1,10 @@
-import { Box, VStack } from "@chakra-ui/react"
+import { Box, Flex, Link, VStack } from "@chakra-ui/react"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Hero } from "app/components/index/Hero"
 import { Estimate, getNetworkEmissions } from "app/core/networkEmissions"
 import { GetStaticProps, Image, dynamic } from "blitz"
 import { AbsoluteRadiantBackground, RadiantBackground } from "ds/atoms/RadiantBackground"
+import { Shimmer } from "ds/atoms/Shimmer"
 import { Layout } from "ds/Layout"
 import RasterBee from "public/raster-bee.png"
 import React from "react"
@@ -26,7 +28,7 @@ interface LandingPageProps {
 export const LandingPage: React.FC<LandingPageProps> = ({ emissions }) => {
   return (
     <Layout>
-      <RadiantBackground height={24} width="100%" />
+      <RadiantBackground height={12} width="100%" />
 
       <VStack mt={32} mx="auto" px={16} align="center" maxW={1440} spacing={0}>
         <Hero emissions={emissions} />
@@ -45,12 +47,49 @@ export const LandingPage: React.FC<LandingPageProps> = ({ emissions }) => {
           </Box>
         </Box>
 
-        <Widget id="widget" />
+        <Flex
+          id="widget"
+          position="relative"
+          overflow="hidden"
+          direction="column"
+          align="center"
+          justify="center"
+          w="100vw"
+          minH="100vh"
+          p={[2, 3, 8, 32]}
+          color="white"
+        >
+          <AbsoluteRadiantBackground />
+
+          <Shimmer position="absolute" bottom={4} left={8}>
+            <Link
+              isExternal
+              href="https://twitter.com/TheEdenDao"
+              target="_blank"
+              textDecoration="none"
+            >
+              eden dao
+            </Link>
+          </Shimmer>
+
+          <Widget />
+        </Flex>
 
         <Frontier id="frontier" />
       </VStack>
 
-      <RadiantBackground height={48} width="100%" />
+      <RadiantBackground width="100%" height={120} position="relative" boxShadow="inset">
+        <Shimmer position="absolute" bottom={4} left={8}>
+          <Link
+            isExternal
+            href="https://twitter.com/TheEdenDao"
+            target="_blank"
+            textDecoration="none"
+          >
+            eden dao
+          </Link>
+        </Shimmer>
+      </RadiantBackground>
     </Layout>
   )
 }
