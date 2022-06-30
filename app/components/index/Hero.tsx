@@ -24,7 +24,7 @@ interface HeroProps extends StackProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
-  const [total, yesterday] = emissions.map((e) => numberToWords(e.best))
+  const [yesterday, total] = emissions.map((e) => numberToWords(e.best))
 
   return (
     <Stack
