@@ -46,7 +46,7 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
         </Text>
         <Box animation="pulser-ccw 15s ease-in-out infinite alternate">
           <Shimmer size={["sm", "md"]} mb={4} pr={2}>
-            eden dao is path towards regeneration
+            eden dao is the path towards regeneration
           </Shimmer>
           <Button
             as={Link}
