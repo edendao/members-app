@@ -85,6 +85,7 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
         </ButtonGroup>
       </VStack>
       <VStack
+        maxW={560}
         alignItems="center"
         animation="pulser-ccw 15s ease-in-out infinite alternate"
         transition="transform 500ms ease-in-out"
