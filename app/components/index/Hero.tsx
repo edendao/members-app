@@ -41,10 +41,10 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
             ultra-sound money
           </Shimmer>
           <Heading as="h3" size="lg" lineHeight={1}>
-            has left a footprint on
+            has left a carbon
           </Heading>
           <Shimmer as="h1" size="xl" lineHeight={0.9} mt={3}>
-            planet earth
+            footprint
           </Shimmer>
         </Box>
         <Text fontSize="lg">
