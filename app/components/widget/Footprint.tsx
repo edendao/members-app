@@ -123,8 +123,8 @@ export const Footprint: React.FC<FootprintProps> = ({
         <Heading size="xs">How does it work?</Heading>
         <OrderedList spacing={2} pl={5}>
           <ListItem>
-            We measure the CO<sub>2</sub> emissions of the gas used in your transactions based on
-            the entire Ethereum network&rsquo;s estimated emissions on that day.{" "}
+            <strong>More gas = more CO2</strong>, based on the entire Ethereum network&rsquo;s
+            estimated emissions on that day.{" "}
             <Link
               fontSize="xs"
               display="inline-flex"
@@ -139,9 +139,12 @@ export const Footprint: React.FC<FootprintProps> = ({
             </Link>
           </ListItem>
           <ListItem>
-            Then, we calculate your carbon footprint by considering that it takes over 310 years for
-            1 ton of CO
-            <sub>2</sub> emissions to naturally dissipate from the atmosphere&nbsp;
+            Then, we calculate your carbon footprint by considering that it takes over{" "}
+            <strong>
+              310 years for 1 ton of CO
+              <sub>2</sub>
+            </strong>{" "}
+            emissions to naturally dissipate from the atmosphere&nbsp;
             <Link
               fontSize="xs"
               display="inline-flex"
