@@ -47,9 +47,7 @@ export const Footprint: React.FC<FootprintProps> = ({
   const vaultBalance = toTokenAmount(outputToken, balanceOf)
   const isAuthorized = vaultBalance?.greaterThan(new Fraction(1, 100))
   const txlimit =
-    vaultBalance && isAuthorized
-      ? Number(vaultBalance.asFraction.multiply(250).add(250).toFixed(0))
-      : 50
+    vaultBalance && isAuthorized ? Number(vaultBalance.toSignificant(6)) * 250 + 250 : 50
   const { data: blocknumber } = useBlockNumber({ watch: false })
   const {
     estimationsCount = 0,
