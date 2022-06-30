@@ -6,8 +6,6 @@ import {
   Button,
   Heading,
   Link,
-  List,
-  ListIcon,
   ListItem,
   OrderedList,
   Text,
@@ -15,7 +13,7 @@ import {
 } from "@chakra-ui/react"
 import { Token } from "@uniswap/sdk-core"
 import { Shimmer } from "ds/atoms/Shimmer"
-import { GiFireAce, GiFootprint, GiHeartWings, GiSpiralBottle, GiStripedSun } from "react-icons/gi"
+import { GiFootprint } from "react-icons/gi"
 import { HiArrowLeft, HiExternalLink } from "react-icons/hi"
 
 import { LidoVault } from "./components/LidoVault"
@@ -29,6 +27,9 @@ interface PledgerProps {
 export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back }) => {
   return (
     <VStack spacing={6} p={[4, null, 8]} align="start">
+      <Button mb={4} onClick={back} leftIcon={<HiArrowLeft />} rightIcon={<GiFootprint />}>
+        Footprint Calculator
+      </Button>
       {/* <List fontSize="xl" display="flex" flexDirection="column" alignItems="start" spacing={4}>
         <ListItem display="flex" alignItems="center">
           <ListIcon as={GiHeartWings} boxSize={12} mr={4} />
@@ -63,7 +64,7 @@ export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back 
           that summons carbon rocks
         </Heading>
         <Shimmer as="h1" size="lg" lineHeight={0.9} mt={2}>
-          out of thin ether
+          out of the ether
         </Shimmer>
       </Box>
 
@@ -79,7 +80,7 @@ export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back 
             </Text>
           </ListItem>
           <ListItem>
-            Channel the yield into carbon magic that locks it away permanently
+            Together we support permanent carbon locking magic
             <Text fontSize="md" color="purple.400" fontFamily="cursive">
               Get ednEARTH carbon impact certificate airdrops!
             </Text>
@@ -129,10 +130,6 @@ export const Pledger: React.FC<PledgerProps> = ({ inputToken, outputToken, back 
         for other any other digital asset, any currency, any security or otherwise, and all of the
         foregoing remains true, accurate and complete on and as of the date of the contribution.
       </Text>
-
-      <Button mb={4} onClick={back} leftIcon={<HiArrowLeft />} rightIcon={<GiFootprint />}>
-        Footprint Calculator
-      </Button>
     </VStack>
   )
 }

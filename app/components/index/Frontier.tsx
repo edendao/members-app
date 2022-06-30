@@ -1,11 +1,8 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   FlexProps,
-  Heading,
-  Link,
   ListItem,
   OrderedList,
   Stack,
@@ -76,9 +73,7 @@ export const Frontier: React.FC<FlexProps> = (props) => {
             They have a legendary team of gigabrains from Alphabet, Stripe, Shopify, McKinsey, and
             dozens of PhDs!
           </ListItem>
-          <ListItem>
-            They are literally making history by stepping in where government is too slow!
-          </ListItem>
+          <ListItem>They are making history by stepping in where government is too slow!</ListItem>
         </OrderedList>
         <Stack
           fontSize="xl"

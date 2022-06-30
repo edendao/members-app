@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Heading,
-  Link,
-  Stack,
-  StackProps,
-  Text,
-  VStack,
-} from "@chakra-ui/react"
+import { Box, Button, Heading, Link, Stack, StackProps, Text, VStack } from "@chakra-ui/react"
 import { Estimate } from "app/core/networkEmissions"
 import { numberToWords } from "app/core/numbers"
 import { Image } from "blitz"
@@ -37,14 +27,8 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
     >
       <VStack align="start" spacing={8} animation="pulser-ccw 15s ease-in-out infinite alternate">
         <Box>
-          <Shimmer as="h1" size={["md", "lg", "xl"]} lineHeight={0.9}>
-            ultra-sound money
-          </Shimmer>
-          <Heading as="h3" size={["md", "lg"]} lineHeight={1}>
-            has left a carbon
-          </Heading>
-          <Shimmer as="h1" size={["lg", "xl"]} lineHeight={0.9} mt={1}>
-            footprint
+          <Shimmer as="h1" size={["md", "lg"]} lineHeight={0.9}>
+            ultra-sound money has a carbon footprint
           </Shimmer>
         </Box>
         <Text fontSize="lg">
@@ -57,14 +41,13 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
           >
             emitted ~{yesterday} tons of CO
           </Link>
-          <sub>2</sub> into the atmosphere. Over its lifetime, that number is closer to{" "}
-          <strong>{total}</strong> tCO2!
+          <sub>2</sub> into <strong>our</strong> atmosphere. Over its lifetime, that number is
+          closer to {total} tons!
         </Text>
-        <Box>
-          <Shimmer size="sm" mb={2}>
-            eden dao presents
+        <Box animation="pulser-ccw 15s ease-in-out infinite alternate">
+          <Shimmer size={["sm", "md"]} mb={4} pr={2}>
+            eden dao is path towards regeneration
           </Shimmer>
-
           <Button
             as={Link}
             href="#widget"
@@ -75,16 +58,6 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
           >
             discover your ethereum carbon footprint
           </Button>
-          {/* <Button
-            as={Link}
-            href="#pledge"
-            _hover={{ textDecoration: "none" }}
-            color="white"
-            fontWeight="bold"
-            background={radiantBackground}
-          >
-            get climate positive money
-          </Button> */}
         </Box>
       </VStack>
       <VStack

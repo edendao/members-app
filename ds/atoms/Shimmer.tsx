@@ -11,17 +11,10 @@ linear-gradient(
 white`
 
 export const shimmerCSS = css`
-  font-family: "Cosplay", serif;
-  font-weight: normal;
-  text-shadow: none;
-  line-height: 1;
-  background: ${shimmerBackground};
-  background-size: 200% auto;
-  background-clip: text;
   text-fill-color: transparent;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shine reverse 6s linear infinite;
+  animation: shine reverse 5s linear infinite;
 
   @keyframes shine {
     to {
@@ -33,3 +26,13 @@ export const shimmerCSS = css`
 export const Shimmer: React.FC<Omit<HeadingProps, "css">> = (props) => (
   <Heading {...props} css={shimmerCSS} />
 )
+
+Shimmer.defaultProps = {
+  background: shimmerBackground,
+  backgroundSize: "200% auto",
+  backgroundClip: "text",
+  fontFamily: "cursive",
+  fontWeight: "normal",
+  lineHeight: 1,
+  textShadow: "none",
+}

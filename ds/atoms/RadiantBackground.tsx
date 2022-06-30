@@ -12,7 +12,7 @@ RadiantBackground.defaultProps = {
 export const AbsoluteRadiantBackground: React.FC<BoxProps> = (props) => <Box {...props} />
 
 AbsoluteRadiantBackground.defaultProps = {
-  background: radiantBackground,
+  ...RadiantBackground.defaultProps,
   position: "absolute",
   top: 0,
   right: 0,
