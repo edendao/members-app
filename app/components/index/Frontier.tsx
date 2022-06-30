@@ -99,7 +99,7 @@ export const Frontier: React.FC<FlexProps> = (props) => {
           <Button
             size="lg"
             as="a"
-            href="#pledge"
+            href="#widget"
             colorScheme="purple"
             _hover={{ textDecoration: "none", color: "white", background: radiantBackground }}
           >

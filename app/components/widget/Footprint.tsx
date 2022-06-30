@@ -11,12 +11,12 @@ import {
   OrderedList,
   Stack,
   StackProps,
-  Text,
   VStack,
 } from "@chakra-ui/react"
 import { Transaction } from "@prisma/client"
 import { Fraction, Token } from "@uniswap/sdk-core"
 import { useERC20BalanceOf } from "app/core/hooks/web3/useERC20"
+import { gCO2toTonYears } from "app/core/numbers"
 import { useSession } from "app/core/SessionManager"
 import { toTokenAmount } from "app/core/tokens"
 import getAllTransactions from "app/ethereum/queries/getAllTransactions"
@@ -181,22 +181,19 @@ export const Footprint: React.FC<FootprintProps> = ({
 
 export default Footprint
 
-const gCO2toTonYears = (gCO2: number) => (gCO2 * 310.16) / 1_000_000
-
 const useEstimator = (
   txlimit: number,
   endblock: string | number | undefined,
   onComplete?: () => void
 ) => {
-  const { address } = useSession()
+  const session = useSession()
   const [txs = [], txsQuery] = useQuery(getAllTransactions, `${endblock}`, {
-    enabled: Boolean(address) && Boolean(endblock),
+    enabled: Boolean(session?.address) && Boolean(endblock),
     retry: 2,
     suspense: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   })
-  const [gCO2forHash, setGCO2forHash] = useState<Record<string, number>>({})
   const [estimationsCount, setEstimationsCount] = useState<number>(0)
 
   const [tonYearsOfAtmosphericImpact, setImpact] = useState<number>(0)
@@ -207,8 +204,8 @@ const useEstimator = (
     let exit = false
 
     startTransition(() => {
-      setEstimationsCount(0)
       setImpact(0)
+      setEstimationsCount(0)
     })
     ;(async () => {
       let i = 0
@@ -220,7 +217,6 @@ const useEstimator = (
         tx.gCO2 ??= await invoke(getEstimateForTransaction, tx.hash)
 
         startTransition(() => {
-          setGCO2forHash((d) => ({ ...d, [tx.hash]: tx.gCO2! }))
           setImpact((i) => i + gCO2toTonYears(tx.gCO2!))
           setEstimationsCount((c) => c + 1)
         })
@@ -234,5 +230,5 @@ const useEstimator = (
     }
   }, [txs, onComplete, txlimit])
 
-  return { txs, txsQuery, gCO2forHash, tonYearsOfAtmosphericImpact, estimationsCount }
+  return { txs, txsQuery, tonYearsOfAtmosphericImpact, estimationsCount }
 }
