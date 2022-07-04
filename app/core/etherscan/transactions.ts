@@ -1,28 +1,7 @@
-import axios from "axios"
-import { Transaction } from "db"
+import { Transaction } from "@prisma/client"
 import { getAddress } from "ethers/lib/utils"
-import map from "lodash/map"
-import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible"
 
-export const etherscan = axios.create({
-  baseURL: "https://api.etherscan.io/",
-  params: { apikey: process.env.ETHERSCAN_KEY! },
-})
-
-// ==========================
-// Add the rate limiter queue
-// ==========================
-export const queue = new RateLimiterQueue(
-  new RateLimiterMemory({
-    points: parseInt(process.env.ETHERSCAN_RPS!),
-    duration: 1,
-  })
-)
-
-etherscan.interceptors.request.use(async (request) => {
-  await queue.removeTokens(1)
-  return request
-})
+import { etherscan } from "./client"
 
 export interface TransactionsQuery {
   address: string
@@ -39,7 +18,7 @@ export interface TransactionsResponse {
   }[]
 }
 
-export const getEtherscanTransactions = async ({ address, ...query }: TransactionsQuery) => {
+export const getTransactions = async ({ address, ...query }: TransactionsQuery) => {
   const { data } = await etherscan.get<TransactionsResponse>("api", {
     params: {
       ...query,
@@ -56,7 +35,7 @@ export const getEtherscanTransactions = async ({ address, ...query }: Transactio
     throw new Error(`EtherscanError: ${message}`)
   }
 
-  return map(result, (tx) => ({
+  return result.map((tx) => ({
     hash: tx.hash,
     from: tx.from && getAddress(tx.from),
     to: tx.to && getAddress(tx.to),

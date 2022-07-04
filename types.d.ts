@@ -1,6 +1,8 @@
 import { DefaultCtx, SessionContext, SimpleRolesIsAuthorized } from "blitz"
 import { User } from "db"
 
+import type { Typist, TypistProps } from "react-typist"
+
 // Note: You should switch to Postgres and then use a DB enum for role type
 export type Role = "ADMIN" | "USER"
 

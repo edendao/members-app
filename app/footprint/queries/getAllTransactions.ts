@@ -1,4 +1,4 @@
-import { getEtherscanTransactions } from "app/core/etherscan"
+import * as etherscan from "app/core/etherscan"
 import { hasConnectedWallet } from "app/core/middleware/hasConnectedWallet"
 import { Middleware, resolver } from "blitz"
 import db from "db"
@@ -21,7 +21,7 @@ export default resolver.pipe(resolver.zod(z.string()), async (endblock, { sessio
   const startblock = last(cached)?.blockNumber ?? "0"
 
   console.time("etherscan")
-  const latest = await getEtherscanTransactions({
+  const latest = await etherscan.getTransactions({
     address,
     startblock,
     endblock,

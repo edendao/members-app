@@ -5,15 +5,15 @@ import "./_app.css"
 
 import { ChakraProvider } from "@chakra-ui/react"
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit"
-import { useWagmi } from "app/core/hooks/web3/useWagmi"
 import { AppProps, dynamic } from "blitz"
+import { useWagmi } from "ds/hooks/web3/useWagmi"
 import { edenRainbowKitTheme } from "ds/themes"
 import { edenChakraTheme } from "ds/themes"
 import React from "react"
 import { Toaster } from "react-hot-toast"
 import { WagmiConfig } from "wagmi"
 
-const SessionManager = dynamic(() => import("app/core/SessionManager"))
+const SessionManager = dynamic(() => import("app/components/SessionManager"))
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, client } = useWagmi()
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
             {getLayout(
               <>
                 <Component {...pageProps} />
-                <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
+                <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
               </>
             )}
           </ChakraProvider>

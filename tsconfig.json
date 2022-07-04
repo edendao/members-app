@@ -7,6 +7,7 @@
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "noUncheckedIndexedAccess": true,
@@ -20,5 +21,5 @@
     "tsBuildInfoFile": ".tsbuildinfo"
   },
   "exclude": ["node_modules", "**/*.e2e.ts", "cypress"],
-  "include": ["blitz-env.d.ts", "**/*.ts", "**/*.tsx", "./scripts", "./test"]
+  "include": ["blitz-env.d.ts", "types.d.ts", "**/*.ts", "**/*.tsx", "./scripts", "./test"]
 }
