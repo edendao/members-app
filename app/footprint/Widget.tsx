@@ -43,9 +43,9 @@ export const Widget: React.FC<WidgetProps> = (boxProps) => {
         <Connector text="discover your carbon footprint" next={setStateTo("2greenlist")} />
       ) : state === "2greenlist" ? (
         <GreenlistGate cta="go to FOOTPRINT CALCULATOR" next={setStateTo("3footprint")} />
-      ) : state === "3footprint" ? (
+      ) : (
         <Footprint next={() => router.push("/steth")} />
-      ) : null}
+      )}
     </Box>
   )
 }

@@ -5,11 +5,11 @@ import { Layout } from "ds/Layout"
 import RasterBee from "public/raster-bee.png"
 import React from "react"
 
-const Vault = dynamic(() => import("app/vault/Widget"), { ssr: false })
+const Widget = dynamic(() => import("app/vault/Widget"), { ssr: false })
 
-export const STETH: React.FC = () => (
+export const STETHPage: React.FC = () => (
   <Layout>
-    <VStack mt={32} mx="auto" px={16} align="center" maxW={1440} spacing={0}>
+    <VStack mx="auto" px={16} align="center" maxW={1440} spacing={0}>
       <Box
         id="bee"
         position="relative"
@@ -25,10 +25,10 @@ export const STETH: React.FC = () => (
       </Box>
 
       <RadiantBackground id="vault" w="100vw" py={64}>
-        <Vault mx="auto" />
+        <Widget mx="auto" />
       </RadiantBackground>
     </VStack>
   </Layout>
 )
 
-export default STETH
+export default STETHPage
