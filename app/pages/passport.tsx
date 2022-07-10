@@ -23,9 +23,9 @@ export const getStaticProps: GetStaticProps<PassportProps> = async () => {
 
 export const Passport: React.FC<PassportProps> = ({ emissions }) => {
   type State = "1connect" | "2greenlist" | "3passport"
-  type Data = { image: string; debt: number }
+  type Data = { image: string }
   const [state, setState] = useState<State>("1connect")
-  const [data, setData] = useState<Data>({})
+  const [data, setData] = useState<Data>({ image: "" })
   // For memoizing the `next` callback in component renders
   const setStateTo = useCallback(
     (s: State) =>
