@@ -1,6 +1,6 @@
 import createSession from "app/accounts/mutations/createSession"
 import { tryLoadingAnalytics } from "app/core/analytics"
-import { invoke } from "blitz"
+import { Router, invoke } from "blitz"
 import every from "lodash/every"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import React from "react"
@@ -20,6 +20,10 @@ export const SessionManager = ({ children }) => {
   const { disconnect } = useDisconnect()
   const { data: account } = useAccount()
   const [state, setState] = useState<Session>(EmptySession)
+
+  useEffect(() => {
+    Router.events.on("routeChangeComplete", (url) => analytics.page())
+  }, [analytics])
 
   useEffect(() => {
     const session = {

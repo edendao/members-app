@@ -9,6 +9,7 @@ import { Connector } from "ds/molecules/Connector"
 import CostOfTCO2 from "public/carbonplan-cost-of-tCO2.png"
 import React, { startTransition, useCallback, useState } from "react"
 import { HiExternalLink } from "react-icons/hi"
+import { useTrack } from "use-analytics"
 
 const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"))
 const Estimator = dynamic(() => import("app/footprint/components/Estimator"))
@@ -27,22 +28,25 @@ export const getStaticProps: GetStaticProps<CarbonPositiveProps> = async () => {
 }
 
 export const CarbonPositive: React.FC<CarbonPositiveProps> = ({ emissions }) => {
-  type State = "1connect" | "2greenlist" | "3footprint"
+  const track = useTrack()
+  const router = useRouter()
+
+  type State = "1connect" | "2greenlist" | "3impact"
   type Data = { image: string; debt: number }
   const [state, setState] = useState<State>("1connect")
   const [data, setData] = useState<Data>({ image: "", debt: 0 })
+
   // For memoizing the `next` callback in component renders
   const setStateTo = useCallback(
     (s: State) =>
       (data: Partial<Data> = {}) =>
         startTransition(() => {
+          track(s)
           setState(s)
           setData((d) => ({ ...d, ...data }))
         }),
-    [setState, setData]
+    [setState, setData, track]
   )
-
-  const router = useRouter()
 
   return (
     <Layout title="Carbon Positive">
@@ -66,8 +70,8 @@ export const CarbonPositive: React.FC<CarbonPositiveProps> = ({ emissions }) => 
           <Box
             p={[4, 6, 12]}
             borderRadius="3xl"
-            color={state === "3footprint" ? "gray.400" : "purple.700"}
-            bg={state === "3footprint" ? "#1d1e24" : "white"}
+            color={state === "3impact" ? "gray.400" : "purple.700"}
+            bg={state === "3impact" ? "#1d1e24" : "white"}
             minW={320}
             maxW="3xl"
             boxShadow="xl"
@@ -77,7 +81,7 @@ export const CarbonPositive: React.FC<CarbonPositiveProps> = ({ emissions }) => 
             {state === "1connect" ? (
               <Connector text="discover your impact footprint" next={setStateTo("2greenlist")} />
             ) : state === "2greenlist" ? (
-              <GreenlistGate cta="go to IMPACT CALCULATOR" next={setStateTo("3footprint")} />
+              <GreenlistGate cta="go to IMPACT CALCULATOR" next={setStateTo("3impact")} />
             ) : (
               <VStack align="start" spacing={8} px={[0, 2, 4, 8]}>
                 <Estimator

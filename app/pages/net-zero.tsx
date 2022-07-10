@@ -7,6 +7,7 @@ import { Layout } from "ds/Layout"
 import { Connector } from "ds/molecules/Connector"
 import React, { startTransition, useCallback, useState } from "react"
 import { HiExternalLink } from "react-icons/hi"
+import { useTrack } from "use-analytics"
 
 import { gCO2toTCO2 } from "../core/numbers"
 
@@ -27,19 +28,23 @@ export const getStaticProps: GetStaticProps<CarbonFootprintProps> = async () => 
 }
 
 export const CarbonFootprint: React.FC<CarbonFootprintProps> = ({ emissions }) => {
+  const track = useTrack()
+
   type State = "1connect" | "2greenlist" | "3footprint"
   type Data = { image: string; debt: number }
   const [state, setState] = useState<State>("1connect")
   const [data, setData] = useState<Data>({ image: "", debt: 0 })
+
   // For memoizing the `next` callback in component renders
   const setStateTo = useCallback(
     (s: State) =>
       (data: Partial<Data> = {}) =>
         startTransition(() => {
+          track(s)
           setState(s)
           setData((d) => ({ ...d, ...data }))
         }),
-    [setState, setData]
+    [setState, setData, track]
   )
 
   const router = useRouter()

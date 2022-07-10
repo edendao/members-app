@@ -3,6 +3,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Shimmer } from "ds/atoms/Shimmer"
 import { useEffect } from "react"
 import { GiFootprint } from "react-icons/gi"
+import { useTrack } from "use-analytics"
 import { useAccount } from "wagmi"
 
 interface ConnectorProps {
@@ -11,13 +12,14 @@ interface ConnectorProps {
 }
 
 export const Connector: React.FC<ConnectorProps> = ({ text, next }) => {
+  const track = useTrack()
   const { data: account } = useAccount()
 
   useEffect(() => {
     if (account?.address) {
       next()
     }
-  }, [account?.address, next])
+  }, [account?.address, next, track])
 
   return (
     <HStack spacing={0} justify="center" py={8}>
