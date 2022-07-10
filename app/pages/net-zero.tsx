@@ -1,17 +1,16 @@
 import { Box, Flex, Heading, Link, ListItem, OrderedList, Text, VStack } from "@chakra-ui/react"
-import { Connector } from "app/components/Connector"
 import { Hero as FootprintHero } from "app/footprint/components/Hero"
 import { Estimate, getNetworkEmissions } from "app/footprint/services/networkEmissions"
-import { GetStaticProps, Image, dynamic, useRouter } from "blitz"
+import { GetStaticProps, dynamic, useRouter } from "blitz"
 import { AbsoluteRadiantBackground, RadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
-import RasterBee from "public/raster-bee.png"
+import { Connector } from "ds/molecules/Connector"
 import React, { startTransition, useCallback, useState } from "react"
 import { HiExternalLink } from "react-icons/hi"
 
 import { gCO2toTCO2 } from "../core/numbers"
 
-const GreenlistGate = dynamic(() => import("app/components/GreenlistGate"))
+const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"))
 const Estimator = dynamic(() => import("app/footprint/components/Estimator"))
 
 interface CarbonFootprintProps {
@@ -47,24 +46,8 @@ export const CarbonFootprint: React.FC<CarbonFootprintProps> = ({ emissions }) =
 
   return (
     <Layout title="Net Zero">
-      <RadiantBackground height={12} width="100%" />
-
-      <VStack mt={32} mx="auto" px={16} align="center" maxW={1440} spacing={0}>
+      <VStack mx="auto" px={16} align="center" maxW={1440} spacing={0}>
         <FootprintHero emissions={emissions} cta="discover your carbon footprint!" />
-
-        <Box
-          id="bee"
-          position="relative"
-          w="100vw"
-          minH={["40vh", null, null, "50vh", "70vh", "100vh"]}
-          color="white"
-          p={0}
-        >
-          <AbsoluteRadiantBackground />
-          <Box position="absolute" top="0" right="0" height="100%">
-            <Image src={RasterBee} alt="What does it mean to leave a light touch on this Earth?" />
-          </Box>
-        </Box>
 
         <Flex
           id="widget"

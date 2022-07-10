@@ -7,7 +7,7 @@ import { useAccount } from "wagmi"
 
 interface ConnectorProps {
   next: () => void
-  text: string
+  text?: string
 }
 
 export const Connector: React.FC<ConnectorProps> = ({ text, next }) => {
@@ -25,9 +25,11 @@ export const Connector: React.FC<ConnectorProps> = ({ text, next }) => {
         <GiFootprint size={128} />
       </Box>
       <VStack mt={6} textAlign="center">
-        <Shimmer size="md" display="flex" maxW={280}>
-          {text}&nbsp;&nbsp;
-        </Shimmer>
+        {text && (
+          <Shimmer size="md" display="flex" maxW={280}>
+            {text}&nbsp;&nbsp;
+          </Shimmer>
+        )}
         <Box transform="scale(1.25)" mt={4} py={4}>
           <ConnectButton showBalance={false} chainStatus="none" accountStatus="address" />
         </Box>

@@ -1,7 +1,7 @@
 import { Box, BoxProps } from "@chakra-ui/react"
-import { Connector } from "app/components/Connector"
 import { INPUT_TOKEN, OUTPUT_TOKEN } from "app/core/tokens"
 import { dynamic } from "blitz"
+import { Connector } from "ds/molecules/Connector"
 import { useCallback, useState } from "react"
 import toast from "react-hot-toast"
 import { useNetwork } from "wagmi"

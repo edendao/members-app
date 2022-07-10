@@ -26,11 +26,12 @@ import {
   useERC20BalanceOf,
 } from "ds/hooks/web3/useERC20"
 import { useVaultDeposit } from "ds/hooks/web3/useVault"
+import { useSession } from "ds/molecules/SessionManager"
 import { useMemo, useState } from "react"
 import toast from "react-hot-toast"
 import { GiAllSeeingEye, GiMagicGate } from "react-icons/gi"
 import { HiExternalLink } from "react-icons/hi"
-import { useAccount, useWaitForTransaction } from "wagmi"
+import { useWaitForTransaction } from "wagmi"
 
 interface CardProps {
   inputToken: Token
@@ -44,15 +45,11 @@ export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
     [inputToken, formattedAmount]
   )
 
-  const { data: account } = useAccount()
-  const { data: balanceOf } = useERC20BalanceOf(inputToken.address, account?.address)
+  const { address } = useSession()
+  const { data: balanceOf } = useERC20BalanceOf(inputToken.address, address)
   const maxCommit = useMemo(() => toTokenAmount(inputToken, balanceOf), [balanceOf, inputToken])
 
-  const { data: allowance } = useERC20Allowance(
-    inputToken.address,
-    account?.address,
-    outputToken.address
-  )
+  const { data: allowance } = useERC20Allowance(inputToken.address, address, outputToken.address)
 
   const { write: approve, data: approveTransaction } = useERC20ApproveCallback(
     inputToken.address,
@@ -71,7 +68,7 @@ export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
   const { write: deposit, data: depositTransaction } = useVaultDeposit(
     outputToken.address,
     inputAmount?.quotient?.toString() ?? "0",
-    account?.address
+    address
   )
 
   const { isLoading: isDepositLoading } = useWaitForTransaction({

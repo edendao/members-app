@@ -7,11 +7,11 @@ export const open = () => {
   window.open(url, "_blank")
 }
 
-export const pledgeURL = process.env.BLITZ_PUBLIC_PLEDGE_SERVER!
+export const serverURL = process.env.BLITZ_PUBLIC_PLEDGE_SERVER!
 
 export const isGreenlisted = async (address: string) => {
   try {
-    const { data } = await axios.get(pledgeURL + "/greenlist/" + getAddress(address))
+    const { data } = await axios.get(serverURL + "/greenlist/" + getAddress(address))
     if (data.error) {
       throw new Error(data.error)
     }

@@ -1,6 +1,6 @@
 import { Transaction } from "@prisma/client"
-import { useSession } from "app/components/SessionManager"
 import { invoke, useQuery } from "blitz"
+import { useSession } from "ds/molecules/SessionManager"
 import { startTransition, useEffect, useState } from "react"
 
 import getAllTransactions from "../queries/getAllTransactions"

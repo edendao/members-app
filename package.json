@@ -24,6 +24,8 @@
     ]
   },
   "dependencies": {
+    "@analytics/mixpanel": "0.4.0",
+    "@analytics/simple-analytics": "0.3.4",
     "@chakra-ui/pro-theme": "0.0.53",
     "@chakra-ui/react": "2.x",
     "@emotion/react": "11.x",
@@ -35,6 +37,7 @@
     "@patch-technology/patch": "1.23.0",
     "@prisma/client": "4.0.0",
     "@rainbow-me/rainbowkit": "0.2.3",
+    "@types/use-analytics": "0.0.0",
     "@uniswap/sdk-core": "3.0.1",
     "@uniswap/widgets": "1.1.1",
     "@wagmi/core": "0.4.3",
@@ -42,6 +45,7 @@
     "@web3-react/injected-connector": "6.0.7",
     "@web3-react/walletconnect-connector": "6.0.2",
     "ahooks": "3.5.1",
+    "analytics": "0.8.1",
     "axios": "0.27.2",
     "blitz": "0.45.4",
     "canvas": "2.9.3",
@@ -63,6 +67,7 @@
     "react-webcam": "7.0.1",
     "sharp": "0.30.6",
     "tiny-invariant": "1.2.0",
+    "use-analytics": "0.0.5",
     "use-image": "1.0.12",
     "wagmi": "0.4.7",
     "web3": "1.6.0",
