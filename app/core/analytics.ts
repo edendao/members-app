@@ -5,7 +5,7 @@ import Analytics, { AnalyticsPlugin } from "analytics"
 export const tryLoadingAnalytics = () => {
   const plugins: AnalyticsPlugin[] =
     process.env.NODE_ENV === "production"
-      ? [simple(), mixpanel({ token: process.env.MIXPANEL_TOKEN! })]
+      ? [simple(), mixpanel({ token: process.env.BLITZ_PUBLIC_MIXPANEL_TOKEN! })]
       : []
 
   return Analytics({ app: "Eden Dao", plugins })
