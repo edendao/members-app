@@ -22,7 +22,10 @@ export const SessionManager = ({ children }) => {
   const [state, setState] = useState<Session>(EmptySession)
 
   useEffect(() => {
-    Router.events.on("routeChangeComplete", (url) => analytics.page())
+    const onRouteChange = (url: string) => analytics.page()
+
+    Router.events.on("routeChangeComplete", onRouteChange)
+    return () => Router.events.off("routeChangeComplete", onRouteChange)
   }, [analytics])
 
   useEffect(() => {
