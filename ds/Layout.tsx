@@ -9,7 +9,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ title, children }) => (
   <>
     <Head>
-      <title>{title || "eth carbon footprint"}</title>
+      <title>{title ? `${title} | eden dao` : "eden dao"}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
     {children}

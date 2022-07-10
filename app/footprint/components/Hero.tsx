@@ -10,10 +10,11 @@ import { HiExternalLink } from "react-icons/hi"
 import Typist from "react-typist"
 
 interface HeroProps extends StackProps {
+  cta: string
   emissions: [Estimate, Estimate]
 }
 
-export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
+export const Hero: React.FC<HeroProps> = ({ emissions, cta, ...stackProps }) => {
   const [yesterday, total] = emissions.map((e) => numberToWords(e.best))
 
   return (
@@ -54,7 +55,7 @@ export const Hero: React.FC<HeroProps> = ({ emissions, ...stackProps }) => {
             _hover={{ color: "white", textDecoration: "none" }}
             _active={{ background: radiantBackground }}
           >
-            discover your ethereum carbon footprint!
+            {cta}
           </Button>
         </Box>
       </VStack>

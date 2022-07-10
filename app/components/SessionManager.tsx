@@ -1,4 +1,4 @@
-import createSession from "app/users/mutations/createSession"
+import createSession from "app/accounts/mutations/createSession"
 import { invoke } from "blitz"
 import { createContext, useContext, useEffect, useState } from "react"
 import React from "react"

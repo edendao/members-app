@@ -1,6 +1,5 @@
 import { Transaction } from "@prisma/client"
 import { useSession } from "app/components/SessionManager"
-import { gCO2toTonYears } from "app/core/numbers"
 import { invoke, useQuery } from "blitz"
 import { startTransition, useEffect, useState } from "react"
 
@@ -10,6 +9,7 @@ import getEstimateForTransaction from "../queries/getEstimateForTransaction"
 export const useEstimator = (
   txlimit: number,
   endblock: string | number | undefined,
+  mapping = (n: number) => n,
   onComplete?: () => void
 ) => {
   const session = useSession()
@@ -22,7 +22,7 @@ export const useEstimator = (
   })
 
   const [estimationsCount, setEstimationsCount] = useState<number>(0)
-  const [tonYearsOfAtmosphericImpact, setImpact] = useState<number>(0)
+  const [impact, setImpact] = useState<number>(0)
 
   useEffect(() => {
     if (txlimit === 0 || !txs?.length) return
@@ -43,7 +43,7 @@ export const useEstimator = (
         tx.gCO2 ??= await invoke(getEstimateForTransaction, tx.hash)
 
         startTransition(() => {
-          setImpact((i) => i + gCO2toTonYears(tx.gCO2!))
+          setImpact((i) => i + mapping(tx.gCO2!))
           setEstimationsCount((c) => c + 1)
         })
 
@@ -54,7 +54,7 @@ export const useEstimator = (
     return () => {
       exit = true
     }
-  }, [txs, onComplete, txlimit])
+  }, [txs, onComplete, txlimit, mapping])
 
-  return { txs, txsQuery, tonYearsOfAtmosphericImpact, estimationsCount }
+  return { txs, txsQuery, impact, estimationsCount }
 }

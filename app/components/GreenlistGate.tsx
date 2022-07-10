@@ -16,9 +16,13 @@ interface GreenlistGateProps extends StackProps {
 
 export const GreenlistGate: React.FC<GreenlistGateProps> = ({ cta, next, ...props }) => {
   const { address } = useSession()
-  const [greenlisted, state] = useQuery(isGreenlisted, address, { suspense: false })
+  const [greenlisted] = useQuery(isGreenlisted, address, {
+    suspense: false,
+    enabled: Boolean(address),
+  })
 
-  useTimeout(() => next({ greenlisted }), greenlisted ? 2500 : undefined)
+  console.log(address, greenlisted)
+
   useEffect(() => {
     if (greenlisted) {
       toast.success(
@@ -28,11 +32,13 @@ export const GreenlistGate: React.FC<GreenlistGateProps> = ({ cta, next, ...prop
           <strong>loading adventure</strong>
         </span>
       )
-    } else if (greenlisted === false) {
-      const timer = setTimeout(openPledge, 2000)
-      return () => clearTimeout(timer)
     }
-  }, [greenlisted])
+
+    if (greenlisted != null) {
+      const timeout = setTimeout(greenlisted ? () => next({ greenlisted }) : openPledge, 2000)
+      return () => clearTimeout(timeout)
+    }
+  }, [greenlisted, next])
 
   return (
     <VStack textAlign="center" spacing={4} {...props}>
@@ -44,7 +50,7 @@ export const GreenlistGate: React.FC<GreenlistGateProps> = ({ cta, next, ...prop
         a new browser tab should have opened. if it hasn&rsquo;t, click here:
         <br />
         <Link isExternal href={pledgeURL} fontSize="md" fontWeight="semibold">
-          {pledgeURL}
+          {pledgeURL.slice(8)}
         </Link>
         <br />
         then, come back to this screen, and you will automatically proceed.

@@ -12,6 +12,7 @@ import {
   NumberInput,
   NumberInputField,
   OrderedList,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react"
@@ -144,7 +145,7 @@ export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
         animation="pulser-cw 10s ease-in-out infinite alternate"
       >
         <AlertIcon />
-        <AlertTitle>You need ≥0.01 {inputToken.symbol}</AlertTitle>
+        <AlertTitle fontSize={["sm", "md"]}>You need ≥0.01 {inputToken.symbol}</AlertTitle>
         <Button
           ml="auto"
           size="sm"
@@ -156,12 +157,19 @@ export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
           _hover={{ textDecoration: "none" }}
           rightIcon={<HiExternalLink />}
         >
-          Lucky ~4% discount on Uniswap!
+          Lucky ~4% discount!
         </Button>
       </Alert>
 
-      <VStack as={RadiantBackground} w="100%" p={[2, 3, 5, 8]} spacing={5} borderRadius="2xl">
-        <HStack align="center" spacing={4} justify="space-between" w="100%" color="white">
+      <VStack as={RadiantBackground} w="100%" p={8} spacing={5} borderRadius="2xl">
+        <Stack
+          direction={["column", null, "row"]}
+          align="center"
+          spacing={4}
+          justify="space-between"
+          w="100%"
+          color="white"
+        >
           <VStack>
             <HStack w="100%" spacing={1} justify="space-between">
               <Text as="label" htmlFor="input" fontWeight="bold">
@@ -226,7 +234,7 @@ export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
               />
             </NumberInput>
           </VStack>
-        </HStack>
+        </Stack>
         <ButtonGroup size="lg" colorScheme="whiteAlpha" w="100%" spacing={6}>
           <Button
             flex={1}
