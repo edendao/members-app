@@ -1,4 +1,4 @@
-import * as etherscan from "app/core/etherscan"
+import * as etherscan from "app/core/etherscan/transactions"
 import { hasConnectedWallet } from "app/core/middleware/hasConnectedWallet"
 import { Middleware, resolver } from "blitz"
 import db from "db"

@@ -11,14 +11,14 @@ import { useTrack } from "use-analytics"
 
 import { gCO2toTCO2 } from "../core/numbers"
 
-const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"))
-const Estimator = dynamic(() => import("app/footprint/components/Estimator"))
+const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"), { ssr: false })
+const Estimator = dynamic(() => import("app/footprint/components/Estimator"), { ssr: false })
 
-interface CarbonFootprintProps {
+interface NetZeroProps {
   emissions: [Estimate, Estimate]
 }
 
-export const getStaticProps: GetStaticProps<CarbonFootprintProps> = async () => {
+export const getStaticProps: GetStaticProps<NetZeroProps> = async () => {
   const emissions = await getNetworkEmissions()
 
   return {
@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps<CarbonFootprintProps> = async () => 
   }
 }
 
-export const CarbonFootprint: React.FC<CarbonFootprintProps> = ({ emissions }) => {
+export const NetZero: React.FC<NetZeroProps> = ({ emissions }) => {
   const track = useTrack()
 
   type State = "1connect" | "2greenlist" | "3footprint"
@@ -99,7 +99,7 @@ export const CarbonFootprint: React.FC<CarbonFootprintProps> = ({ emissions }) =
                 <VStack align="start" spacing={4} fontSize="sm">
                   <Heading size="xs">How does it work?</Heading>
                   <Text>
-                    this measures your carbon footprint &mdash; that is, how many tons of CO
+                    This measures your carbon footprint &mdash; that is, how many tons of CO
                     <sub>2</sub> you have emitted in the atmosphere.
                   </Text>
                   <OrderedList spacing={2} pl={5}>
@@ -139,4 +139,4 @@ export const CarbonFootprint: React.FC<CarbonFootprintProps> = ({ emissions }) =
   )
 }
 
-export default CarbonFootprint
+export default NetZero

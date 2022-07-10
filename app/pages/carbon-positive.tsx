@@ -11,8 +11,8 @@ import React, { startTransition, useCallback, useState } from "react"
 import { HiExternalLink } from "react-icons/hi"
 import { useTrack } from "use-analytics"
 
-const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"))
-const Estimator = dynamic(() => import("app/footprint/components/Estimator"))
+const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"), { ssr: false })
+const Estimator = dynamic(() => import("app/footprint/components/Estimator"), { ssr: false })
 
 interface CarbonPositiveProps {
   emissions: [Estimate, Estimate]

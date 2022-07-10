@@ -22,16 +22,6 @@ export const GreenlistGate: React.FC<GreenlistGateProps> = ({ cta, next, ...prop
 
   useEffect(() => {
     if (greenlisted != null) {
-      if (greenlisted) {
-        toast.success(
-          <span>
-            greenlisted!
-            <br />
-            <strong>loading adventure</strong>
-          </span>
-        )
-      }
-
       const timeout = greenlisted
         ? setTimeout(() => next({ greenlisted }), 500)
         : setTimeout(pledge.open, 2000)
@@ -57,7 +47,12 @@ export const GreenlistGate: React.FC<GreenlistGateProps> = ({ cta, next, ...prop
       </Text>
       <Box py={8}>
         {greenlisted ? (
-          <Button onClick={next} colorScheme="purple">
+          <Button
+            onClick={next}
+            colorScheme="purple"
+            isLoading={greenlisted}
+            loadingText="loading..."
+          >
             {cta}
           </Button>
         ) : (

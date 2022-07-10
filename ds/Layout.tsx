@@ -16,7 +16,7 @@ export const Layout: React.FC<LayoutProps> = ({ title, children, ...boxProps }) 
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <Navbar />
-    <Box mt={64} {...boxProps}>
+    <Box mt={24} {...boxProps}>
       {children}
     </Box>
   </>
