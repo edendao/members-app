@@ -78,7 +78,7 @@ export const Index: React.FC = () => {
                   transition="transform 250ms ease-in-out"
                 >
                   <BlitzLink href={Routes.PassportPhoto().pathname} passHref>
-                    <Link>Orbify Photo Booth</Link>
+                    <Link>Orbify your PFP</Link>
                   </BlitzLink>
                 </ListItem>
                 <ListItem

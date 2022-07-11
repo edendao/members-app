@@ -2,10 +2,9 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   HStack,
-  Heading,
   IconButton,
-  Progress,
   StackProps,
   Text,
   VStack,
@@ -15,6 +14,8 @@ import { Shimmer } from "ds/atoms/Shimmer"
 import { useBase64ImageFile } from "ds/hooks/useBase64ImageFile"
 import { useCamera } from "ds/hooks/useCamera"
 import Konva from "konva"
+import EdenDaoOrb from "public/eden-dao-orb.png"
+import ReFiOrb from "public/refi-orb.png"
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { RiCameraLine, RiImageAddLine, RiSkipBackFill } from "react-icons/ri"
@@ -38,8 +39,16 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
   const { ref: webcamRef, capture, setCameraError, setCameraOnline } = useCamera(setImage)
   const { FileInput, selectFile } = useBase64ImageFile(setImage)
 
-  const [canvasClouds] = useCanvasImage("/eden-dao-orb.png")
   const [canvasImage] = useCanvasImage(image)
+  const [canvasSkyOrb] = useCanvasImage("/eden-dao-orb.png")
+  const [canvasOrb] = useCanvasImage("/refi-orb.png")
+  const [canvasBackground, setCanvasBackground] = useState<HTMLImageElement>()
+
+  useEffect(() => {
+    if (canvasSkyOrb) {
+      setCanvasBackground(canvasSkyOrb)
+    }
+  }, [canvasSkyOrb, setCanvasBackground])
 
   type State = "ready" | "selected" | "detecting" | "converting" | "complete"
   const [state, setState] = useState<State>("ready")
@@ -112,7 +121,19 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
 
   return (
     <VStack alignItems="stretch" spacing={3} w={size} {...props}>
-      <Box w={size} h={size} borderRadius="full" overflow="hidden">
+      <Box
+        w={size}
+        h={size}
+        borderRadius="full"
+        overflow="hidden"
+        animation={
+          state === "detecting" || state === "converting"
+            ? "floater 0.5s ease-in-out infinite alternate"
+            : state === "complete"
+            ? "pulser-cw 2.5s ease-in-out infinite alternate"
+            : ""
+        }
+      >
         {image && (
           <Stage width={size} height={size} ref={stage}>
             {state === "selected" ? (
@@ -126,7 +147,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
                   ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2, false)
                 }}
               >
-                <Image image={canvasClouds} alt="dream" height={size} width={size} />
+                <Image image={canvasBackground} alt="dream" height={size} width={size} />
                 <Image image={canvasImage} alt="face" {...canvasImageProps} />
               </Layer>
             )}
@@ -218,19 +239,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
             ANONYMIZE
           </Button>
         </HStack>
-      ) : state !== "complete" ? (
-        <Box py={2}>
-          <Progress
-            hasStripe
-            isAnimated
-            size="lg"
-            h={10}
-            colorScheme="purple"
-            value={state === "detecting" ? 25 : 65}
-            max={100}
-          />
-        </Box>
-      ) : (
+      ) : state !== "complete" ? null : (
         <HStack>
           <IconButton
             py={4}
@@ -269,6 +278,35 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
             NEXT
           </Button> */}
         </HStack>
+      )}
+      {state !== "ready" && state !== "selected" && (
+        <Box textAlign="center" pt={4}>
+          <Shimmer size="sm" my={2}>
+            re-orbi-fi your pfp
+          </Shimmer>
+          <ButtonGroup size="lg" spacing={4}>
+            <Button
+              colorScheme={canvasBackground === canvasOrb ? "purple" : "gray"}
+              rounded="full"
+              onClick={() => {
+                track("PhotoBooth.background.refi")
+                setCanvasBackground(canvasOrb)
+              }}
+            >
+              classic
+            </Button>
+            <Button
+              colorScheme={canvasBackground === canvasSkyOrb ? "purple" : "gray"}
+              rounded="full"
+              onClick={() => {
+                track("PhotoBooth.background.sky")
+                setCanvasBackground(canvasSkyOrb)
+              }}
+            >
+              sky
+            </Button>
+          </ButtonGroup>
+        </Box>
       )}
     </VStack>
   )
