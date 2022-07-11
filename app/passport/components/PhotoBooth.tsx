@@ -19,8 +19,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { RiCameraLine, RiImageAddLine, RiSkipBackFill } from "react-icons/ri"
 import { Image, Layer, Stage } from "react-konva"
-import Typist from "react-typist"
 import Webcam from "react-webcam"
+import { useTrack } from "use-analytics"
 import useCanvasImage from "use-image"
 
 import convertFace from "../queries/convertFace"
@@ -32,6 +32,8 @@ interface PhotoBoothProps extends StackProps {
 }
 
 export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...props }) => {
+  const track = useTrack()
+
   const [image, setImage] = useState("")
   const { ref: webcamRef, capture, setCameraError, setCameraOnline } = useCamera(setImage)
   const { FileInput, selectFile } = useBase64ImageFile(setImage)
@@ -39,22 +41,28 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
   const [canvasClouds] = useCanvasImage("/eden-dao-orb.png")
   const [canvasImage] = useCanvasImage(image)
 
-  const [state, setState] = useState<
-    "ready" | "selected" | "detecting" | "converting" | "complete"
-  >("ready")
+  type State = "ready" | "selected" | "detecting" | "converting" | "complete"
+  const [state, setState] = useState<State>("ready")
+  const setStateTo = useCallback(
+    (s: State) => {
+      track(s)
+      setState(s)
+    },
+    [track, setState]
+  )
 
   useEffect(() => {
     if (state === "ready" && image.length > 0) {
-      setState("selected")
+      setStateTo("selected")
     }
-  }, [state, image])
+  }, [state, image, setStateTo])
 
   const stage = useRef<Konva.Stage>(null)
 
   const processFace = useCallback(async () => {
     const image = stage.current!.toDataURL()
 
-    setState("detecting")
+    setStateTo("detecting")
     const header = "data:image/gif;base64,"
 
     try {
@@ -70,13 +78,13 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
         },
       } = await invoke(convertFace, croppedFace)
       setImage(`${header}${pixelFace}`)
-      setState("complete")
+      setStateTo("complete")
     } catch (error) {
       toast.error("NO FACE DETECTED")
       setImage("")
       setState("ready")
     }
-  }, [setImage, setState])
+  }, [setImage, setStateTo])
 
   const canvasImageProps = useMemo(() => {
     if (!canvasImage) return {}
@@ -103,7 +111,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
   }, [state, size, canvasImage])
 
   return (
-    <VStack alignItems="stretch" spacing={3} w={size}>
+    <VStack alignItems="stretch" spacing={3} w={size} {...props}>
       <Box w={size} h={size} borderRadius="full" overflow="hidden">
         {image && (
           <Stage width={size} height={size} ref={stage}>
@@ -149,7 +157,10 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
             fontSize="2rem"
             color="purple.500"
             borderColor="purple.200"
-            onClick={selectFile}
+            onClick={() => {
+              track("PhotoBooth.upload")
+              selectFile()
+            }}
             aria-label="Upload Photo"
             icon={
               <>
@@ -167,7 +178,10 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
             colorScheme="purple"
             borderRadius="full"
             fontSize="2rem"
-            onClick={capture}
+            onClick={() => {
+              track("PhotoBooth.capture")
+              capture()
+            }}
             aria-label="Take Photo"
             icon={<RiCameraLine />}
           />
@@ -196,7 +210,10 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
             color="white"
             colorScheme="purple"
             borderRadius="full"
-            onClick={processFace}
+            onClick={() => {
+              track("PhotoBooth.process")
+              processFace()
+            }}
           >
             ANONYMIZE
           </Button>
@@ -224,7 +241,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
             color="purple.400"
             borderColor="purple.400"
             onClick={() => {
-              setState("ready")
+              setStateTo("ready")
               setImage("")
             }}
             aria-label="GO BACK"

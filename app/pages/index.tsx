@@ -78,7 +78,7 @@ export const Index: React.FC = () => {
                   transition="transform 250ms ease-in-out"
                 >
                   <BlitzLink href={Routes.PassportPhoto().pathname} passHref>
-                    <Link>Photo Booth</Link>
+                    <Link>Orbify Photo Booth</Link>
                   </BlitzLink>
                 </ListItem>
                 <ListItem
@@ -88,7 +88,7 @@ export const Index: React.FC = () => {
                 >
                   <BlitzLink href={Routes.NetZero().pathname} passHref>
                     <Link>
-                      Carbon Footprint (tCO<sub>2</sub>)
+                      Net Zero (tons of CO<sub>2</sub>)
                     </Link>
                   </BlitzLink>
                 </ListItem>

@@ -32,8 +32,8 @@ export const CarbonPositive: React.FC<CarbonPositiveProps> = ({ emissions }) => 
   const router = useRouter()
 
   type State = "1connect" | "2greenlist" | "3impact"
-  type Data = { image: string; debt: number }
   const [state, setState] = useState<State>("1connect")
+  type Data = { image: string; debt: number }
   const [data, setData] = useState<Data>({ image: "", debt: 0 })
 
   // For memoizing the `next` callback in component renders

@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Link, ListItem, OrderedList, Text, VStack } from "@chakra-ui/react"
 import { Hero as FootprintHero } from "app/footprint/components/Hero"
 import { Estimate, getNetworkEmissions } from "app/footprint/services/networkEmissions"
-import { GetStaticProps, dynamic, useRouter } from "blitz"
+import { Link as BlitzLink, GetStaticProps, Routes, dynamic, useRouter } from "blitz"
 import { AbsoluteRadiantBackground, RadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
 import { Connector } from "ds/molecules/Connector"
@@ -31,8 +31,8 @@ export const NetZero: React.FC<NetZeroProps> = ({ emissions }) => {
   const track = useTrack()
 
   type State = "1connect" | "2greenlist" | "3footprint"
-  type Data = { image: string; debt: number }
   const [state, setState] = useState<State>("1connect")
+  type Data = { image: string; debt: number }
   const [data, setData] = useState<Data>({ image: "", debt: 0 })
 
   // For memoizing the `next` callback in component renders
@@ -124,9 +124,9 @@ export const NetZero: React.FC<NetZeroProps> = ({ emissions }) => {
                   </OrderedList>
                   <Text fontSize="xs">
                     It is not the most accurate measure of your{" "}
-                    <Link href="/impact" textDecoration="underline">
-                      impact on our carbon system
-                    </Link>
+                    <BlitzLink href={Routes.CarbonPositive().pathname} passHref>
+                      <Link textDecoration="underline">impact on our carbon system</Link>
+                    </BlitzLink>
                     .
                   </Text>
                 </VStack>

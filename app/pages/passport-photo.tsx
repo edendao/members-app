@@ -1,27 +1,31 @@
-import { Flex, VStack } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 import { dynamic } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
 import { Connector } from "ds/molecules/Connector"
 import React, { startTransition, useCallback, useState } from "react"
+import { useTrack } from "use-analytics"
 
 const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"), { ssr: false })
 const PhotoBooth = dynamic(() => import("app/passport/components/PhotoBooth"), { ssr: false })
 
 export const PassportPhoto: React.FC = ({}) => {
+  const track = useTrack()
+
   type State = "1connect" | "2greenlist" | "3passport"
-  type Data = { image: string }
   const [state, setState] = useState<State>("1connect")
+  type Data = { image: string }
   const [data, setData] = useState<Data>({ image: "" })
-  // For memoizing the `next` callback in component renders
+
   const setStateTo = useCallback(
     (s: State) =>
       (data: Partial<Data> = {}) =>
         startTransition(() => {
+          track(s)
           setState(s)
           setData((d) => ({ ...d, ...data }))
         }),
-    [setState, setData]
+    [setState, setData, track]
   )
 
   return (
