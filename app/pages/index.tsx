@@ -88,7 +88,7 @@ export const Index: React.FC = () => {
                 >
                   <BlitzLink href={Routes.NetZero().pathname} passHref>
                     <Link>
-                      Net Zero (tons of CO<sub>2</sub>)
+                      Net Zero Calculator (tons of CO<sub>2</sub>)
                     </Link>
                   </BlitzLink>
                 </ListItem>
@@ -98,7 +98,7 @@ export const Index: React.FC = () => {
                   transition="transform 250ms ease-in-out"
                 >
                   <BlitzLink href={Routes.CarbonPositive().pathname} passHref>
-                    <Link>Carbon Positive (carbon ton&ndash;years)</Link>
+                    <Link>Carbon Positive Calculator (carbon ton&ndash;years)</Link>
                   </BlitzLink>
                 </ListItem>
                 <ListItem
