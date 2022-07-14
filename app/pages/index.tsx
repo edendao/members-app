@@ -77,7 +77,7 @@ export const Index: React.FC = () => {
                   _hover={{ transform: "translateY(-0.2em)" }}
                   transition="transform 250ms ease-in-out"
                 >
-                  <BlitzLink href={Routes.PassportPhoto().pathname} passHref>
+                  <BlitzLink href={Routes.Orbifier().pathname} passHref>
                     <Link>Orbifier 9000</Link>
                   </BlitzLink>
                 </ListItem>

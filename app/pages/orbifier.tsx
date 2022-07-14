@@ -8,7 +8,7 @@ import { useTrack } from "use-analytics"
 
 const PhotoBooth = dynamic(() => import("app/passport/PhotoBooth"), { ssr: false })
 
-export const PassportPhoto: React.FC = () => {
+export const Orbifier: React.FC = () => {
   const track = useTrack()
 
   type State = "1connect" | "3passport"
@@ -28,7 +28,7 @@ export const PassportPhoto: React.FC = () => {
   )
 
   return (
-    <Layout title="Passport" mt={0}>
+    <Layout title="Orbifier 9000" mt={0}>
       <Flex
         position="relative"
         overflow="hidden"
@@ -59,4 +59,4 @@ export const PassportPhoto: React.FC = () => {
   )
 }
 
-export default PassportPhoto
+export default Orbifier
