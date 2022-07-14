@@ -24,7 +24,7 @@ export const tonYearsToUSD = (tonYears: number) =>
 export type Removal = [Date, number, number]
 
 export const removalsToTonYears = (years: number[], removals: Removal[]) => {
-  const tonYears = new Array(years.length).map(() => 0)
+  const tonYears = new Array(years.length).fill(0)
   const removalsByYear = groupBy(removals, ([date]) => date.getUTCFullYear())
 
   for (let cursor = 0; cursor < years.length; ++cursor) {
@@ -32,8 +32,8 @@ export const removalsToTonYears = (years: number[], removals: Removal[]) => {
     const removals = removalsByYear[year] ?? []
 
     for (const [, tCO2, permanence] of removals) {
-      for (let offset = 0; offset < permanence && cursor + offset < years.length; ++offset) {
-        tonYears[cursor + offset] += tCO2
+      for (let storage = 0; storage < permanence && cursor + storage < years.length; ++storage) {
+        tonYears[cursor + storage] += tCO2
       }
     }
   }
