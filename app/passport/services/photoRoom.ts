@@ -1,7 +1,7 @@
 export const removeBackground = async (image: string) => {
   const form = new FormData()
   form.append("image_file", await fetch(image).then((r) => r.blob()))
-  form.append("size", "preview")
+  form.append("size", "medium")
 
   const r = await fetch("https://sdk.photoroom.com/v1/segment", {
     method: "POST",
