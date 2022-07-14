@@ -33,6 +33,7 @@
     "@ethersproject/providers": "5.4.5",
     "@fontsource/inter": "4.5.11",
     "@hookform/resolvers": "2.8.2",
+    "@openreplay/tracker": "3.5.15",
     "@openzeppelin/contracts": "4.3.2",
     "@patch-technology/patch": "1.23.0",
     "@prisma/client": "4.0.0",
@@ -53,6 +54,7 @@
     "framer-motion": "5.x",
     "konva": "8.3.10",
     "lodash": "4.17.21",
+    "mime": "3.0.0",
     "papaparse": "5.3.2",
     "rate-limiter-flexible": "2.3.7",
     "react": "^18.0.2",
@@ -79,6 +81,7 @@
   },
   "devDependencies": {
     "@types/chai": "4.2.22",
+    "@types/mime": "2.0.3",
     "@types/mocha": "9.0.0",
     "@types/node": "16.11.2",
     "@types/papaparse": "5.3.2",

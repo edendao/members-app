@@ -14,8 +14,6 @@ import { Shimmer } from "ds/atoms/Shimmer"
 import { useBase64ImageFile } from "ds/hooks/useBase64ImageFile"
 import { useCamera } from "ds/hooks/useCamera"
 import Konva from "konva"
-import EdenDaoOrb from "public/eden-dao-orb.png"
-import ReFiOrb from "public/refi-orb.png"
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { RiCameraLine, RiImageAddLine, RiSkipBackFill } from "react-icons/ri"
@@ -26,13 +24,14 @@ import useCanvasImage from "use-image"
 
 import convertFace from "../queries/convertFace"
 import detectFace from "../queries/detectFace"
+import { removeBackground } from "../services/photoRoom"
 
 interface PhotoBoothProps extends StackProps {
   size?: number
   next?: (data: any) => void
 }
 
-export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...props }) => {
+export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 512, next, ...props }) => {
   const track = useTrack()
 
   const [image, setImage] = useState("")
@@ -68,18 +67,30 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
 
   const stage = useRef<Konva.Stage>(null)
 
-  const processFace = useCallback(async () => {
-    const image = stage.current!.toDataURL()
-
-    setStateTo("detecting")
-    const header = "data:image/gif;base64,"
-
+  const isolateFace = useCallback(async () => {
     try {
+      const image = stage.current!.toDataURL()
+      setStateTo("detecting")
+      setImage(await removeBackground(image))
+      setStateTo("complete")
+    } catch (error) {
+      toast.error(error.message)
+      setImage("")
+      setStateTo("ready")
+    }
+  }, [setImage, setStateTo])
+
+  const processFace = useCallback(async () => {
+    try {
+      setStateTo("detecting")
+
+      const image = stage.current!.toDataURL()
+      const header = "data:image/gif;base64,"
       const {
         data: { image: croppedFace },
       } = await invoke(detectFace, image.slice(image.indexOf(",") + 1))
       setImage(`${header}${croppedFace}`)
-      setState("converting")
+      setStateTo("converting")
 
       const {
         data: {
@@ -91,7 +102,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
     } catch (error) {
       toast.error("NO FACE DETECTED")
       setImage("")
-      setState("ready")
+      setStateTo("ready")
     }
   }, [setImage, setStateTo])
 
@@ -120,7 +131,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
   }, [state, size, canvasImage])
 
   return (
-    <VStack alignItems="stretch" spacing={3} w={size} {...props}>
+    <VStack alignItems="center" spacing={3} w={size} {...props}>
       <Box
         w={size}
         h={size}
@@ -170,12 +181,10 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
       </Box>
       {state === "ready" ? (
         <HStack>
-          <IconButton
-            py={4}
+          <Button
             size="xl"
             variant="outline"
             borderRadius="full"
-            fontSize="2rem"
             color="purple.500"
             borderColor="purple.200"
             onClick={() => {
@@ -183,29 +192,27 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
               selectFile()
             }}
             aria-label="Upload Photo"
-            icon={
-              <>
-                <RiImageAddLine />
-                <FileInput />
-              </>
-            }
-          />
-          <IconButton
+            leftIcon={<RiImageAddLine size={32} />}
+          >
+            Upload
+            <FileInput />
+          </Button>
+          <Button
             flex={1}
-            p={4}
             size="xl"
             color="white"
             variant="solid"
             colorScheme="purple"
             borderRadius="full"
-            fontSize="2rem"
             onClick={() => {
               track("PhotoBooth.capture")
               capture()
             }}
             aria-label="Take Photo"
-            icon={<RiCameraLine />}
-          />
+            rightIcon={<RiCameraLine size={32} />}
+          >
+            Snap
+          </Button>
         </HStack>
       ) : state === "selected" ? (
         <HStack>
@@ -232,11 +239,25 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
             colorScheme="purple"
             borderRadius="full"
             onClick={() => {
+              track("PhotoBooth.isolate")
+              isolateFace()
+            }}
+          >
+            BG
+          </Button>
+          <Button
+            p={4}
+            flex={1}
+            size="xl"
+            color="white"
+            colorScheme="purple"
+            borderRadius="full"
+            onClick={() => {
               track("PhotoBooth.process")
               processFace()
             }}
           >
-            ANONYMIZE
+            PIXEL
           </Button>
         </HStack>
       ) : state !== "complete" ? null : (
@@ -282,7 +303,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
       {state !== "ready" && state !== "selected" && (
         <Box textAlign="center" pt={4}>
           <Shimmer size="sm" my={2}>
-            re-orbi-fi your pfp
+            orbifier 9000
           </Shimmer>
           <ButtonGroup size="lg" spacing={4}>
             <Button
@@ -293,7 +314,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
                 setCanvasBackground(canvasOrb)
               }}
             >
-              classic
+              refipunk
             </Button>
             <Button
               colorScheme={canvasBackground === canvasSkyOrb ? "purple" : "gray"}
@@ -303,7 +324,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 256, next, ...pro
                 setCanvasBackground(canvasSkyOrb)
               }}
             >
-              sky
+              edenpunk
             </Button>
           </ButtonGroup>
         </Box>

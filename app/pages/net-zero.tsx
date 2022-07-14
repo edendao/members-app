@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Link, ListItem, OrderedList, Text, VStack } from "@chakra-ui/react"
-import { Hero as FootprintHero } from "app/footprint/components/Hero"
-import { Estimate, getNetworkEmissions } from "app/footprint/services/networkEmissions"
+import { CarbonHero } from "app/footprint/components/CarbonHero"
+import { Estimate, getNetworkTCO2 } from "app/footprint/services/ethereumEmissions"
 import { Link as BlitzLink, GetStaticProps, Routes, dynamic, useRouter } from "blitz"
 import { AbsoluteRadiantBackground, RadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
@@ -9,7 +9,7 @@ import React, { startTransition, useCallback, useState } from "react"
 import { HiExternalLink } from "react-icons/hi"
 import { useTrack } from "use-analytics"
 
-import { gCO2toTCO2 } from "../core/numbers"
+import { gCO2toTCO2 } from "../core/carbon"
 
 const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"), { ssr: false })
 const Estimator = dynamic(() => import("app/footprint/components/Estimator"), { ssr: false })
@@ -19,7 +19,7 @@ interface NetZeroProps {
 }
 
 export const getStaticProps: GetStaticProps<NetZeroProps> = async () => {
-  const emissions = await getNetworkEmissions()
+  const emissions = await getNetworkTCO2()
 
   return {
     revalidate: 60 * 60, // every hour
@@ -52,7 +52,7 @@ export const NetZero: React.FC<NetZeroProps> = ({ emissions }) => {
   return (
     <Layout title="Net Zero">
       <VStack mx="auto" px={16} align="center" maxW={1440} spacing={0}>
-        <FootprintHero emissions={emissions} cta="discover your carbon footprint!" />
+        <CarbonHero estimates={emissions} cta="discover your carbon footprint!" />
 
         <Flex
           id="widget"

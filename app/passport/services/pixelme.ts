@@ -26,13 +26,10 @@ export interface ConvertFaceResponse {
   }
 }
 
-export const APIClient = axios.create({ baseURL: "/api/pixelme/" })
-export const PixelMeClient = axios.create({
+export const client = axios.create({
   baseURL: "https://pixel-me-api-gateway-cj34o73d6a-an.a.run.app/api/v1/",
   params: { key: "AIzaSyB1icoMXVbxjiAzwBTI_4FufkzTnX78U0s" },
 })
-
-export const client = typeof window === "undefined" ? PixelMeClient : APIClient
 
 const unwrap = <T>(r: AxiosResponse<T>): T => r.data
 

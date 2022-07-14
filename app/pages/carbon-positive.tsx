@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Link, ListItem, OrderedList, Text, VStack } from "@chakra-ui/react"
-import { gCO2toTonYears } from "app/core/numbers"
-import { Hero as FootprintHero } from "app/footprint/components/Hero"
-import { Estimate, getNetworkEmissions } from "app/footprint/services/networkEmissions"
+import { gCO2toTonYears } from "app/core/carbon"
+import { CarbonHero } from "app/footprint/components/CarbonHero"
+import { Estimate, getNetworkTCO2 } from "app/footprint/services/ethereumEmissions"
 import { GetStaticProps, Image, dynamic, useRouter } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
@@ -19,7 +19,7 @@ interface CarbonPositiveProps {
 }
 
 export const getStaticProps: GetStaticProps<CarbonPositiveProps> = async () => {
-  const emissions = await getNetworkEmissions()
+  const emissions = await getNetworkTCO2()
 
   return {
     revalidate: 60 * 60, // every hour
@@ -51,7 +51,7 @@ export const CarbonPositive: React.FC<CarbonPositiveProps> = ({ emissions }) => 
   return (
     <Layout title="Carbon Positive">
       <VStack mt={32} mx="auto" px={16} align="center" maxW={1440} spacing={0}>
-        <FootprintHero emissions={emissions} cta="discover your carbon impact!" />
+        <CarbonHero estimates={emissions} cta="discover your carbon impact!" />
 
         <Flex
           id="widget"

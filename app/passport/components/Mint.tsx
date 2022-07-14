@@ -1,5 +1,5 @@
 import { Heading, Image, StackProps, VStack } from "@chakra-ui/react"
-import { tonYearsToCO2, tonYearsToUSD } from "app/core/numbers"
+import { tonYearsToCO2, tonYearsToUSD } from "app/core/carbon"
 
 interface MintProps extends StackProps {
   image: string

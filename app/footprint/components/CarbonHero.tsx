@@ -1,6 +1,6 @@
 import { Box, Button, Link, Stack, StackProps, Text, VStack } from "@chakra-ui/react"
 import { numberToWords } from "app/core/numbers"
-import { Estimate } from "app/footprint/services/networkEmissions"
+import { Estimate } from "app/footprint/services/ethereumEmissions"
 import { Image } from "blitz"
 import { radiantBackground } from "ds/atoms/RadiantBackground"
 import { Shimmer } from "ds/atoms/Shimmer"
@@ -9,13 +9,13 @@ import React from "react"
 import { HiExternalLink } from "react-icons/hi"
 import Typist from "react-typist"
 
-interface HeroProps extends StackProps {
+interface CarbonHeroProps extends StackProps {
   cta: string
-  emissions: [Estimate, Estimate]
+  estimates: [Estimate, Estimate]
 }
 
-export const Hero: React.FC<HeroProps> = ({ emissions, cta, ...stackProps }) => {
-  const [yesterday, total] = emissions.map((e) => numberToWords(e.best))
+export const CarbonHero: React.FC<CarbonHeroProps> = ({ estimates, cta, ...stackProps }) => {
+  const [yesterday, total] = estimates.map((e) => numberToWords(e.best))
 
   return (
     <Stack
@@ -82,31 +82,6 @@ export const Hero: React.FC<HeroProps> = ({ emissions, cta, ...stackProps }) => 
           <HiExternalLink />
         </Link>
       </VStack>
-      {/* <VStack
-        maxW={480}
-        alignItems="center"
-        animation="floater 5s ease-in-out infinite alternate"
-        transition="transform 500ms ease-in-out"
-        _hover={{ transform: "scale(1.05)" }}
-      >
-
-        <Image src={EthereumLegos} alt="Impact Money Legos" />
-        <Link
-          opacity={0.5}
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          textStyle="label"
-          fontSize="sm"
-          fontStyle="italic"
-          isExternal
-          target="_blank"
-          href="https://ethereum.org"
-        >
-          Ethereum&nbsp;
-          <HiExternalLink />
-        </Link>
-      </VStack> */}
     </Stack>
   )
 }
