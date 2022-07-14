@@ -6,13 +6,12 @@ import { Connector } from "ds/molecules/Connector"
 import React, { startTransition, useCallback, useState } from "react"
 import { useTrack } from "use-analytics"
 
-const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"), { ssr: false })
 const PhotoBooth = dynamic(() => import("app/passport/components/PhotoBooth"), { ssr: false })
 
 export const PassportPhoto: React.FC = () => {
   const track = useTrack()
 
-  type State = "1connect" | "2greenlist" | "3passport"
+  type State = "1connect" | "3passport"
   const [state, setState] = useState<State>("1connect")
   type Data = { image: string }
   const [data, setData] = useState<Data>({ image: "" })
@@ -53,13 +52,7 @@ export const PassportPhoto: React.FC = () => {
           alignItems="center"
           justifyContent="center"
         >
-          {state === "1connect" ? (
-            <Connector next={setStateTo("2greenlist")} />
-          ) : state === "2greenlist" ? (
-            <GreenlistGate next={setStateTo("3passport")} cta="go to PHOTO BOOTH" />
-          ) : (
-            <PhotoBooth />
-          )}
+          {state === "1connect" ? <Connector next={setStateTo("3passport")} /> : <PhotoBooth />}
         </Flex>
       </Flex>
     </Layout>

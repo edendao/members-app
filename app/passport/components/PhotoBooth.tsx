@@ -10,10 +10,12 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react"
-import { invoke } from "blitz"
+import isGreenlisted from "app/core/queries/isGreenlisted"
+import { invoke, useQuery } from "blitz"
 import { Shimmer } from "ds/atoms/Shimmer"
 import { useBase64ImageFile } from "ds/hooks/useBase64ImageFile"
 import { useCamera } from "ds/hooks/useCamera"
+import { useSession } from "ds/molecules/SessionManager"
 import Konva from "konva"
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
@@ -34,6 +36,10 @@ interface PhotoBoothProps extends StackProps {
 }
 
 export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
+  const { address } = useSession()
+
+  const [greenlisted] = useQuery(isGreenlisted, address, { enabled: Boolean(address) })
+
   const size = useBreakpointValue([256, 384, 512]) ?? 256
   const track = useTrack()
 
@@ -313,6 +319,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
           <Button
             colorScheme={canvasBackground === canvasSkyOrb ? "purple" : "gray"}
             rounded="full"
+            disabled={!greenlisted}
             onClick={() => {
               track("PhotoBooth.background.sky")
               setCanvasBackground(canvasSkyOrb)
