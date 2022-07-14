@@ -2,7 +2,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   HStack,
   IconButton,
   StackProps,
@@ -10,12 +9,10 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react"
-import isGreenlisted from "app/core/queries/isGreenlisted"
-import { invoke, useQuery } from "blitz"
+import { invoke } from "blitz"
 import { Shimmer } from "ds/atoms/Shimmer"
 import { useBase64ImageFile } from "ds/hooks/useBase64ImageFile"
 import { useCamera } from "ds/hooks/useCamera"
-import { useSession } from "ds/molecules/SessionManager"
 import Konva from "konva"
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
@@ -26,9 +23,9 @@ import Webcam from "react-webcam"
 import { useTrack } from "use-analytics"
 import useCanvasImage from "use-image"
 
-import convertFace from "../queries/convertFace"
-import detectFace from "../queries/detectFace"
-import { removeBackground } from "../services/photoRoom"
+import convertFace from "./queries/convertFace"
+import detectFace from "./queries/detectFace"
+import { removeBackground } from "./services/photoRoom"
 
 interface PhotoBoothProps extends StackProps {
   size?: number
@@ -36,10 +33,6 @@ interface PhotoBoothProps extends StackProps {
 }
 
 export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
-  const { address } = useSession()
-
-  const [greenlisted] = useQuery(isGreenlisted, address, { enabled: Boolean(address) })
-
   const size = useBreakpointValue([256, 384, 512]) ?? 256
   const track = useTrack()
 
@@ -48,15 +41,9 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
   const { FileInput, selectFile } = useBase64ImageFile(setImage)
 
   const [canvasImage] = useCanvasImage(image)
-  const [canvasSkyOrb] = useCanvasImage("/eden-dao-orb.png")
-  const [canvasOrb] = useCanvasImage("/refi-orb.png")
-  const [canvasBackground, setCanvasBackground] = useState<HTMLImageElement>()
-
-  useEffect(() => {
-    if (canvasSkyOrb) {
-      setCanvasBackground(canvasSkyOrb)
-    }
-  }, [canvasSkyOrb, setCanvasBackground])
+  type Tribe = "refi" | "solar" | "aqua" | "earth" | "flora"
+  const [tribe, setTribe] = useState<Tribe>("refi")
+  const [canvasBackground] = useCanvasImage(`/orbs/${tribe}.png`)
 
   type State = "ready" | "selected" | "detecting" | "converting" | "complete"
   const [state, setState] = useState<State>("ready")
@@ -78,9 +65,16 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
 
   const isolateFace = useCallback(async () => {
     try {
-      const image = stage.current!.toDataURL()
+      let image = stage.current!.toDataURL()
       setStateTo("detecting")
-      setImage(await removeBackground(image))
+      image = await removeBackground(image)
+      setImage(image)
+      // setStateTo("converting")
+      // const header = "data:image/gif;base64,"
+      // const {
+      //   data: { image: croppedFace },
+      // } = await invoke(detectFace, image.slice(image.indexOf(",") + 1))
+      // setImage(`${header}${croppedFace}`)
       setStateTo("complete")
     } catch (error) {
       toast.error(error.message)
@@ -130,10 +124,11 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
       opacity = 0.7
     }
     if (state === "complete") {
-      height *= 0.85
-      width *= 0.85
-      y = 0.15 * size
+      height *= 1
+      width *= 1
     }
+
+    y = size - height
     x = width < size ? (size - width) / 2 : 0
 
     return { opacity, height, width, x, y }
@@ -305,29 +300,21 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
         </HStack>
       )}
       {state !== "ready" && state !== "selected" && (
-        <ButtonGroup size="lg" spacing={4}>
-          <Button
-            colorScheme={canvasBackground === canvasOrb ? "purple" : "gray"}
-            rounded="full"
-            onClick={() => {
-              track("PhotoBooth.background.refi")
-              setCanvasBackground(canvasOrb)
-            }}
-          >
-            refipunk
-          </Button>
-          <Button
-            colorScheme={canvasBackground === canvasSkyOrb ? "purple" : "gray"}
-            rounded="full"
-            disabled={!greenlisted}
-            onClick={() => {
-              track("PhotoBooth.background.sky")
-              setCanvasBackground(canvasSkyOrb)
-            }}
-          >
-            edenpunk
-          </Button>
-        </ButtonGroup>
+        <VStack spacing={4}>
+          {["eden", "solar", "aqua", "earth", "flora", "refi"].map((t: Tribe) => (
+            <Button
+              key={`${tribe}-${t}`}
+              colorScheme={tribe === t ? "purple" : "gray"}
+              rounded="full"
+              onClick={() => {
+                setTribe(t)
+                track(`PhotoBooth.background.${tribe}`)
+              }}
+            >
+              {t}punk
+            </Button>
+          ))}
+        </VStack>
       )}
     </VStack>
   )

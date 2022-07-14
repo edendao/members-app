@@ -10,7 +10,7 @@ export const Navbar: React.FC = () => (
     <Box
       minH="120px"
       w="100vw"
-      h="15vh"
+      h="10vh"
       p={0}
       display="flex"
       flexDirection="row"
