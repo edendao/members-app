@@ -8,6 +8,7 @@ import {
   StackProps,
   Text,
   VStack,
+  useBreakpointValue,
 } from "@chakra-ui/react"
 import { invoke } from "blitz"
 import { Shimmer } from "ds/atoms/Shimmer"
@@ -31,7 +32,8 @@ interface PhotoBoothProps extends StackProps {
   next?: (data: any) => void
 }
 
-export const PhotoBooth: React.FC<PhotoBoothProps> = ({ size = 512, next, ...props }) => {
+export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
+  const size = useBreakpointValue([256, 384, 512])
   const track = useTrack()
 
   const [image, setImage] = useState("")
