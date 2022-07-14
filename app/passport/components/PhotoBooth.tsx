@@ -17,6 +17,7 @@ import { useCamera } from "ds/hooks/useCamera"
 import Konva from "konva"
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
+import { GiFairyWand, GiSteampunkGoggles } from "react-icons/gi"
 import { RiCameraLine, RiImageAddLine, RiSkipBackFill } from "react-icons/ri"
 import { Image, Layer, Stage } from "react-konva"
 import Webcam from "react-webcam"
@@ -33,7 +34,7 @@ interface PhotoBoothProps extends StackProps {
 }
 
 export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
-  const size = useBreakpointValue([256, 384, 512])
+  const size = useBreakpointValue([256, 384, 512]) ?? 256
   const track = useTrack()
 
   const [image, setImage] = useState("")
@@ -133,10 +134,11 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
   }, [state, size, canvasImage])
 
   return (
-    <VStack alignItems="center" spacing={3} w={size} {...props}>
+    <VStack alignItems="center" spacing={8} {...props}>
+      <Shimmer position="relative" top={4}>
+        orbifier 9000
+      </Shimmer>
       <Box
-        w={size}
-        h={size}
         borderRadius="full"
         overflow="hidden"
         animation={
@@ -147,7 +149,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             : ""
         }
       >
-        {image && (
+        {image ? (
           <Stage width={size} height={size} ref={stage}>
             {state === "selected" ? (
               <Layer imageSmoothingEnabled={false}>
@@ -165,10 +167,8 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
               </Layer>
             )}
           </Stage>
-        )}
-        <Box pos="relative" float="left">
+        ) : (
           <Webcam
-            style={{ display: image ? "none" : "block" }}
             mirrored
             height={size}
             width={size}
@@ -179,7 +179,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             onUserMedia={() => setCameraOnline(true)}
             onUserMediaError={() => setCameraError(true)}
           />
-        </Box>
+        )}
       </Box>
       {state === "ready" ? (
         <HStack>
@@ -219,7 +219,6 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
       ) : state === "selected" ? (
         <HStack>
           <IconButton
-            py={4}
             size="xl"
             borderRadius="full"
             fontSize="2rem"
@@ -234,22 +233,18 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             icon={<RiSkipBackFill />}
           />
           <Button
-            p={4}
-            flex={1}
             size="xl"
-            color="white"
             colorScheme="purple"
             borderRadius="full"
             onClick={() => {
               track("PhotoBooth.isolate")
               isolateFace()
             }}
+            rightIcon={<GiFairyWand size={21} />}
           >
-            BG
+            REMOVE BG
           </Button>
           <Button
-            p={4}
-            flex={1}
             size="xl"
             color="white"
             colorScheme="purple"
@@ -258,8 +253,9 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
               track("PhotoBooth.process")
               processFace()
             }}
+            rightIcon={<GiSteampunkGoggles size={26} />}
           >
-            PIXEL
+            PUNKIFY
           </Button>
         </HStack>
       ) : state !== "complete" ? null : (
@@ -303,33 +299,28 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
         </HStack>
       )}
       {state !== "ready" && state !== "selected" && (
-        <Box textAlign="center" pt={4}>
-          <Shimmer size="sm" my={2}>
-            orbifier 9000
-          </Shimmer>
-          <ButtonGroup size="lg" spacing={4}>
-            <Button
-              colorScheme={canvasBackground === canvasOrb ? "purple" : "gray"}
-              rounded="full"
-              onClick={() => {
-                track("PhotoBooth.background.refi")
-                setCanvasBackground(canvasOrb)
-              }}
-            >
-              refipunk
-            </Button>
-            <Button
-              colorScheme={canvasBackground === canvasSkyOrb ? "purple" : "gray"}
-              rounded="full"
-              onClick={() => {
-                track("PhotoBooth.background.sky")
-                setCanvasBackground(canvasSkyOrb)
-              }}
-            >
-              edenpunk
-            </Button>
-          </ButtonGroup>
-        </Box>
+        <ButtonGroup size="lg" spacing={4}>
+          <Button
+            colorScheme={canvasBackground === canvasOrb ? "purple" : "gray"}
+            rounded="full"
+            onClick={() => {
+              track("PhotoBooth.background.refi")
+              setCanvasBackground(canvasOrb)
+            }}
+          >
+            refipunk
+          </Button>
+          <Button
+            colorScheme={canvasBackground === canvasSkyOrb ? "purple" : "gray"}
+            rounded="full"
+            onClick={() => {
+              track("PhotoBooth.background.sky")
+              setCanvasBackground(canvasSkyOrb)
+            }}
+          >
+            edenpunk
+          </Button>
+        </ButtonGroup>
       )}
     </VStack>
   )

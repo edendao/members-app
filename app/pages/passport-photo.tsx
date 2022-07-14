@@ -9,7 +9,7 @@ import { useTrack } from "use-analytics"
 const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"), { ssr: false })
 const PhotoBooth = dynamic(() => import("app/passport/components/PhotoBooth"), { ssr: false })
 
-export const PassportPhoto: React.FC = ({}) => {
+export const PassportPhoto: React.FC = () => {
   const track = useTrack()
 
   type State = "1connect" | "2greenlist" | "3passport"
@@ -43,7 +43,7 @@ export const PassportPhoto: React.FC = ({}) => {
 
         <Flex
           minH="500"
-          w="90vh"
+          w="90vw"
           maxW="2xl"
           mx="auto"
           p={[4, 8, 16]}
