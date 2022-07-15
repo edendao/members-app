@@ -10,7 +10,7 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react"
-import { Image as BlitzImage } from "blitz"
+import { Image as BlitzImage, invoke } from "blitz"
 import { Shimmer } from "ds/atoms/Shimmer"
 import { useBase64ImageFile } from "ds/hooks/useBase64ImageFile"
 import { useCamera } from "ds/hooks/useCamera"
@@ -24,8 +24,9 @@ import Webcam from "react-webcam"
 import { useTrack } from "use-analytics"
 import useCanvasImage from "use-image"
 
+import convertFace from "./queries/convertFace"
+import detectFace from "./queries/detectFace"
 import { removeBackground } from "./services/photoRoom"
-import { convertFace, detectFace } from "./services/pixelme"
 
 interface PhotoBoothProps extends StackProps {
   size?: number
@@ -113,11 +114,11 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
       )
 
       setStateTo("detecting")
-      const face = await detectFace(stage.current!.toDataURL())
+      const face = await invoke(detectFace, stage.current!.toDataURL())
       setImage(face)
 
       setStateTo("converting")
-      const punk = await convertFace(face)
+      const punk = await invoke(convertFace, face)
       setImage(punk)
 
       setPunked(true)
