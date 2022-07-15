@@ -206,7 +206,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             mirrored
             height={size}
             width={size}
-            videoConstraints={{ facingMode: "user", width: size, height: size }}
+            videoConstraints={{ facingMode: "user", width: size * 2, height: size * 2 }}
             ref={webcamRef}
             screenshotQuality={1}
             screenshotFormat="image/png"
