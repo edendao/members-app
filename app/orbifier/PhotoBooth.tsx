@@ -4,17 +4,18 @@ import {
   Button,
   HStack,
   IconButton,
+  Link,
   StackProps,
   Text,
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react"
-import { invoke } from "blitz"
+import { Image as BlitzImage } from "blitz"
 import { Shimmer } from "ds/atoms/Shimmer"
 import { useBase64ImageFile } from "ds/hooks/useBase64ImageFile"
 import { useCamera } from "ds/hooks/useCamera"
 import Konva from "konva"
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { GiFairyWand, GiSteampunkGoggles } from "react-icons/gi"
 import { RiCameraLine, RiImageAddLine, RiSkipBackFill } from "react-icons/ri"
@@ -23,9 +24,8 @@ import Webcam from "react-webcam"
 import { useTrack } from "use-analytics"
 import useCanvasImage from "use-image"
 
-import convertFace from "./queries/convertFace"
-import detectFace from "./queries/detectFace"
 import { removeBackground } from "./services/photoRoom"
+import { convertFace, detectFace } from "./services/pixelme"
 
 interface PhotoBoothProps extends StackProps {
   size?: number
@@ -63,51 +63,70 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
 
   const stage = useRef<Konva.Stage>(null)
 
-  const isolateFace = useCallback(async () => {
+  const [isPunk, setPunked] = useState(false)
+
+  const resetState = useCallback(
+    () =>
+      startTransition(() => {
+        setImage("")
+        setPunked(false)
+        setState("ready")
+      }),
+    [setState, setImage, setPunked]
+  )
+
+  const removeBG = useCallback(async () => {
     try {
-      let image = stage.current!.toDataURL()
+      toast.loading(
+        <Link href="https://www.photoroom.com/" target="_blank" isExternal>
+          <BlitzImage src="/attributions/photo-room.svg" height={60} width={177} />
+        </Link>,
+        {
+          duration: 3000,
+          position: "bottom-right",
+        }
+      )
+
       setStateTo("detecting")
-      image = await removeBackground(image)
-      setImage(image)
-      // setStateTo("converting")
-      // const header = "data:image/gif;base64,"
-      // const {
-      //   data: { image: croppedFace },
-      // } = await invoke(detectFace, image.slice(image.indexOf(",") + 1))
-      // setImage(`${header}${croppedFace}`)
+      setImage(await removeBackground(stage.current!.toDataURL()))
       setStateTo("complete")
     } catch (error) {
       toast.error(error.message)
-      setImage("")
-      setStateTo("ready")
+      resetState()
     }
-  }, [setImage, setStateTo])
+  }, [setImage, setStateTo, resetState])
 
-  const processFace = useCallback(async () => {
+  const punkify = useCallback(async () => {
     try {
+      toast.loading(
+        <Text>
+          Powered by
+          <br />
+          <Link href="https://pixel-me.tokyo/en/" target="_blank">
+            <BlitzImage src="/attributions/pixel-me.png" height={128} width={159} />
+          </Link>
+        </Text>,
+        {
+          duration: 3000,
+          position: "bottom-right",
+        }
+      )
+
       setStateTo("detecting")
+      const face = await detectFace(stage.current!.toDataURL())
+      setImage(face)
 
-      const image = stage.current!.toDataURL()
-      const header = "data:image/gif;base64,"
-      const {
-        data: { image: croppedFace },
-      } = await invoke(detectFace, image.slice(image.indexOf(",") + 1))
-      setImage(`${header}${croppedFace}`)
       setStateTo("converting")
+      const punk = await convertFace(face)
+      setImage(punk)
 
-      const {
-        data: {
-          images: [, , { image: pixelFace }],
-        },
-      } = await invoke(convertFace, croppedFace)
-      setImage(`${header}${pixelFace}`)
+      setPunked(true)
       setStateTo("complete")
     } catch (error) {
       toast.error("NO FACE DETECTED")
-      setImage("")
-      setStateTo("ready")
+      resetState()
     }
-  }, [setImage, setStateTo])
+  }, [setImage, setStateTo, resetState])
 
   const canvasImageProps = useMemo(() => {
     if (!canvasImage) return {}
@@ -115,23 +134,28 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
     const { naturalHeight, naturalWidth } = canvasImage
 
     let opacity = 1
-    let x = 0
-    let y = 0
     let height = size
     let width = (size * naturalWidth) / naturalHeight
+    let x = 0
+    let y = 0
+    let rotation = 0
 
     if (state === "detecting" || state === "converting") {
       opacity = 0.7
     }
+
     if (state === "complete") {
-      height *= 1
-      width *= 1
+      y += 48
+      x += 12
+      height *= 0.66
+      width *= 0.66
+      rotation = -12
     }
 
-    y = size - height
-    x = width < size ? (size - width) / 2 : 0
+    y += size - height
+    x += width < size ? (size - width) / 2 : 0
 
-    return { opacity, height, width, x, y }
+    return { opacity, height, width, x, y, rotation }
   }, [state, size, canvasImage])
 
   return (
@@ -164,7 +188,15 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
                 }}
               >
                 <Image image={canvasBackground} alt="dream" height={size} width={size} />
-                <Image image={canvasImage} alt="face" {...canvasImageProps} />
+                <Image
+                  image={canvasImage}
+                  alt="face"
+                  shadowBlur={32}
+                  shadowOffsetY={4}
+                  shadowOpacity={0.8}
+                  shadowColor="#efefd8"
+                  {...canvasImageProps}
+                />
               </Layer>
             )}
           </Stage>
@@ -239,7 +271,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             borderRadius="full"
             onClick={() => {
               track("PhotoBooth.isolate")
-              isolateFace()
+              removeBG()
             }}
             rightIcon={<GiFairyWand size={21} />}
           >
@@ -252,7 +284,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             borderRadius="full"
             onClick={() => {
               track("PhotoBooth.process")
-              processFace()
+              punkify()
             }}
             rightIcon={<GiSteampunkGoggles size={26} />}
           >
@@ -269,10 +301,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             variant="outline"
             color="purple.400"
             borderColor="purple.400"
-            onClick={() => {
-              setStateTo("ready")
-              setImage("")
-            }}
+            onClick={resetState}
             aria-label="GO BACK"
             icon={<RiSkipBackFill />}
           />

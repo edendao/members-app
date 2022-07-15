@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from "axios"
+import axios from "axios"
+import get from "lodash/fp/get"
 
 export interface Meta {
   status: string
@@ -31,10 +32,16 @@ export const client = axios.create({
   params: { key: "AIzaSyB1icoMXVbxjiAzwBTI_4FufkzTnX78U0s" },
 })
 
-const unwrap = <T>(r: AxiosResponse<T>): T => r.data
+export const responseHeader = "data:image/gif;base64,"
 
-export const detectFace = (image: string) =>
-  client.post<DetectFaceResponse>("detect", { image }).then(unwrap)
+export const detectFace = async (dataURI: string) =>
+  await client
+    .post<DetectFaceResponse>("detect", { image: dataURI.slice(dataURI.indexOf(",") + 1) })
+    .then(get("data.data.image"))
+    .then((image) => responseHeader + image)
 
-export const convertFace = (image: string) =>
-  client.post<ConvertFaceResponse>("convert/face", { image }).then(unwrap)
+export const convertFace = async (dataURI: string) =>
+  await client
+    .post<ConvertFaceResponse>("convert/face", { image: dataURI.slice(dataURI.indexOf(",") + 1) })
+    .then(get("data.data.images.1.image"))
+    .then((image) => responseHeader + image)

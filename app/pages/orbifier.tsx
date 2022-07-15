@@ -6,7 +6,7 @@ import { Connector } from "ds/molecules/Connector"
 import React, { startTransition, useCallback, useState } from "react"
 import { useTrack } from "use-analytics"
 
-const PhotoBooth = dynamic(() => import("app/passport/PhotoBooth"), { ssr: false })
+const PhotoBooth = dynamic(() => import("app/orbifier/PhotoBooth"), { ssr: false })
 
 export const Orbifier: React.FC = () => {
   const track = useTrack()

@@ -1,7 +1,8 @@
 import { hasConnectedWallet } from "app/core/middleware/hasConnectedWallet"
-import { detectFace } from "app/passport/services/pixelme"
 import { Middleware, resolver } from "blitz"
 import * as z from "zod"
+
+import { detectFace } from "../services/pixelme"
 
 export const middleware: Middleware[] = [hasConnectedWallet]
 
