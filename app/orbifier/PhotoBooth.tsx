@@ -170,8 +170,6 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
         animation={
           state === "detecting" || state === "converting"
             ? "floater 0.5s ease-in-out infinite alternate"
-            : state === "complete"
-            ? "pulser-cw 2.5s ease-in-out infinite alternate"
             : ""
         }
       >
@@ -206,7 +204,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             mirrored
             height={size}
             width={size}
-            videoConstraints={{ facingMode: "user", width: size * 2, height: size * 2 }}
+            videoConstraints={{ facingMode: "user", width: size, height: size }}
             ref={webcamRef}
             screenshotQuality={1}
             screenshotFormat="image/png"
