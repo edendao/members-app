@@ -23,7 +23,7 @@ export const Footer: React.FC = () => (
       // backdropFilter="blur(4px)"
       // bg="#9797f2"
     >
-      <a href="https://members.theedendao.com/" target={"_blank"}>
+      <a href="https://members.theedendao.com/">
         <Heading
           fontFamily="cursive"
           color="white"
@@ -33,7 +33,7 @@ export const Footer: React.FC = () => (
           built by eden dao
         </Heading>
       </a>
-      <a href="ttps://discord.gg/wrFKNtkXgu" target={"_blank"}>
+      <a href="ttps://discord.gg/wrFKNtkXgu">
         <Heading
           // fontFamily="cursive"
           color="white"
