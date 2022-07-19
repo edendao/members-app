@@ -1,1 +1,1 @@
-Code forked from https://github.com/edendao/members-app/
+Credit: https://github.com/edendao/members-app/
