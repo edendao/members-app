@@ -17,11 +17,10 @@ import { useCamera } from "ds/hooks/useCamera"
 import Konva from "konva"
 import React, { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
-import { GiFairyWand, GiSteampunkGoggles } from "react-icons/gi"
+import { GiFairyWand } from "react-icons/gi"
 import { RiCameraLine, RiImageAddLine, RiSkipBackFill } from "react-icons/ri"
 import { Image, Layer, Stage } from "react-konva"
 import Webcam from "react-webcam"
-import { useTrack } from "use-analytics"
 import useCanvasImage from "use-image"
 
 import convertFace from "./queries/convertFace"
@@ -35,7 +34,6 @@ interface PhotoBoothProps extends StackProps {
 
 export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
   const size = useBreakpointValue([256, 384, 512]) ?? 256
-  const track = useTrack()
 
   const [image, setImage] = useState("")
   const { ref: webcamRef, capture, setCameraError, setCameraOnline } = useCamera(setImage)
@@ -50,10 +48,9 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
   const [state, setState] = useState<State>("ready")
   const setStateTo = useCallback(
     (s: State) => {
-      track(s)
       setState(s)
     },
-    [track, setState]
+    [setState]
   )
 
   useEffect(() => {
@@ -162,7 +159,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
   return (
     <VStack alignItems="center" spacing={8} {...props}>
       <Shimmer position="relative" top={4}>
-        orbifier 9000
+        Get Your ReFi Orb!
       </Shimmer>
       <Box
         borderRadius="full"
@@ -222,7 +219,6 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             color="purple.500"
             borderColor="purple.200"
             onClick={() => {
-              track("PhotoBooth.upload")
               selectFile()
             }}
             aria-label="Upload Photo"
@@ -239,7 +235,6 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             colorScheme="purple"
             borderRadius="full"
             onClick={() => {
-              track("PhotoBooth.capture")
               capture()
             }}
             aria-label="Take Photo"
@@ -269,25 +264,11 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             colorScheme="purple"
             borderRadius="full"
             onClick={() => {
-              track("PhotoBooth.isolate")
               removeBG()
             }}
             rightIcon={<GiFairyWand size={21} />}
           >
-            REMOVE BG
-          </Button>
-          <Button
-            size="xl"
-            color="white"
-            colorScheme="purple"
-            borderRadius="full"
-            onClick={() => {
-              track("PhotoBooth.process")
-              punkify()
-            }}
-            rightIcon={<GiSteampunkGoggles size={26} />}
-          >
-            PUNKIFY
+            Orbifi!
           </Button>
         </HStack>
       ) : state !== "complete" ? null : (
@@ -307,42 +288,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
           <Text fontWeight="bold" color="purple.400" p={2}>
             save image w/ right-click (or tap and hold)
           </Text>
-          {/* <Button
-            p={4}
-            flex={1}
-            size="xl"
-            color="white"
-            colorScheme="purple"
-            borderRadius="full"
-            onClick={() =>
-              next?.({
-                image: stage.current?.toDataURL({
-                  quality: 100,
-                  imageSmoothingEnabled: false,
-                } as any),
-              })
-            }
-          >
-            NEXT
-          </Button> */}
         </HStack>
-      )}
-      {state !== "ready" && state !== "selected" && (
-        <VStack spacing={4}>
-          {["eden", "solar", "aqua", "earth", "flora", "refi"].map((t: Tribe) => (
-            <Button
-              key={`${tribe}-${t}`}
-              colorScheme={tribe === t ? "purple" : "gray"}
-              rounded="full"
-              onClick={() => {
-                setTribe(t)
-                track(`PhotoBooth.background.${tribe}`)
-              }}
-            >
-              {t}punk
-            </Button>
-          ))}
-        </VStack>
       )}
     </VStack>
   )

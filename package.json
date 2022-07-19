@@ -1,6 +1,7 @@
 {
-  "name": "proof-of-work",
+  "name": "ReFi-Orbifi",
   "version": "1.0.0",
+  "author": "Cyrus of Eden",
   "scripts": {
     "dev": "blitz dev",
     "build": "blitz build",

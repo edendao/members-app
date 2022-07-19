@@ -2,7 +2,7 @@ import { Box, BoxProps } from "@chakra-ui/react"
 import { Head } from "blitz"
 import React from "react"
 
-import { Navbar } from "./molecules/Navbar"
+import { Footer } from "./molecules/Footer"
 
 interface LayoutProps extends BoxProps {
   children?: React.ReactNode
@@ -15,10 +15,10 @@ export const Layout: React.FC<LayoutProps> = ({ title, children, ...boxProps }) 
       <title>{title ? `${title} | eden dao` : "eden dao"}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <Navbar />
     <Box mt={24} {...boxProps}>
       {children}
     </Box>
+    <Footer />
   </>
 )
 
