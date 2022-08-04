@@ -12,7 +12,7 @@ interface LayoutProps extends BoxProps {
 export const Layout: React.FC<LayoutProps> = ({ title, children, ...boxProps }) => (
   <>
     <Head>
-      <title>{title ? `${title} | eden dao` : "eden dao"}</title>
+      <title>{title ? `${title} | spirals protocol` : "spirals protocol"}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <Box mt={24} {...boxProps}>
