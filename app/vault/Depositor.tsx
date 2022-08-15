@@ -95,6 +95,7 @@ export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
 
     return "commit"
   }, [allowance, inputAmount, inputToken])
+
   return (
     <VStack spacing={6} p={[4, null, 8]} align="start">
       <Box>

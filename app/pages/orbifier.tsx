@@ -2,30 +2,30 @@ import { Flex } from "@chakra-ui/react"
 import { dynamic } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
-import { Connector } from "ds/molecules/Connector"
-import React, { startTransition, useCallback, useState } from "react"
-import { useTrack } from "use-analytics"
+// import { Connector } from "ds/molecules/Connector"
+import React from "react"
+// import { useTrack } from "use-analytics"
 
 const PhotoBooth = dynamic(() => import("app/orbifier/PhotoBooth"), { ssr: false })
 
 export const Orbifier: React.FC = () => {
-  const track = useTrack()
+  // const track = useTrack()
 
-  type State = "1connect" | "3passport"
-  const [state, setState] = useState<State>("1connect")
-  type Data = { image: string }
-  const [data, setData] = useState<Data>({ image: "" })
+  // type State = "1connect" | "3passport"
+  // const [state, setState] = useState<State>("1connect")
+  // type Data = { image: string }
+  // const [data, setData] = useState<Data>({ image: "" })
 
-  const setStateTo = useCallback(
-    (s: State) =>
-      (data: Partial<Data> = {}) =>
-        startTransition(() => {
-          track(s)
-          setState(s)
-          setData((d) => ({ ...d, ...data }))
-        }),
-    [setState, setData, track]
-  )
+  // const setStateTo = useCallback(
+  //   (s: State) =>
+  //     (data: Partial<Data> = {}) =>
+  //       startTransition(() => {
+  //         track(s)
+  //         setState(s)
+  //         setData((d) => ({ ...d, ...data }))
+  //       }),
+  //   [setState, setData, track]
+  // )
 
   return (
     <Layout title="Orbifier 9000" mt={0}>
@@ -52,7 +52,7 @@ export const Orbifier: React.FC = () => {
           alignItems="center"
           justifyContent="center"
         >
-          {state === "1connect" ? <Connector next={setStateTo("3passport")} /> : <PhotoBooth />}
+          <PhotoBooth />
         </Flex>
       </Flex>
     </Layout>
