@@ -1,8 +1,8 @@
 import { Box, Flex, Heading, Link, ListItem, OrderedList, Text, VStack } from "@chakra-ui/react"
 import { CarbonHero } from "app/footprint/components/CarbonHero"
 import { Estimate, getNetworkTCO2 } from "app/footprint/services/ethereumEmissions"
-import { Link as BlitzLink, GetStaticProps, Routes, dynamic, useRouter } from "blitz"
-import { AbsoluteRadiantBackground, RadiantBackground } from "ds/atoms/RadiantBackground"
+import { Link as BlitzLink, BlitzPage, GetStaticProps, Routes, dynamic, useRouter } from "blitz"
+import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
 import { Connector } from "ds/molecules/Connector"
 import React, { startTransition, useCallback, useState } from "react"
@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps<NetZeroProps> = async () => {
   }
 }
 
-export const NetZero: React.FC<NetZeroProps> = ({ emissions }) => {
+export const NetZero: BlitzPage<NetZeroProps> = ({ emissions }) => {
   const track = useTrack()
 
   type State = "1connect" | "2greenlist" | "3footprint"

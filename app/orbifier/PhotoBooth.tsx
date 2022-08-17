@@ -8,6 +8,8 @@ import {
   StackProps,
   Text,
   VStack,
+  Wrap,
+  WrapItem,
   useBreakpointValue,
 } from "@chakra-ui/react"
 import { Image as BlitzImage, invoke } from "blitz"
@@ -42,7 +44,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
   const { FileInput, selectFile } = useBase64ImageFile(setImage)
 
   const [canvasImage] = useCanvasImage(image)
-  type Tribe = "refi" | "solar" | "aqua" | "earth" | "flora"
+  type Tribe = "refi" | "solar" | "aqua" | "earth" | "flora" | "united"
   const [tribe, setTribe] = useState<Tribe>("refi")
   const [canvasBackground] = useCanvasImage(`/orbs/${tribe}.png`)
 
@@ -328,21 +330,22 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
         </HStack>
       )}
       {state !== "ready" && state !== "selected" && (
-        <VStack spacing={4}>
-          {["eden", "solar", "aqua", "earth", "flora", "refi"].map((t: Tribe) => (
-            <Button
-              key={`${tribe}-${t}`}
-              colorScheme={tribe === t ? "purple" : "gray"}
-              rounded="full"
-              onClick={() => {
-                setTribe(t)
-                track(`PhotoBooth.background.${tribe}`)
-              }}
-            >
-              {t}punk
-            </Button>
+        <Wrap spacing={4} justify="center">
+          {["eden", "solar", "aqua", "earth", "flora", "refi", "united"].map((t: Tribe) => (
+            <WrapItem key={`${tribe}-${t}`}>
+              <Button
+                colorScheme={tribe === t ? "purple" : "gray"}
+                rounded="full"
+                onClick={() => {
+                  setTribe(t)
+                  track(`PhotoBooth.background.${tribe}`)
+                }}
+              >
+                {t}punk
+              </Button>
+            </WrapItem>
           ))}
-        </VStack>
+        </Wrap>
       )}
     </VStack>
   )

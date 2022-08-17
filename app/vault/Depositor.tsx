@@ -33,12 +33,12 @@ import { GiAllSeeingEye, GiMagicGate } from "react-icons/gi"
 import { HiExternalLink } from "react-icons/hi"
 import { useWaitForTransaction } from "wagmi"
 
-interface CardProps {
+interface DepositorProps {
   inputToken: Token
   outputToken: Token
 }
 
-export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
+export const Depositor: React.FC<DepositorProps> = ({ inputToken, outputToken }) => {
   const [formattedAmount, setFormattedAmount] = useState<string>("0.01")
   const inputAmount = useMemo(
     () => toTokenAmount(inputToken, Number(formattedAmount) * 1e18),
@@ -268,4 +268,4 @@ export const Card: React.FC<CardProps> = ({ inputToken, outputToken }) => {
   )
 }
 
-export default Card
+export default Depositor

@@ -14,7 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react"
 import isGreenlisted from "app/core/queries/isGreenlisted"
-import { Link as BlitzLink, Routes, useQuery } from "blitz"
+import { Link as BlitzLink, BlitzPage, Routes, useQuery } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Shimmer } from "ds/atoms/Shimmer"
 import Layout from "ds/Layout"
@@ -26,7 +26,7 @@ import toast from "react-hot-toast"
 import { GiAllSeeingEye } from "react-icons/gi"
 import Typist from "react-typist"
 
-export const Index: React.FC = () => {
+export const Index: BlitzPage = () => {
   type State = "0connect" | "1edendao" | "2greenlist" | "3members"
   const [state, setState] = useState<State>("0connect")
 

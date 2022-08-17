@@ -27,10 +27,10 @@ export const Vault: React.FC<BoxProps> = (boxProps) => {
     <Box
       p={[4, 6, 12]}
       borderRadius="3xl"
-      color={"purple.700"}
-      bg={"white"}
+      color="purple.700"
+      bg="white"
       w="100%"
-      minW={320}
+      minW="320"
       maxW="3xl"
       {...boxProps}
     >

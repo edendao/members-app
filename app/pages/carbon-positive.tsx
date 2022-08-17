@@ -2,7 +2,7 @@ import { Box, Flex, Heading, Link, ListItem, OrderedList, Text, VStack } from "@
 import { gCO2toTonYears } from "app/core/carbon"
 import { CarbonHero } from "app/footprint/components/CarbonHero"
 import { Estimate, getNetworkTCO2 } from "app/footprint/services/ethereumEmissions"
-import { GetStaticProps, Image, dynamic, useRouter } from "blitz"
+import { BlitzPage, GetStaticProps, Image, dynamic, useRouter } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
 import { Connector } from "ds/molecules/Connector"
@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps<CarbonPositiveProps> = async () => {
   }
 }
 
-export const CarbonPositive: React.FC<CarbonPositiveProps> = ({ emissions }) => {
+export const CarbonPositive: BlitzPage<CarbonPositiveProps> = ({ emissions }) => {
   const track = useTrack()
   const router = useRouter()
 

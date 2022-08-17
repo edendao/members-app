@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react"
-import { dynamic } from "blitz"
+import { BlitzPage, dynamic } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
 // import { Connector } from "ds/molecules/Connector"
@@ -8,7 +8,7 @@ import React from "react"
 
 const PhotoBooth = dynamic(() => import("app/orbifier/PhotoBooth"), { ssr: false })
 
-export const Orbifier: React.FC = () => {
+export const Orbifier: BlitzPage = () => {
   // const track = useTrack()
 
   // type State = "1connect" | "3passport"

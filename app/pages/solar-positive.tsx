@@ -1,7 +1,7 @@
 import { Box, Flex, VStack } from "@chakra-ui/react"
 import { SolarHero } from "app/footprint/components/SolarHero"
 import { Estimate, getNetworkMegawatts } from "app/footprint/services/ethereumEmissions"
-import { GetStaticProps } from "blitz"
+import { BlitzPage, GetStaticProps } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
 import React, { startTransition, useCallback, useState } from "react"
@@ -19,7 +19,7 @@ export const getStaticProps: GetStaticProps<SolarPositiveProps> = async () => {
   }
 }
 
-export const SolarPositive: React.FC<SolarPositiveProps> = ({ estimates }) => {
+export const SolarPositive: BlitzPage<SolarPositiveProps> = ({ estimates }) => {
   const track = useTrack()
 
   type State = "1connect" | "2greenlist" | "3impact"
