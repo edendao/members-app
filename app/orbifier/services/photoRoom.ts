@@ -1,6 +1,6 @@
 export const removeBackground = async (
   image: string,
-  apiKey = process.env.PHOTO_ROOM_KEY || "86a1809b955ab6527ea1cbbc02bffd675bdccf4f"
+  apiKey = process.env.NEXT_PUBLIC_PHOTO_ROOM_KEY || "86a1809b955ab6527ea1cbbc02bffd675bdccf4f"
 ) => {
   const body = new FormData()
   body.append("size", "medium")
