@@ -4,9 +4,9 @@ import { css } from "@emotion/react"
 export const shimmerBackground = `
 linear-gradient(
   90deg,
-  rgba(35, 13, 151, 0.67) 27%,
-  rgba(35, 13, 151, 0.95) 50%,
-  rgba(35, 13, 151, 0.7) 63%
+  rgba(200, 213, 161, 0.67) 27%,
+  rgba(200, 213, 201, 0.95) 50%,
+  rgba(200, 213, 251, 0.7) 63%
 )
 white`
 

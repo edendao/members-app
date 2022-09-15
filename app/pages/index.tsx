@@ -9,7 +9,7 @@ const PhotoBooth = dynamic(() => import("app/orbifier/PhotoBooth"), { ssr: false
 
 export const Index: React.FC = () => {
   return (
-    <Layout title="ReFi Orbifier" mt={0}>
+    <Layout title="ReFi Orbifier" mt={0} h="50vh">
       <Flex
         position="relative"
         overflow="hidden"
@@ -18,16 +18,18 @@ export const Index: React.FC = () => {
         px={[2, 3, 4, 8]}
         pt="10vh"
         pb="20vh"
+        h="100vh"
       >
         <AbsoluteRadiantBackground />
 
         <Flex
-          minH="500"
+          minH="100"
+          maxH="400"
           w="90vw"
           maxW="2xl"
           mx="auto"
           p={[4, 8, 16]}
-          borderRadius="3xl"
+          borderRadius="2xl"
           boxShadow="inner"
           bg="white"
           alignItems="center"

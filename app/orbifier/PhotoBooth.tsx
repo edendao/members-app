@@ -158,7 +158,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
 
   return (
     <VStack alignItems="center" spacing={8} {...props}>
-      <Shimmer position="relative" top={4}>
+      <Shimmer position="relative" top={6}>
         Get Your ReFi Orb!
       </Shimmer>
       <Box
