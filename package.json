@@ -38,7 +38,7 @@
     "@openzeppelin/contracts": "4.3.2",
     "@patch-technology/patch": "1.23.0",
     "@prisma/client": "4.0.0",
-    "@rainbow-me/rainbowkit": "0.2.3",
+    "@rainbow-me/rainbowkit": "0.6.0",
     "@types/use-analytics": "0.0.0",
     "@uniswap/sdk-core": "3.0.1",
     "@uniswap/widgets": "1.1.1",
@@ -51,6 +51,7 @@
     "axios": "0.27.2",
     "blitz": "0.45.4",
     "canvas": "2.9.3",
+    "ethers": "5.5.1",
     "file-saver": "2.0.5",
     "framer-motion": "5.x",
     "konva": "8.3.10",
@@ -65,7 +66,6 @@
     "react-hot-toast": "2.1.1",
     "react-icons": "4.4.0",
     "react-konva": "18.2.1",
-    "react-query": "4.0.0-beta.23",
     "react-redux": "8.0.2",
     "react-typist": "2.0.5",
     "react-webcam": "7.0.1",
@@ -75,7 +75,6 @@
     "use-image": "1.0.12",
     "wagmi": "0.4.7",
     "web3": "1.6.0",
-    "yarn": "1.22.19",
     "zod": "3.10.2"
   },
   "resolutions": {
