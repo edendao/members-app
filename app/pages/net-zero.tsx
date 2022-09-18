@@ -83,9 +83,9 @@ export const NetZero: BlitzPage<NetZeroProps> = ({ emissions }) => {
             ) : (
               <VStack align="start" spacing={8} px={[0, 2, 4, 8]}>
                 <Estimator
-                  next={({ debt }: { debt: number }) =>
+                  next={(impact) =>
                     window.open(
-                      `https://app.klimadao.finance/#/offset?quantity=${debt}&retirementToken=mco2&message=EdenDao`
+                      `https://app.klimadao.finance/#/offset?quantity=${impact}&retirementToken=mco2&message=EdenDao`
                     )
                   }
                   mapping={gCO2toTCO2}

@@ -9,7 +9,7 @@ interface EstimatorProps extends StackProps {
   cta: string
   symbol: React.ReactElement | string
   mapping: (n: number) => number
-  next: (data: any) => void
+  next: (impact: number) => void
 }
 
 export const Estimator: React.FC<EstimatorProps> = ({
@@ -50,7 +50,7 @@ export const Estimator: React.FC<EstimatorProps> = ({
 
       <Button
         size="lg"
-        onClick={() => next({ debt: impact })}
+        onClick={() => next(impact)}
         animation="pulser-ccw 3s ease-in-out infinite alternate"
         color="white"
         colorScheme="yellow"
