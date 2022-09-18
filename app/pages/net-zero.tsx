@@ -11,7 +11,6 @@ import { useTrack } from "use-analytics"
 
 import { gCO2toTCO2 } from "../core/carbon"
 
-const GreenlistGate = dynamic(() => import("ds/molecules/GreenlistGate"), { ssr: false })
 const Estimator = dynamic(() => import("app/footprint/components/Estimator"), { ssr: false })
 
 interface NetZeroProps {
@@ -81,12 +80,14 @@ export const NetZero: BlitzPage<NetZeroProps> = ({ emissions }) => {
           >
             {state === "1connect" ? (
               <Connector text="discover your carbon footprint" next={setStateTo("2greenlist")} />
-            ) : state === "2greenlist" ? (
-              <GreenlistGate cta="go to FOOTPRINT CALCULATOR" next={setStateTo("3footprint")} />
             ) : (
               <VStack align="start" spacing={8} px={[0, 2, 4, 8]}>
                 <Estimator
-                  next={() => router.push("/steth-vault")}
+                  next={({ debt }: { debt: number }) =>
+                    window.open(
+                      `https://app.klimadao.finance/#/offset?quantity=${debt}&retirementToken=mco2&message=EdenDao`
+                    )
+                  }
                   mapping={gCO2toTCO2}
                   cta="rock solid offsets"
                   symbol={
