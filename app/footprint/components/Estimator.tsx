@@ -31,12 +31,8 @@ export const Estimator: React.FC<EstimatorProps> = ({
       w="100%"
       {...stackProps}
     >
-      <Box
-        color="white"
-        animation="pulser-ccw 10s ease-in-out infinite alternate"
-        textAlign="center"
-      >
-        <Heading fontFamily="cursive" fontWeight="normal" size="md" color="white" lineHeight={1}>
+      <Box animation="pulser-ccw 10s ease-in-out infinite alternate" textAlign="center">
+        <Heading fontFamily="cursive" fontWeight="normal" size="md" lineHeight={1}>
           {impact.toFixed(2)} {symbol}
         </Heading>
         <Heading as="h4" size="xxs">

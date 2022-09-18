@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Link, ListItem, OrderedList, Text, VStack } from "@chakra-ui/react"
 import { CarbonHero } from "app/footprint/components/CarbonHero"
 import { Estimate, getNetworkTCO2 } from "app/footprint/services/ethereumEmissions"
-import { Link as BlitzLink, BlitzPage, GetStaticProps, Routes, dynamic, useRouter } from "blitz"
+import { Link as BlitzLink, BlitzPage, GetStaticProps, Routes, dynamic } from "blitz"
 import { AbsoluteRadiantBackground } from "ds/atoms/RadiantBackground"
 import { Layout } from "ds/Layout"
 import { Connector } from "ds/molecules/Connector"
@@ -46,8 +46,6 @@ export const NetZero: BlitzPage<NetZeroProps> = ({ emissions }) => {
     [setState, setData, track]
   )
 
-  const router = useRouter()
-
   return (
     <Layout title="Net Zero">
       <VStack mx="auto" px={16} align="center" maxW={1440} spacing={0}>
@@ -85,11 +83,11 @@ export const NetZero: BlitzPage<NetZeroProps> = ({ emissions }) => {
                 <Estimator
                   next={(impact) =>
                     window.open(
-                      `https://app.klimadao.finance/#/offset?quantity=${impact}&retirementToken=mco2&message=EdenDao`
+                      `https://app.klimadao.finance/#/offset?quantity=${impact}&inputToken=USDC&retirementToken=mco2&message=EdenDao`
                     )
                   }
                   mapping={gCO2toTCO2}
-                  cta="rock solid offsets"
+                  cta="offset with KlimaDAO"
                   symbol={
                     <>
                       tCO<sub>2</sub>
