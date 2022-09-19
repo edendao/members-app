@@ -6,6 +6,7 @@ import { useCallback, useState } from "react"
 import toast from "react-hot-toast"
 import { useNetwork } from "wagmi"
 
+const Withdrawer = dynamic(() => import("./Withdrawer"))
 const Depositor = dynamic(() => import("./Depositor"))
 
 export const Vault: React.FC<BoxProps> = (boxProps) => {
@@ -37,8 +38,9 @@ export const Vault: React.FC<BoxProps> = (boxProps) => {
       {state === "1connect" ? (
         <Connector text="discover your carbon footprint" next={setStateTo("2vault")} />
       ) : !inputToken || !outputToken ? null : state === "2vault" ? (
-        <Depositor inputToken={inputToken} outputToken={outputToken} />
-      ) : null}
+        <Withdrawer inputToken={outputToken} outputToken={inputToken} />
+      ) : // <Depositor inputToken={inputToken} outputToken={outputToken} />
+      null}
     </Box>
   )
 }
