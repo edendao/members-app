@@ -80,7 +80,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
       ? (orbRef.current as Node).toImage({
           mimeType: "img/png",
           callback: (orbImage) => {
-            saveAs(orbImage?.src, "ImOrbified.jpg") // Put your image url here.
+            saveAs(orbImage?.src, "ImOrbified.png") // Put your image url here.
           },
         })
       : ""
