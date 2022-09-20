@@ -19,13 +19,15 @@ import React, { startTransition, useCallback, useEffect, useMemo, useRef, useSta
 import toast from "react-hot-toast"
 import { GiFairyWand } from "react-icons/gi"
 import { RiCameraLine, RiImageAddLine, RiSkipBackFill } from "react-icons/ri"
-import { Image, Layer, Stage } from "react-konva"
+import { Image, KonvaNodeComponent, Layer, Stage } from "react-konva"
 import Webcam from "react-webcam"
 import useCanvasImage from "use-image"
+import { saveAs } from "file-saver"
 
 import convertFace from "./queries/convertFace"
 import detectFace from "./queries/detectFace"
 import { removeBackground } from "./services/photoRoom"
+import { Node } from "konva/lib/Node"
 
 interface PhotoBoothProps extends StackProps {
   size?: number
@@ -33,7 +35,7 @@ interface PhotoBoothProps extends StackProps {
 }
 
 export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
-  const size = useBreakpointValue([256, 384, 512]) ?? 256
+  const size = useBreakpointValue([200, 200, 300]) ?? 256
 
   const [image, setImage] = useState("")
   const { ref: webcamRef, capture, setCameraError, setCameraOnline } = useCamera(setImage)
@@ -73,6 +75,17 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
     [setState, setImage, setPunked]
   )
 
+  const downloadImage = () => {
+    const img = orbRef.current
+      ? (orbRef.current as Node).toImage({
+          mimeType: "img/png",
+          callback: (orbImage) => {
+            saveAs(orbImage?.src, "ImOrbified.jpg") // Put your image url here.
+          },
+        })
+      : ""
+  }
+
   const removeBG = useCallback(async () => {
     try {
       toast.loading(
@@ -80,7 +93,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
           <BlitzImage src="/attributions/photo-room.svg" height={60} width={177} />
         </Link>,
         {
-          duration: 3000,
+          duration: 0,
           position: "bottom-right",
         }
       )
@@ -145,8 +158,8 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
     if (state === "complete") {
       y += 48
       x += 12
-      height *= 0.66
-      width *= 0.66
+      height *= 0.85
+      width *= 0.85
       rotation = -12
     }
 
@@ -156,9 +169,11 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
     return { opacity, height, width, x, y, rotation }
   }, [state, size, canvasImage])
 
+  const orbRef = useRef(null)
+
   return (
     <VStack alignItems="center" spacing={8} {...props}>
-      <Shimmer position="relative" top={4}>
+      <Shimmer position="relative" fontSize="40" top={4}>
         Get Your ReFi Orb!
       </Shimmer>
       <Box
@@ -182,6 +197,7 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
                 clipFunc={(ctx) => {
                   ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2, false)
                 }}
+                ref={orbRef}
               >
                 <Image image={canvasBackground} alt="dream" height={size} width={size} />
                 <Image
@@ -285,9 +301,19 @@ export const PhotoBooth: React.FC<PhotoBoothProps> = ({ next, ...props }) => {
             aria-label="GO BACK"
             icon={<RiSkipBackFill />}
           />
-          <Text fontWeight="bold" color="purple.400" p={2}>
-            save image w/ right-click (or tap and hold)
-          </Text>
+          <Button
+            flex={1}
+            size="xl"
+            color="white"
+            variant="solid"
+            colorScheme="purple"
+            borderRadius="full"
+            onClick={() => {
+              downloadImage()
+            }}
+          >
+            Save
+          </Button>
         </HStack>
       )}
     </VStack>

@@ -52,6 +52,7 @@
     "blitz": "0.45.4",
     "canvas": "2.9.3",
     "ethers": "5.5.1",
+    "file-saver": "2.0.5",
     "framer-motion": "5.x",
     "konva": "8.3.10",
     "lodash": "4.17.21",
